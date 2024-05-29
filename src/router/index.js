@@ -1,39 +1,71 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import Login from '../views/Login/Login.vue'
 import HomeView from '../views/HomeView.vue'
 import Settings from '@/views/SettingsView.vue'
+
+// Función para verificar si el usuario está autenticado
+function isAuthenticated() {
+  return !!localStorage.getItem('token'); 
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
+      redirect: '/login'
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
+    },
+    {
+      path: '/home',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      meta: { requiresAuth: true } 
     },
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
+      component: () => import('../views/AboutView.vue'),
+      meta: { requiresAuth: true } 
     },
     {
       path: '/settings',
       name: 'settings',
-      component: Settings
+      component: Settings,
+      meta: { requiresAuth: true } 
     },
     {
       path: '/users',
       name: 'users',
-      component: () => import('../views/UsersView.vue')
+      component: () => import('../views/UsersView.vue'),
+      meta: { requiresAuth: true } 
     },
     {
       path: '/adduser',
       name: 'adduser',
-      component: () => import('../views/AddUserView.vue')
+      component: () => import('../views/AddUserView.vue'),
+      meta: { requiresAuth: true } 
     },
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!isAuthenticated()) {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
 
 export default router
