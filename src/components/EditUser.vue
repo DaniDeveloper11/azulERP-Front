@@ -173,7 +173,7 @@
                   <div class="mt-6 flex items-center justify-end gap-x-6">
                     <button  type="button" class="text-sm font-semibold leading-6 text-gray-900 hover:bg-red-600 hover: px-3 py-2 hover:rounded-md hover:text-white">Eliminar
                     </button>
-                    <button type="submit"
+                    <button v-on:click="sendValue()" type="button"
                       class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Guardar</button>
                   </div>
                 </form>
@@ -186,7 +186,7 @@
   </TransitionRoot>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { ref,defineEmits } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import ListBox from '@/components/ListBox.vue'
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
@@ -199,11 +199,16 @@ defineProps({
 })
 const openModal = ref(false)
 const enabled = ref(false)
+const emit = defineEmits(['update-value']);
 
+const sendValue = () => {
+  emit('update-value',true)
+}
 
 const publishingOptions = ref([
     { title: 'Administrador', description: 'El Administrador el es super Usuario de la aplicacion, capaz de ver todos los modulos de la aplicacion.', current: true },
     { title: 'Directivo', description: 'El Directivo tiene la capacidad de aprobar requisiciones, ver analitica, accede a la informacion de los usuarios y tiene permiso de modificacion.', current: false },
 ]);
+
 
 </script>

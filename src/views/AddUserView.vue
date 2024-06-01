@@ -144,12 +144,13 @@
 
     <div class="mt-6 flex items-center justify-end gap-x-6">
       <RouterLink to="/users" type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancel</RouterLink>
-      <button type="submit"
+      <button type="button" v-on:click="showMessage= true; dismissMessage()"
         class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
     </div>
   </form>
 
   <DropZone v-bind:open="openModal" @close="openModal = false"></DropZone>
+  <SuccesMessege v-bind:message="'Usuario fue añadido con exito'" v-if="showMessage" class="fixed bottom-72 z-40"></SuccesMessege>
 
 </template>
 
@@ -158,12 +159,22 @@ import { PhotoIcon, UserCircleIcon } from '@heroicons/vue/24/solid'
 import { reactive, ref } from 'vue'
 import DropZone from '@/components/DropZone.vue'
 import ListBox from '@/components/ListBox.vue'
+import SuccesMessege from '@/components/SuccesMessege.vue'
+import loader from '@/components/LoaderCss.vue'
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 const openModal = ref(false)
 const enabled = ref(false)
+const showMessage = ref(false)
 
 const publishingOptions = ref([
     { title: 'Administrador', description: 'El Administrador el es super Usuario de la aplicacion, capaz de ver todos los modulos de la aplicacion.', current: true },
     { title: 'Directivo', description: 'El Directivo tiene la capacidad de aprobar requisiciones, ver analitica, accede a la informacion de los usuarios y tiene permiso de modificacion.', current: false },
 ]);
+
+const dismissMessage = () => {
+  setTimeout(() => {
+      showMessage.value = false
+    },3000)
+  }
+
 </script>

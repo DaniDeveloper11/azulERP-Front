@@ -1,5 +1,12 @@
 <template>
-  <div class="px-4 sm:px-6 lg:px-8">
+  <div v-if="showloader" class="flex justify-center w-full" >
+    <div class=" grid h-full">
+       <loader class="fixed top-1/2"></loader>
+
+    </div>
+  </div>
+
+  <div v-else class="px-4 sm:px-6 lg:px-8">
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
         <h1 class="text-base font-semibold leading-6 text-gray-900">Usuarios</h1>
@@ -67,12 +74,38 @@
         props = emptyuser: objeto con datos del usuario
                 editOpen: bandera para abrir o cerrar el modal
       -->
-  <EditUserModal v-bind:open="editOpen" v-bind:User="emptyPerson" @close="editOpen = false"></EditUserModal>
-</template>
+  <EditUserModal @update-value="handleUpdate" v-bind:open="editOpen" v-bind:User="emptyPerson" @close="editOpen = false"></EditUserModal>
+    <SuccesMessege  v-show="showMessage" class="fixed bottom-72 z-40"></SuccesMessege>
+  </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import EditUserModal from '../components/EditUser.vue'
+import SuccesMessege from '@/components/SuccesMessege.vue';
+import loader from '@/components/LoaderCss.vue'
+
+const showloader = ref(true)
+const showMessage = ref('')
+
+// Funcion para cambiar valor del loader
+const setLoader = () => {
+  setTimeout(() =>{
+    showloader.value = false
+  },3000)
+}
+
+onMounted(async () => {
+  setLoader();
+})
+
+const handleUpdate = (value) => {
+  showMessage.value = value;
+  setTimeout(() => {
+      showMessage.value = false
+    },3000)
+};
+
+
 const people = [
   {
     user_name: 'Lindsay',
@@ -117,4 +150,9 @@ const emptyPerson = ref({
 
 const editOpen = ref(false)
 
+// const handleUpdate = (value) => {
+// showMessage.value = value;
+// };
+
 </script>
+
