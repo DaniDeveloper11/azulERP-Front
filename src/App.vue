@@ -192,6 +192,7 @@ import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
 import Profile from './components/ProfileModal.vue'
 
 
+
 const navigation = [
   { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
   { name: 'Team', to: '/users', icon: UsersIcon, current: false },
@@ -199,6 +200,7 @@ const navigation = [
   { name: 'Calendar', to: '/', icon: CalendarIcon, current: false },
   { name: 'Documents', to: '/', icon: DocumentDuplicateIcon, current: false },
   { name: 'Reports', to: '/', icon: ChartPieIcon, current: false },
+  { name: 'Login', to: '/Login', icon: ChartPieIcon, current: false },
 ]
 const teams = [
   { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
