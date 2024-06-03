@@ -62,6 +62,3 @@ if (localStorage.getItem('token')) {
   router.push('/home');
 }
 </script>
-
-<style scoped>
-</style>
