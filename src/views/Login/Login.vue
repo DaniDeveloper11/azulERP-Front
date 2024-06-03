@@ -8,7 +8,7 @@
           <input
             type="text"
             id="username"
-            v-model="user_name"
+            v-model="user_nickname"
             class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
@@ -41,23 +41,22 @@ import { useRouter } from 'vue-router';
 import axios from 'axios';
 
 const router = useRouter();
-const user_name = ref('');
+const user_nickname = ref('');
 const user_password = ref('');
 const errorMessage = ref('');
 
 const login = async () => {
   try {
-    const response = await axios.post('/auth/login', {
-      user_name: user_name.value,
+    const response = await axios.post('http://localhost:3000/auth/login', {
+      user_nickname: user_nickname.value,
       user_password: user_password.value,
     });
     localStorage.setItem('token', response.data.access_token);
-    router.push('/home'); 
+    router.push('/home');
   } catch (error) {
     errorMessage.value = 'El inicio de sesión falló, intente nuevamente.';
   }
 };
-
 
 if (localStorage.getItem('token')) {
   router.push('/home');
