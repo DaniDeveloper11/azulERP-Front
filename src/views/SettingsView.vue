@@ -21,7 +21,7 @@
         <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
           <div class="col-span-full flex items-center gap-x-8">
             <img
-              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+              src="/src/assets/yo.jfif"
               alt="" class="h-24 w-24 flex-none rounded-lg bg-gray-800 object-cover" />
             <div>
               <button v-on:click="openModal = true" type="button"

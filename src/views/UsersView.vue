@@ -108,15 +108,15 @@ const handleUpdate = (value) => {
 
 const people = [
   {
-    user_name: 'Lindsay',
-    user_lastname: 'Gaona',
-    user_nickname:'la chiquis',
+    user_name: 'Paulina',
+    user_lastname: 'Velador',
+    user_nickname:' Manager',
     user_phone:3314857062,
     user_password:'villamontes11',
     user_addres:'Guadalupe victoria #12',
     state:"Jalisco",
     user_department: 'Optimization',
-    user_email: 'lindsay.walton@example.com',
+    user_email: 'Paulina.Velador@AgaveAzul.com',
     role: 'Directivo',
     user_image:
       'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
