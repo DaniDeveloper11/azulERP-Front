@@ -14,81 +14,170 @@
             leave-from="opacity-100 translate-y-0 sm:scale-100"
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
             <DialogPanel
-              class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
+              class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-20 text-left shadow-xl transition-all sm:my-20 sm:w-auto sm:p-6">
+              <!-- <h1>{{ User.name }}</h1> -->
+                <form>
+                  <div class="space-y-12">
+                    <div class="border-b border-gray-900/10 pb-12">
+                      <h2 class="text-base font-semibold leading-7 text-gray-900">Perfil</h2>
+                      <p class="mt-1 text-sm leading-6 text-gray-600">Esta informacion sera vista por Directivos y
+                        Administrativos.
+                      </p>
 
-              <section class="bg-white dark:bg-gray-900">
-                <div class="max-w-2xl px-4 py-8 mx-auto lg:py-16">
-                  <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Edicion de Usuario</h2>
-                  <form action="#">
-                    <div class="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
-                      <div class="sm:col-span-2">
-                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product
-                          Name</label>
-                        <input type="text" name="name" id="name"
-                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                          value="Apple iMac 27&ldquo;" placeholder="Type product name" required="">
-                      </div>
-                      <div class="w-full">
-                        <label for="brand"
-                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Brand</label>
-                        <input type="text" name="brand" id="brand"
-                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                          value="Apple" placeholder="Product brand" required="">
-                      </div>
-                      <div class="w-full">
-                        <label for="price"
-                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
-                        <input type="number" name="price" id="price"
-                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                          value="2999" placeholder="$299" required="">
-                      </div>
-                      <div>
-                        <label for="category"
-                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                        <select id="category"
-                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                          <option selected="">Electronics</option>
-                          <option value="TV">TV/Monitors</option>
-                          <option value="PC">PC</option>
-                          <option value="GA">Gaming/Console</option>
-                          <option value="PH">Phones</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label for="item-weight"
-                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Item Weight (kg)</label>
-                        <input type="number" name="item-weight" id="item-weight"
-                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                          value="15" placeholder="Ex. 12" required="">
-                      </div>
-                      <div class="sm:col-span-2">
-                        <label for="description"
-                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                        <textarea id="description" rows="8"
-                          class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                          placeholder="Write a product description here...">Standard glass, 3.8GHz 8-core 10th-generation Intel Core i7 processor, Turbo Boost up to 5.0GHz, 16GB 2666MHz DDR4 memory, Radeon Pro 5500 XT with 8GB of GDDR6 memory, 256GB SSD storage, Gigabit Ethernet, Magic Mouse 2, Magic Keyboard - US</textarea>
+                      <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        <div class="sm:col-span-4">
+                          <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Nombre de
+                            Usuario</label>
+                          <div class="mt-2">
+                            <div
+                              class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                              <span
+                                class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">AzulERP.com/</span>
+                              <input v-model="User.user_nickname" type="text" name="username" id="username" autocomplete="username"
+                                class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                placeholder="janesmith" />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-span-full">
+                          <label for="photo" class="block text-sm font-medium leading-6 text-gray-900">Photo</label>
+                          <div class="mt-2 flex items-center gap-x-3">
+                            <UserCircleIcon class="h-12 w-12 text-gray-300" aria-hidden="true" />
+                            <button v-on:click="openModal = true" type="button"
+                              class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Cambiar</button>
+                          </div>
+                        </div>
+
                       </div>
                     </div>
-                    <div class="flex items-center space-x-4">
-                      <button type="submit"
-                        class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                        Update product
-                      </button>
-                      <button type="button"
-                        class="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
-                        <svg class="w-5 h-5 mr-1 -ml-1" fill="currentColor" viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg">
-                          <path fill-rule="evenodd"
-                            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                            clip-rule="evenodd"></path>
-                        </svg>
-                        Delete
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </section>
 
+                    <div class="border-b border-gray-900/10 pb-12">
+                      <h2 class="text-base font-semibold leading-7 text-gray-900">Informacion Personal</h2>
+                      <p class="mt-1 text-sm leading-6 text-gray-600">Use una Direccion de correo donde pueda recibir y
+                        enviar correos
+                        electronicos.</p>
+
+                      <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        <div class="sm:col-span-3">
+                          <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Nombre</label>
+                          <div class="mt-2">
+                            <input v-model="User.user_name" type="text" name="first-name" id="first-name" autocomplete="given-name"
+                              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                          </div>
+                        </div>
+
+                        <div class="sm:col-span-3">
+                          <label for="last-name"
+                            class="block text-sm font-medium leading-6 text-gray-900">Apellido</label>
+                          <div class="mt-2">
+                            <input v-model="User.user_lastname" type="text" name="last-name" id="last-name" autocomplete="family-name"
+                              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                          </div>
+                        </div>
+
+                        <div class="sm:col-span-4">
+                          <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Direccion de correo
+                            electronico</label>
+                          <div class="mt-2">
+                            <input v-model="User.user_email" id="email" name="email" type="email" autocomplete="email"
+                              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                          </div>
+                        </div>
+
+                        <div class="sm:col-span-3">
+                          <label for="country" class="block text-sm font-medium leading-6 text-gray-900">Pais</label>
+                          <div class="mt-2">
+                            <select v-model="User.constry" id="country" name="country" autocomplete="country-name"
+                              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                              <option>United States</option>
+                              <option>Canada</option>
+                              <option>Mexico</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div class="col-span-full">
+                          <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">Domicilio
+                            (calle y
+                            numero)</label>
+                          <div class="mt-2">
+                            <input v-model="User.user_addres" type="text" name="street-address" id="street-address" autocomplete="street-address"
+                              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                          </div>
+                        </div>
+
+                        <div class="sm:col-span-2 sm:col-start-1">
+                          <label for="city" class="block text-sm font-medium leading-6 text-gray-900">Ciudad o
+                            Municipio</label>
+                          <div class="mt-2">
+                            <input v-model="User.city" type="text" name="city" id="city" autocomplete="address-level2"
+                              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                          </div>
+                        </div>
+
+                        <div class="sm:col-span-2">
+                          <label for="region" class="block text-sm font-medium leading-6 text-gray-900">Estado</label>
+                          <div class="mt-2">
+                            <input v-model="User.state" type="text" name="region" id="region" autocomplete="address-level1"
+                              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                          </div>
+                        </div>
+
+                        <div class="sm:col-span-2">
+                          <label for="postal-code" class="block text-sm font-medium leading-6 text-gray-900">Codigo
+                            Postal</label>
+                          <div class="mt-2">
+                            <input v-model="User.cp" type="text" name="postal-code" id="postal-code" autocomplete="postal-code"
+                              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label for="role" class="block text-sm font-medium leading-6 text-gray-900">Role</label>
+                      <ListBox v-model="User.role" id="role" v-bind:publishing-options="publishingOptions"></ListBox>
+                    </div>
+
+                    <div>
+                      <label for="puesto" class="block text-sm font-medium leading-6 text-gray-900">Puesto</label>
+                      <div class="mt-2">
+                        <input v-model="User.user_department" type="text" name="puesto" id="puesto"
+                          class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                          placeholder="Credito y Cobranza" />
+                      </div>
+                      <p class="mt-2 text-sm text-gray-500" id="email-description">Ingrese el puesto que desempeña el
+                        usuario dentro de la empresa.</p>
+                    </div>
+                    <SwitchGroup as="div" class="flex items-center justify-between">
+                      <span class="flex flex-grow flex-col">
+                        <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>Habilita el
+                          estado del
+                          Usuario
+                        </SwitchLabel>
+                        <SwitchDescription as="span" class="text-sm text-gray-500">Presiona el Switch para que el usuario
+                          este
+                          disponible o dejalo apagado para no disponible
+                        </SwitchDescription>
+                      </span>
+                      <Switch v-model="enabled"
+                        :class="[enabled ? 'bg-indigo-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2']">
+                        <span aria-hidden="true"
+                          :class="[enabled ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                      </Switch>
+                    </SwitchGroup>
+
+                  </div>
+
+                  <div class="mt-6 flex items-center justify-end gap-x-6">
+                    <button  type="button" class="text-sm font-semibold leading-6 text-gray-900 hover:bg-red-600 hover: px-3 py-2 hover:rounded-md hover:text-white">Eliminar
+                    </button>
+                    <button v-on:click="sendValue()" type="button"
+                      class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Guardar</button>
+                  </div>
+                </form>
+                <DropZone v-bind:open="openModal" @close="openModal = false"></DropZone>
             </DialogPanel>
           </TransitionChild>
         </div>
@@ -97,11 +186,29 @@
   </TransitionRoot>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { ref,defineEmits } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { CheckIcon } from '@heroicons/vue/24/outline'
+import ListBox from '@/components/ListBox.vue'
+import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
+import DropZone from '@/components/DropZone.vue'
+
 
 defineProps({
-  open: Boolean
+  open: Boolean,
+  User: {}
 })
+const openModal = ref(false)
+const enabled = ref(false)
+const emit = defineEmits(['update-value']);
+
+const sendValue = () => {
+  emit('update-value',true)
+}
+
+const publishingOptions = ref([
+    { title: 'Administrador', description: 'El Administrador el es super Usuario de la aplicacion, capaz de ver todos los modulos de la aplicacion.', current: true },
+    { title: 'Directivo', description: 'El Directivo tiene la capacidad de aprobar requisiciones, ver analitica, accede a la informacion de los usuarios y tiene permiso de modificacion.', current: false },
+]);
+
+
 </script>

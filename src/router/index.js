@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Login from '../views/Login/Login.vue'
+import Login from '../views/Users/Login.vue'
 import HomeView from '../views/HomeView.vue'
 import Settings from '@/views/SettingsView.vue'
 
@@ -50,7 +50,27 @@ const router = createRouter({
       component: () => import('../views/AddUserView.vue'),
       meta: { requiresAuth: true } 
     },
+    {
+      path: '/requisionesAdmin',
+      name: 'requisionesAdmin',
+      component: () => import('../views/Requisiones/RequisionesAdmin.vue'),
+      meta: { requiresAuth: true } 
+    },
+    {
+      path: '/solicitarRequisicion',
+      name: 'solicitarRequisicion',
+      component: () => import('../views/Requisiones/SolicitarRequisicion.vue'),
+      meta: { requiresAuth: true } 
+    },
+    {
+      path: '/listaRequisiciones',
+      name: 'listaRequisiciones',
+      component: () => import('../views/Requisiones/ListaRequisiciones.vue'),
+      meta: { requiresAuth: true } 
+    },
   ]
+  
+  
 })
 
 router.beforeEach((to, from, next) => {
