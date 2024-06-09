@@ -1,7 +1,8 @@
 <template>
-  <div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="flex items-center justify-center min-h-screen bgcustom">
     <div class="w-full max-w-md p-8 space-y-3 bg-white rounded-lg shadow-md">
-      <h1 class="text-2xl font-bold text-center">Inicio de sesión</h1>
+      <img src="../../assets/logo.png" />
+     
       <form @submit.prevent="login">
         <div class="mb-4">
           <label class="block mb-1 text-sm font-semibold" for="username">Nombre de usuario</label>
@@ -36,7 +37,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, getCurrentInstance } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from '../../utils/axios';
 
@@ -44,6 +45,7 @@ const router = useRouter();
 const user_nickname = ref('');
 const user_password = ref('');
 const errorMessage = ref('');
+const { proxy } = getCurrentInstance();
 
 const login = async () => {
   try {
@@ -54,7 +56,11 @@ const login = async () => {
     localStorage.setItem('token', response.data.access_token);
     router.push('/home');
   } catch (error) {
-    errorMessage.value = 'El inicio de sesión falló, intente nuevamente.';
+    proxy.$swal.fire({
+      title: 'Error',
+      text: 'Nombre de usuario o contraseña incorrectos',
+      icon: 'error'
+    });
   }
 };
 
@@ -62,3 +68,11 @@ if (localStorage.getItem('token')) {
   router.push('/home');
 }
 </script>
+<style>
+.bgcustom {
+  background-image: url("../../assets/AGAVE-AZUL.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+</style>
