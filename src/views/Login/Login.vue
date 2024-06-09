@@ -38,7 +38,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
+import axios from '../../utils/axios';
 
 const router = useRouter();
 const user_name = ref('');
