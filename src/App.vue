@@ -154,15 +154,12 @@
 
       <Profile v-bind:open="profileOpen" @close="profileOpen = false"> </Profile>
       <main class="py-10">
-        <div class="px-4 sm:px-6 lg:px-8">
+        <div class="px-4 sm:px-6 lg:px-8" v-if="!isToken">
           <!-- Your content -->
           <RouterView/>
         </div>
       </main>
     </div>
-  </div>
-  <div v-if="!isToken">
-    <RouterView/>
   </div>
 </template>
 
