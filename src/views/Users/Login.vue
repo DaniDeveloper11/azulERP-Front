@@ -54,7 +54,7 @@ const login = async () => {
       user_password: user_password.value,
     });
     localStorage.setItem('token', response.data.access_token);
-    router.push('/home');
+    router.push('/');
   } catch (error) {
     proxy.$swal.fire({
       title: 'Error',
@@ -65,7 +65,7 @@ const login = async () => {
 };
 
 if (localStorage.getItem('token')) {
-  router.push('/home');
+  router.push('/');
 }
 </script>
 <style>

@@ -167,7 +167,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref,watch,onBeforeUnmount } from 'vue'
 
 import {
   Dialog,
@@ -197,21 +197,27 @@ import {
 import Profile from './components/ProfileModal.vue'
 
 
-
+const token = localStorage.getItem("token")
 const sidebarOpen = ref(false)
 const profileOpen = ref(false)
-const isToken = ref(false)
+const isToken = ref(!!token)
 
 onMounted(() => {
-const token = localStorage.getItem("token")
-if (token) {
-  isToken = true
-} else {
-  router.push('/login')
-}
+// if (token) {
+//   isToken = true
+// } else {
+//   router.push('/login')
+// }
+console.log('holi')
+watch(isToken, (newValue) => {
+    localStorage.setItem("token", newValue ? "true" : "")
+  })
+
 })
 
-
+watch(() => localStorage.getItem("token"), (newValue) => {
+  isToken.value = !!newValue
+})
 
 const navigation = [
   { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
