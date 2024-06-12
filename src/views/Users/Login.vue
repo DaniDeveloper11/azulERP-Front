@@ -37,15 +37,20 @@
 </template>
 
 <script setup>
+// import { useAuthStore } from '@/store';
 import { ref, getCurrentInstance } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from '../../utils/axios';
+import useAuthStore from '../../store/auth' // Importa el store de autenticación
+
+
 
 const router = useRouter();
 const user_nickname = ref('');
 const user_password = ref('');
 const errorMessage = ref('');
 const { proxy } = getCurrentInstance();
+const authStore = useAuthStore();
 
 const login = async () => {
   try {
@@ -54,6 +59,8 @@ const login = async () => {
       user_password: user_password.value,
     });
     localStorage.setItem('token', response.data.access_token);
+    authStore.login(response.data.user); //utiliza la accion del login el store de autentificacion
+    console.log(response.data)//solo devuelve el token
     router.push('/');
   } catch (error) {
     proxy.$swal.fire({
