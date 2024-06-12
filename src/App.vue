@@ -76,26 +76,23 @@
         <div class="h-6 w-px bg-gray-200 lg:hidden" aria-hidden="true"></div>
 
         <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-          <div class="flex items-center gap-x-4 lg:gap-x-6">
-
-            <!-- Separator -->
-            <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200" aria-hidden="true"></div>
+        <div class="flex items-center gap-x-4 lg:gap-x-6 w-full">
+          <!-- Separator -->
+          <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200" aria-hidden="true"></div>
+          <div class="ml-auto">
             <Menu as="div" class="relative">
               <div>
                 <MenuButton class="-m-1.5 flex items-center p-1.5">
                   <span class="sr-only">Open user menu</span>
-                  <img class="h-8 w-8 rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=256&q=80" alt="" />
+                  <img class="h-8 w-8 rounded-full bg-gray-50" src="./assets/user.svg" alt="" />
                   <span class="hidden lg:flex lg:items-center">
-                    <span class="ml-4 text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">Tom Cook</span>
-                    <ChevronDownIcon class="ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
+                    <span class="ml-4 text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">Miguel Briseño</span>
+                    <ChevronDownIcon class="ml-2 h-5 w-5 text-gray-400" aria-hidden="true"/>
                   </span>
                 </MenuButton>
               </div>
               <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
                 <MenuItems class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                  <MenuItem v-slot="{ active }" class="cursor-pointer">
-                    <span v-on:click="profileOpen = true" :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">Perfil</span>
-                  </MenuItem>
                   <MenuItem v-slot="{ active }" class="cursor-pointer"> 
                     <span v-on:click="logout" :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">Salir</span>
                   </MenuItem>
@@ -104,6 +101,8 @@
             </Menu>
           </div>
         </div>
+      </div>
+
       </div>
 
       <Profile v-bind:open="profileOpen" @close="profileOpen = false"></Profile>
@@ -173,9 +172,7 @@ const navigation = [
   { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
   { name: 'Team', to: '/users', icon: UsersIcon, current: false },
   { name: 'Requisiciones', to: '/requisionesAdmin', icon: FolderIcon, current: false },
-  { name: 'Calendar', to: '/', icon: CalendarIcon, current: false },
-  { name: 'Documents', to: '/', icon: DocumentDuplicateIcon, current: false },
-  { name: 'Reports', to: '/', icon: ChartPieIcon, current: false },
+  { name: 'Reportes', to: '/reports', icon: ChartPieIcon, current: false },
 ]
 </script>
 
