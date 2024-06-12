@@ -33,23 +33,6 @@
                         </li>
                       </ul>
                     </li>
-                    <li>
-                      <div class="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
-                      <ul role="list" class="-mx-2 mt-2 space-y-1">
-                        <li v-for="team in teams" :key="team.name">
-                          <a :href="team.href" :class="[team.current ? 'bg-gray-50 text-indigo-600' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
-                            <span :class="[team.current ? 'text-indigo-600 border-indigo-600' : 'text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600', 'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white']">{{ team.initial }}</span>
-                            <span class="truncate">{{ team.name }}</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li class="mt-auto">
-                      <RouterLink @click="sidebarOpen = false" to="/settings" class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
-                        <Cog6ToothIcon class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600" aria-hidden="true" />
-                        Settings
-                      </RouterLink>
-                    </li>
                   </ul>
                 </nav>
               </div>
@@ -77,23 +60,6 @@
                 </li>
               </ul>
             </li>
-            <li>
-              <div class="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
-              <ul role="list" class="-mx-2 mt-2 space-y-1">
-                <li v-for="team in teams" :key="team.name">
-                  <a :href="team.href" :class="[team.current ? 'bg-gray-50 text-indigo-600' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
-                    <span :class="[team.current ? 'text-indigo-600 border-indigo-600' : 'text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600', 'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white']">{{ team.initial }}</span>
-                    <span class="truncate">{{ team.name }}</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="mt-auto">
-              <RouterLink to="/settings" class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
-                <Cog6ToothIcon class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600" aria-hidden="true" />
-                Settings
-              </RouterLink>
-            </li>
           </ul>
         </nav>
       </div>
@@ -110,20 +76,10 @@
         <div class="h-6 w-px bg-gray-200 lg:hidden" aria-hidden="true"></div>
 
         <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-          <form class="relative flex flex-1" action="#" method="GET">
-            <label for="search-field" class="sr-only">Search</label>
-            <MagnifyingGlassIcon class="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400" aria-hidden="true" />
-            <input id="search-field" class="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm" placeholder="Search..." type="search" name="search" />
-          </form>
           <div class="flex items-center gap-x-4 lg:gap-x-6">
-            <button type="button" class="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
-              <span class="sr-only">View notifications</span>
-              <BellIcon class="h-6 w-6" aria-hidden="true" />
-            </button>
 
             <!-- Separator -->
             <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200" aria-hidden="true"></div>
-
             <Menu as="div" class="relative">
               <div>
                 <MenuButton class="-m-1.5 flex items-center p-1.5">
@@ -204,24 +160,15 @@ const profileOpen = ref(false)
 const store = useAuthStore(); // Accede al store
 const isToken = computed(() => store.isLoggedIn); // Define una computada que refleje el valor de isLoggedIn
 onMounted(() => {
-// if (token) {
-//   isToken = true
-// } else {
-//   router.push('/login')
-// }
-console.log('holi')
+
 })
-// watch(isToken, (newValue) => {
-//   localStorage.setItem("token", newValue ? "true" : ""); // Actualiza localStorage con el nuevo valor de isLoggedIn
-// });
 
 const logout = () => {
   store.logout();
-  router.push('/login')
-  
-   // Llama a la acción de logout del store
-  // Realiza cualquier otra lógica necesaria después de cerrar sesión
+  router.push('/login');
+  localStorage.clear();
 }
+
 const navigation = [
   { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
   { name: 'Team', to: '/users', icon: UsersIcon, current: false },
@@ -229,18 +176,6 @@ const navigation = [
   { name: 'Calendar', to: '/', icon: CalendarIcon, current: false },
   { name: 'Documents', to: '/', icon: DocumentDuplicateIcon, current: false },
   { name: 'Reports', to: '/', icon: ChartPieIcon, current: false },
-  { name: 'Login', to: '/Login', icon: ChartPieIcon, current: false },
-]
-
-const teams = [
-  { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
-  { id: 2, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
-  { id: 3, name: 'Workcation', href: '#', initial: 'W', current: false },
-]
-
-const userNavigation = [
-  { name: 'Your profile', href: '#' },
-  { name: 'Sign out', href: '/login' },
 ]
 </script>
 
