@@ -139,11 +139,11 @@
               </MenuButton>
               <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
                 <MenuItems class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                  <MenuItem v-slot="{ active }">
+                  <MenuItem v-slot="{ active }" class="cursor-pointer">
                     <span v-on:click="profileOpen = true" :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">Perfil</span>
                   </MenuItem>
-                  <MenuItem v-slot="{ active }">
-                    <span :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">Salir</span>
+                  <MenuItem v-slot="{ active }" class="cursor-pointer"> 
+                    <span v-on:click="logout" :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">Salir</span>
                   </MenuItem>
                 </MenuItems>
               </transition>
@@ -167,7 +167,9 @@
 </template>
 
 <script setup>
-import { onMounted, ref,watch,onBeforeUnmount } from 'vue'
+import { onMounted, ref,watch,computed } from 'vue'
+import useAuthStore from './store/auth' // Importa el store de autenticación
+import { useRouter } from 'vue-router';
 
 import {
   Dialog,
@@ -196,12 +198,14 @@ import {
 } from '@heroicons/vue/24/outline'
 import Profile from './components/ProfileModal.vue'
 
+const router = useRouter();
 
 const token = localStorage.getItem("token")
 const sidebarOpen = ref(false)
 const profileOpen = ref(false)
-const isToken = ref(!!token)
-
+// const isToken = ref(useAuthStore().isLoggedIn)
+const store = useAuthStore(); // Accede al store
+const isToken = computed(() => store.isLoggedIn); // Define una computada que refleje el valor de isLoggedIn
 onMounted(() => {
 // if (token) {
 //   isToken = true
@@ -209,16 +213,18 @@ onMounted(() => {
 //   router.push('/login')
 // }
 console.log('holi')
-watch(isToken, (newValue) => {
-    localStorage.setItem("token", newValue ? "true" : "")
-  })
-
 })
+// watch(isToken, (newValue) => {
+//   localStorage.setItem("token", newValue ? "true" : ""); // Actualiza localStorage con el nuevo valor de isLoggedIn
+// });
 
-watch(() => localStorage.getItem("token"), (newValue) => {
-  isToken.value = !!newValue
-})
-
+const logout = () => {
+  store.logout();
+  router.push('/login')
+  
+   // Llama a la acción de logout del store
+  // Realiza cualquier otra lógica necesaria después de cerrar sesión
+}
 const navigation = [
   { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
   { name: 'Team', to: '/users', icon: UsersIcon, current: false },

@@ -220,7 +220,7 @@ import axios from '@/utils/axios'
 
 
 const enabled = ref(false)
-const showMessage = ref(false)
+let showMessage = ref(false)
 
 const user_name = ref('');
 const user_lastname = ref('');
