@@ -42,8 +42,8 @@ const login = async () => {
       user_password: user_password.value,
     });
     localStorage.setItem('token', response.data.access_token);
+    localStorage.setItem('user', JSON.stringify(response.data.user));
     authStore.login(response.data.user); //utiliza la accion del login el store de autentificacion
-    console.log(response.data)//solo devuelve el token
     router.push('/');
   } catch (error) {
     proxy.$swal.fire({
