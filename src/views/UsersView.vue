@@ -81,11 +81,11 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import EditUserModal from '../components/EditUser.vue'
-import SuccesMessege from '@/components/SuccesMessege.vue';
+import SuccesMessege from '../components/SuccesMessege.vue';
 import loader from '@/components/LoaderCss.vue'
 
 const showloader = ref(true)
-const showMessage = ref('')
+let showMessage = ref('')
 
 // Funcion para cambiar valor del loader
 const setLoader = () => {
