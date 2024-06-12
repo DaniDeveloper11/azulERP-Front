@@ -32,15 +32,15 @@
                     <div class="pb-1 sm:pb-6">
                       <div>
                         <div class="relative h-40 sm:h-56">
-                          <img class="absolute h-full w-full object-cover"
-                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                          <img class="absolute  w-full object-cover"
+                            src="/src/assets/yo.jfif"
                             alt="" />
                         </div>
                         <div class="mt-6 px-4 sm:mt-8 sm:flex sm:items-end sm:px-6">
                           <div class="sm:flex-1">
                             <div>
                               <div class="flex items-center">
-                                <h3 class="text-xl font-bold text-gray-900 sm:text-2xl">Tom Cook</h3>
+                                <h3 class="text-xl font-bold text-gray-900 sm:text-2xl">Angel Daniel</h3>
                                 <span class="ml-2.5 inline-block h-2 w-2 flex-shrink-0 rounded-full bg-green-400">
                                   <span class="sr-only">Online</span>
                                 </span>
