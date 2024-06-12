@@ -2,15 +2,15 @@
   <div class="flex items-center justify-center min-h-screen bgcustom">
     <div class="w-full max-w-md p-8 space-y-3 bg-white rounded-lg shadow-md">
       <img src="../../assets/logo.png" />
-     
+
       <form @submit.prevent="login">
         <div class="mb-4">
           <label class="block mb-1 text-sm font-semibold" for="username">Nombre de usuario</label>
-          <input type="text" id="username" v-model="user_nickname" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required/>
+          <input type="text" id="username" v-model="user_nickname" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required />
         </div>
         <div class="mb-4">
           <label class="block mb-1 text-sm font-semibold" for="password">Contraseña</label>
-          <input type="password" id="password" v-model="user_password" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required/>
+          <input type="password" id="password" v-model="user_password" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required />
         </div>
         <button type="submit" class="w-full px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600">Entrar</button>
       </form>
@@ -20,13 +20,10 @@
 </template>
 
 <script setup>
-// import { useAuthStore } from '@/store';
 import { ref, getCurrentInstance } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from '../../utils/axios';
-import useAuthStore from '../../store/auth' // Importa el store de autenticación
-
-
+import useAuthStore from '../../store/auth';
 
 const router = useRouter();
 const user_nickname = ref('');
@@ -41,9 +38,14 @@ const login = async () => {
       user_nickname: user_nickname.value,
       user_password: user_password.value,
     });
+
+    // Guardar el token y la información del usuario en el localStorage
     localStorage.setItem('token', response.data.access_token);
     localStorage.setItem('user', JSON.stringify(response.data.user));
-    authStore.login(response.data.user); //utiliza la accion del login el store de autentificacion
+    
+    // Llamar a la acción login del store de autenticación
+    authStore.login(response.data);
+
     router.push('/');
   } catch (error) {
     proxy.$swal.fire({
@@ -58,6 +60,7 @@ if (localStorage.getItem('token')) {
   router.push('/');
 }
 </script>
+
 <style>
 .bgcustom {
   background-image: url("../../assets/AGAVE-AZUL.jpg");
