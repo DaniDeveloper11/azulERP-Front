@@ -232,7 +232,7 @@ const navigation = [
   { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
   { name: 'Usuarios', to: '/users', icon: UserIcon, current: false, },
   { name: 'Departamentos', to: '/departaments', icon: HomeModernIcon, current: false, },
-  { name: 'Socios de negocio', to: '/Partners', icon: UserGroupIcon, current: false, },
+  { name: 'Socios de negocio', to: '/partnerlist', icon: UserGroupIcon, current: false, },
   {
     name: 'Requisiciones',
     // to: '/requisionesAdmin',
