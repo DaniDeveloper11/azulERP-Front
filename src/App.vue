@@ -202,6 +202,7 @@ import {
   HomeIcon,
   UsersIcon,
   XMarkIcon,
+  HomeModernIcon,
   ChevronDownIcon,
   MagnifyingGlassIcon
 } from '@heroicons/vue/24/outline'
@@ -230,6 +231,7 @@ const navigation = [
   { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
 
   { name: 'Team', to: '/users', icon: UsersIcon, current: false, },
+  { name: 'Departaments', to: '/departaments', icon: HomeModernIcon, current: false, },
 
   {
     name: 'Requisiciones',
@@ -251,5 +253,5 @@ const navigation = [
 </script>
 
 <style scoped>
-/* Puedes agregar estilos específicos aquí */
+
 </style>
