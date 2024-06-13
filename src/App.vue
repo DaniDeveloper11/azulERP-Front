@@ -246,6 +246,19 @@ const navigation = [
         // { name: 'Customer Success', href: '#' },
       ]
   },
+  {
+    name: 'Orden de Compra',
+    // to: '/requisionesAdmin',
+    icon: FolderIcon,
+    current: false,
+    children:
+      [
+        { name: 'Generar Orden de Compra', href: '/makeBuyOrder' },
+        // { name: 'Listado', href: '#' },
+        // { name: 'Customer Success', href: '#' },
+      ]
+  },
+  { name: 'Proveedores', to: '/supplier', icon: UsersIcon, current: false, },
 
 
 
