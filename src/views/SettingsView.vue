@@ -21,7 +21,7 @@
         <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
           <div class="col-span-full flex items-center gap-x-8">
             <img
-              src="/src/assets/yo.jfif"
+              src="/src/assets/user.svg"
               alt="" class="h-24 w-24 flex-none rounded-lg bg-gray-800 object-cover" />
             <div>
               <button v-on:click="openModal = true" type="button"
@@ -132,9 +132,6 @@
       </form>
     </div>
   </div>
-  <DropZone v-bind:open="openModal" @close="openModal = false"></DropZone>
-  <SuccesMessege v-bind:message="'Usuario Editado Correctamente'" v-show="showMessage" class="fixed bottom-72 z-40">
-  </SuccesMessege>
 
 </template>
 
