@@ -47,12 +47,6 @@ const router = createRouter({
       meta: { requiresAuth: true } 
     },
     {
-      path: '/requisionesAdmin',
-      name: 'requisionesAdmin',
-      component: () => import('../views/Requisiones/RequisionesAdmin.vue'),
-      meta: { requiresAuth: true } 
-    },
-    {
       path: '/solicitarRequisicion',
       name: 'solicitarRequisicion',
       component: () => import('../views/Requisiones/SolicitarRequisicion.vue'),

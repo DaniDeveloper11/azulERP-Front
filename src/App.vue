@@ -32,16 +32,34 @@
                     <li>
                       <ul role="list" class="-mx-2 space-y-1">
                         <li v-for="item in navigation" :key="item.name">
-                          <RouterLink @click="sidebarOpen = false" :to="item.to"
+                          <RouterLink v-if="!item.children" @click="sidebarOpen = false" :to="item.to"
                             :class="[item.current ? 'bg-gray-50 text-indigo-600' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
                             <component :is="item.icon"
                               :class="[item.current ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600', 'h-6 w-6 shrink-0']"
                               aria-hidden="true" />
                             {{ item.name }}
                           </RouterLink>
+                          <Disclosure as="div" v-else v-slot="{ open }">
+                            <DisclosureButton
+                              :class="[item.current ? 'bg-gray-50' : 'hover:bg-gray-50', 'flex w-full items-center gap-x-3 rounded-md p-2 text-left text-sm font-semibold leading-6 text-gray-700']">
+                              <component :is="item.icon" class="h-6 w-6 shrink-0 text-gray-400" aria-hidden="true" />
+                              {{ item.name }}
+                              <ChevronRightIcon
+                                :class="[open ? 'rotate-90 text-gray-500' : 'text-gray-400', 'ml-auto h-5 w-5 shrink-0']"
+                                aria-hidden="true" />
+                            </DisclosureButton>
+                            <DisclosurePanel as="ul" class="mt-1 px-2">
+                        <li v-for="subItem in item.children" :key="subItem.name">
+                          <!-- 44px -->
+                          <DisclosureButton as="a" :href="subItem.href"
+                            :class="[subItem.current ? 'bg-gray-50' : 'hover:bg-gray-50', 'block rounded-md py-2 pl-9 pr-2 text-sm leading-6 text-gray-700']">
+                            {{ subItem.name }}</DisclosureButton>
                         </li>
-                      </ul>
+                        </DisclosurePanel>
+                        </Disclosure>
                     </li>
+                  </ul>
+                  </li>
                   </ul>
                 </nav>
               </div>
