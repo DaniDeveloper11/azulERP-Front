@@ -200,11 +200,12 @@ import {
   DocumentDuplicateIcon,
   FolderIcon,
   HomeIcon,
-  UsersIcon,
+  UserIcon,
   XMarkIcon,
   HomeModernIcon,
   ChevronDownIcon,
-  MagnifyingGlassIcon
+  MagnifyingGlassIcon,
+  UserGroupIcon
 } from '@heroicons/vue/24/outline'
 import Profile from './components/ProfileModal.vue'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
@@ -229,11 +230,9 @@ const logout = () => {
 
 const navigation = [
   { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
-
-  { name: 'Team', to: '/users', icon: UsersIcon, current: false, },
+  { name: 'Usuarios', to: '/users', icon: UserIcon, current: false, },
   { name: 'Departamentos', to: '/departaments', icon: HomeModernIcon, current: false, },
-  { name: 'Socio de negocio', to: '/Partners', icon: HomeModernIcon, current: false, },
-
+  { name: 'Socios de negocio', to: '/Partners', icon: UserGroupIcon, current: false, },
   {
     name: 'Requisiciones',
     // to: '/requisionesAdmin',
@@ -258,10 +257,6 @@ const navigation = [
         // { name: 'Customer Success', href: '#' },
       ]
   },
-  { name: 'Proveedores', to: '/supplier', icon: UsersIcon, current: false, },
-
-
-
   { name: 'Reportes', to: '/reports', icon: ChartPieIcon, current: false },
 ]
 </script>
