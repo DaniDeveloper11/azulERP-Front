@@ -255,6 +255,7 @@ const navigation = [
         // { name: 'Customer Success', href: '#' },
       ]
   },
+  { name: 'Proveedores', to: '/supplier', icon: UsersIcon, current: false, },
 
 
 
