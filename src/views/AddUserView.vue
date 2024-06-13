@@ -22,14 +22,14 @@
           <!-- password -->
           <div class="sm:col-span-4 max-w-md">
             <label for="password"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contraseña</label>
+              class="block mb-2 text-sm font-medium text-gray-900">Contraseña</label>
             <input v-model="user_password" type="password" id="password"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="•••••••••" required />
           </div>
           <div class="sm:col-span-4 max-w-md">
-            <label for="confirm_password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirma
-              Contraseña</label>
+            <label for="confirm_password" class="block mb-2 text-sm font-medium text-gray-900">Confirma
+              contraseña</label>
             <input v-model="confirm_password" type="password" id="confirm_password"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="•••••••••" required />
@@ -116,7 +116,7 @@
           </div>
 
           <div class="sm:col-span-2">
-            <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Numero de
+            <label for="phone" class="block mb-2 text-sm font-medium text-gray-900">Numero de
               Telefono</label>
             <input v-model="user_phone" type="tel" id="phone"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -220,7 +220,7 @@ import axios from '@/utils/axios'
 
 
 const enabled = ref(false)
-const showMessage = ref(false)
+let showMessage = ref(false)
 
 const user_name = ref('');
 const user_lastname = ref('');

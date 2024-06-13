@@ -33,7 +33,7 @@
                       <div>
                         <div class="relative h-40 sm:h-56">
                           <img class="absolute  w-full object-cover"
-                            src="/src/assets/yo.jfif"
+                            src="/src/assets/user.svg"
                             alt="" />
                         </div>
                         <div class="mt-6 px-4 sm:mt-8 sm:flex sm:items-end sm:px-6">
