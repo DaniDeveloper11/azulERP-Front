@@ -6,7 +6,7 @@
         <p class="mt-2 text-sm text-gray-700">Listado de Proveedores, puedes agregar, borrar o editar un Proveedor, ademas de llamar o mandar correo con un Botton </p>
       </div>
       <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-        <RouterLink to="/adduser" type="button"
+        <RouterLink to="/addSupplier" type="button"
           class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
           Añadir Usuario</RouterLink>
       </div>

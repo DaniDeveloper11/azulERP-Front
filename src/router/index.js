@@ -75,6 +75,12 @@ const router = createRouter({
       name: 'supplier',
       component: () => import('../views/Proovedores/Supplier.vue'),
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/addSupplier',
+      name: 'addSupplier',
+      component: () => import('../views/Proovedores/AddSupplier.vue'),
+      meta: { requiresAuth: true }
     }
   ]
   
