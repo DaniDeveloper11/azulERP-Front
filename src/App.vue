@@ -231,7 +231,8 @@ const navigation = [
   { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
 
   { name: 'Team', to: '/users', icon: UsersIcon, current: false, },
-  { name: 'Departaments', to: '/departaments', icon: HomeModernIcon, current: false, },
+  { name: 'Departamentos', to: '/departaments', icon: HomeModernIcon, current: false, },
+  { name: 'Socio de negocio', to: '/Partners', icon: HomeModernIcon, current: false, },
 
   {
     name: 'Requisiciones',
