@@ -47,12 +47,6 @@ const router = createRouter({
       meta: { requiresAuth: true } 
     },
     {
-      path: '/requisionesAdmin',
-      name: 'requisionesAdmin',
-      component: () => import('../views/Requisiones/RequisionesAdmin.vue'),
-      meta: { requiresAuth: true } 
-    },
-    {
       path: '/solicitarRequisicion',
       name: 'solicitarRequisicion',
       component: () => import('../views/Requisiones/SolicitarRequisicion.vue'),
@@ -64,6 +58,43 @@ const router = createRouter({
       component: () => import('../views/Requisiones/ListaRequisiciones.vue'),
       meta: { requiresAuth: true } 
     },
+    {
+      path: '/reports',
+      name: 'reports',
+      component: () => import('../views/Reports/Reports.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/departaments',
+      name: 'departaments',
+      component: () => import('../views/departaments/departament.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/Partners',
+      name: 'Partners',
+      component: () => import('../views/partners/partner.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/makeBuyOrder',
+      name: 'makeBuyOrder',
+      component: () => import('../views/BuyOrder/MakeBuyOrder.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/supplier',
+      name: 'supplier',
+      component: () => import('../views/Proovedores/Supplier.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/addSupplier',
+      name: 'addSupplier',
+      component: () => import('../views/Proovedores/AddSupplier.vue'),
+      meta: { requiresAuth: true }
+    }
+
   ]
   
   

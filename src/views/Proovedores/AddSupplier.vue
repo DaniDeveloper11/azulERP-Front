@@ -22,8 +22,13 @@
 
           
         <div>
+<<<<<<< HEAD
           <label for="kind_supplier" class="block text-sm font-medium leading-6 text-gray-900">Tipo de proveedor</label>
           <ListBox id="kind_supplier" v-bind:publishing-options="publishingOptions" @update:selected="handleSelectedUpdate"
+=======
+          <label for="role" class="block text-sm font-medium leading-6 text-gray-900">Role</label>
+          <ListBox id="role" v-bind:publishing-options="publishingOptions" @update:selected="handleSelectedUpdate"
+>>>>>>> 0ca5b2e285f0220c52ba024433532a296a4eb47e
             required>
           </ListBox>
         </div>
@@ -194,8 +199,13 @@
   
   // Roles de la aplicacion
   const publishingOptions = ref([
+<<<<<<< HEAD
     { title: 'EMPRESA', description: 'El Administrador el es super Usuario de la aplicacion, capaz de ver todos los modulos de la aplicacion.', current: true },
     { title: 'INDIVIDUAL', description: 'El Directivo tiene la capacidad de aprobar requisiciones, ver analitica, accede a la informacion de los usuarios y tiene permiso de modificacion.', current: false },
+=======
+    { title: 'Administrador', description: 'El Administrador el es super Usuario de la aplicacion, capaz de ver todos los modulos de la aplicacion.', current: true },
+    { title: 'Directivo', description: 'El Directivo tiene la capacidad de aprobar requisiciones, ver analitica, accede a la informacion de los usuarios y tiene permiso de modificacion.', current: false },
+>>>>>>> 0ca5b2e285f0220c52ba024433532a296a4eb47e
     { title: 'Miembro', description: 'El usuario Miembro tiene la capacidad de solicitar material, items, insumos, comestibles o cualquier elemento que pase como requision', current: false },
   
   ]);
