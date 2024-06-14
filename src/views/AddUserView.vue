@@ -1,5 +1,11 @@
 <template>
-  <form @submit.prevent="register">
+  <div v-if="showloader" class="flex justify-center w-full">
+    <div class=" grid h-full">
+      <loader class="fixed top-1/2"></loader>
+    </div>
+  </div>
+
+  <form v-else @submit.prevent="register">
     <div class="space-y-12">
       <div class="border-b border-gray-900/10 pb-12">
         <h2 class="text-base font-semibold leading-7 text-gray-900">Perfil</h2>
@@ -225,14 +231,17 @@ import { PhotoIcon, UserCircleIcon } from '@heroicons/vue/24/solid'
 import { reactive, ref,onBeforeMount, onMounted, computed } from 'vue'
 import ListBox from '@/components/ListBox.vue'
 import SuccesMessege from '@/components/SuccesMessege.vue'
-import loader from '@/components/LoaderCss.vue'
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import axios from '@/utils/axios'
 import Swal from 'sweetalert2';
+import loader from '../components/LoaderCss.vue'
 
 
 const enabled = ref(false)
 let showMessage = ref(false)
+const showloader = ref(false)
+
+
 
 const user_name = ref('');
 const user_lastname = ref('');
@@ -257,7 +266,7 @@ const errorMessage = ref('');
 
 // const user_active: computed(() => user_status.value ? 1 : 0)  
 const register = async () => {
-
+  showloader.value = true; // Mostrar loader al iniciar la consulta
   try {
     const response = await axios.post('http://localhost:3000/auth/register', {
       user_name: user_name.value,
@@ -293,8 +302,11 @@ const register = async () => {
           text: 'No se pudo crear el Usuario',
           icon: 'error'
         });
-
 }
+finally{
+    showloader.value = false
+    resetForm();
+  }
 }
 // Roles de la aplicacion
 const publishingOptions = ref([
@@ -358,5 +370,24 @@ const getCurrentDate = () => {
   const formattedDate = `${year}-${month}-${day}`;
   user_create.value = formattedDate;
 };
+
+//Resetea el valor de las variables
+const resetForm = () => {
+      user_name.value = '';
+      user_lastname.value = '';
+      user_nickname.value = '';
+      user_phone.value = '';
+      user_password.value = '';
+      user_address.value = '';
+      user_state.value = '';
+      user_city.value = '';
+      user_create.value = '';
+      user_image.value = '';
+      user_department.value = '';
+      user_email.value = '';
+      user_level.value = '';
+      user_position.value = '';
+      user_status.value = true;
+    };
 
 </script>
