@@ -1,5 +1,11 @@
 <template>
-  <div class="flex items-center justify-center min-h-screen bgcustom">
+  <div v-if="showloader" class="flex justify-center w-full">
+    <div class=" grid h-full">
+      <loader class="fixed top-1/2"></loader>
+    </div>
+  </div>
+
+  <div v-else class="flex items-center justify-center min-h-screen bgcustom">
     <div class="w-full max-w-md p-8 space-y-3 bg-white rounded-lg shadow-md">
       <img src="../../assets/logo.png" />
 
@@ -24,6 +30,8 @@ import { ref, getCurrentInstance } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from '../../utils/axios';
 import useAuthStore from '../../store/auth';
+import loader from '@/components/LoaderCss.vue'
+
 
 const router = useRouter();
 const user_nickname = ref('');
@@ -32,7 +40,10 @@ const errorMessage = ref('');
 const { proxy } = getCurrentInstance();
 const authStore = useAuthStore();
 
+const showloader = ref(false)
+
 const login = async () => {
+  showloader.value = true; // Mostrar loader al iniciar sesión
   try {
     const response = await axios.post('http://localhost:3000/auth/login', {
       user_nickname: user_nickname.value,
@@ -45,20 +56,25 @@ const login = async () => {
     
     // Llamar a la acción login del store de autenticación
     authStore.login(response.data);
+    await new Promise(resolve => setTimeout(resolve, 3000));
 
-    router.push('/');
   } catch (error) {
     proxy.$swal.fire({
       title: 'Error',
       text: 'Nombre de usuario o contraseña incorrectos',
       icon: 'error'
     });
+  }finally{
+    showloader.value = false
   }
 };
+
 
 if (localStorage.getItem('token')) {
   router.push('/');
 }
+
+
 </script>
 
 <style>
