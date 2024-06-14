@@ -77,7 +77,12 @@
               <option v-for="condition in condicionespago" :key="condition" :value="condition">{{ condition }}</option>
             </select>
           </div>
-  
+          <div class="mb-4">
+            <label for="partner_bank" class="block text-sm font-medium text-gray-700">Banco</label>
+            <select v-model="partner_bank" id="partner_bank" name="partner_bank" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm">
+              <option v-for="bank in bancos" :key="back" :value="bank">{{ bank }}</option>
+            </select>
+          </div>
           <div class="mb-4">
             <label for="partner_methodPay" class="block text-sm font-medium text-gray-700">Forma de Pago</label>
             <select v-model="partner_methodPay" id="partner_methodPay" name="partner_methodPay" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm">
@@ -143,7 +148,7 @@ import Swal from 'sweetalert2';
         bancos: ['BBVA', 'EUROS', 'USD', 'BASE', 'Banamex', 'CI BANCO', 'MONEX'],
         tipo: [
           { value: 'C', text: 'Cliente' },
-          { value: 'P', text: 'Provedor' },
+          { value: 'S', text: 'Provedor' },
         ],
         pricelist: [
            'Clientes lista' ,
