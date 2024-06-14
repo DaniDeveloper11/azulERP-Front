@@ -69,9 +69,13 @@ import axios from '../../utils/axios';
 const people = ref([])
 
 const getPartners = async () => {
+  const token = localStorage.getItem('token');
   try {
-    const response = await axios.get('http://localhost:3000/partners');
-    people.value = response.data; // Suponiendo que la API devuelve un array de socios
+    const response = await axios.get('http://localhost:3000/partners',{
+      Authorization:`Bearer ${token}`
+    });
+    people.value = response.data;
+    console.log(response.data) // Suponiendo que la API devuelve un array de socios
   } catch (error) {
     console.log('algo salio mal')
     // proxy.$swal.fire({

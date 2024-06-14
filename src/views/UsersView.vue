@@ -36,7 +36,7 @@
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white">
-              <tr v-for="person in people" :key="person.email">
+              <tr v-for="user in users" :key="user.user_id">
                 <td class="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
                   <div class="flex items-center">
                     <div class="h-11 w-11 flex-shrink-0">
@@ -83,7 +83,7 @@ import { ref, onMounted } from 'vue'
 import EditUserModal from '../components/EditUser.vue'
 import SuccesMessege from '../components/SuccesMessege.vue';
 import loader from '@/components/LoaderCss.vue'
-
+import axios from '../utils/axios';
 const showloader = ref(true)
 let showMessage = ref('')
 
@@ -106,28 +106,28 @@ const handleUpdate = (value) => {
 };
 
 
-const people = [
-  {
-    user_name: 'Paulina',
-    user_lastname: 'Velador',
-    user_nickname:' Manager',
-    user_phone:3314857062,
-    user_password:'villamontes11',
-    user_addres:'Guadalupe victoria #12',
-    state:"Jalisco",
-    user_department: 'Optimization',
-    user_email: 'Paulina.Velador@AgaveAzul.com',
-    role: 'Directivo',
-    user_image:
-      'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    user_state: 1,
-    constry:'Mexico',
-    city:'Guadalajara',
-    cp:46560
-  },
+const users = ref([]);
+  // {
+  //   user_name: 'Paulina',
+  //   user_lastname: 'Velador',
+  //   user_nickname:' Manager',
+  //   user_phone:3314857062,
+  //   user_password:'villamontes11',
+  //   user_addres:'Guadalupe victoria #12',
+  //   state:"Jalisco",
+  //   user_department: 'Optimization',
+  //   user_email: 'Paulina.Velador@AgaveAzul.com',
+  //   role: 'Directivo',
+  //   user_image:
+  //     'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+  //   user_state: 1,
+  //   constry:'Mexico',
+  //   city:'Guadalajara',
+  //   cp:46560
+  // },
 
   // More people...
-]
+
 
 const emptyPerson = ref({
    user_name: '',
@@ -153,6 +153,26 @@ const editOpen = ref(false)
 // const handleUpdate = (value) => {
 // showMessage.value = value;
 // };
+const getUsers = async () => {
+  const token = localStorage.getItem('token');
+  try {
+    const response = await axios.get('http://localhost:3000/users',{
+      Authorization:`Bearer ${token}`
+    });
+    users.value = response.data;
+    console.log(response.data) // Suponiendo que la API devuelve un array de socios
+  } catch (error) {
+    console.log('algo salio mal')
+    // proxy.$swal.fire({
+    //   title: 'Error',
+    //   text: 'Nombre de usuario o contraseña incorrectos',
+    //   icon: 'error'
+    // });
+  }
+};
+onMounted(() => {
+  getUsers()
+})
 
 </script>
 

@@ -24,7 +24,6 @@
       </div>
     </div>
 
-    <hr class="p-8"></hr>
     <div>
       <h2 class="text-xl font-bold mb-4 text-center">Catálogo De Departamentos</h2>
       <div class="overflow-x-auto">
