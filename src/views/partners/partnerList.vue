@@ -9,7 +9,7 @@
       <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
         <RouterLink to="/partners" type="button"
           class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-          Añadir Usuario</RouterLink>
+          Añadir Socio de Negocios</RouterLink>
       </div>
     </div>
     <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 pt-4">
@@ -69,9 +69,13 @@ import axios from '../../utils/axios';
 const people = ref([])
 
 const getPartners = async () => {
+  const token = localStorage.getItem('token');
   try {
-    const response = await axios.get('http://localhost:3000/partners');
-    people.value = response.data; // Suponiendo que la API devuelve un array de socios
+    const response = await axios.get('http://localhost:3000/partners',{
+      Authorization:`Bearer ${token}`
+    });
+    people.value = response.data;
+    console.log(response.data) // Suponiendo que la API devuelve un array de socios
   } catch (error) {
     console.log('algo salio mal')
     // proxy.$swal.fire({
