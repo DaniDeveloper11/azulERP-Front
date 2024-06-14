@@ -56,37 +56,46 @@
             <label for="partner_licTradNum" class="block text-sm font-medium text-gray-700">RFC o CURP</label>
             <input v-model="partner_licTradNum" id="partner_licTradNum" name="partner_licTradNum" type="text" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
           </div>
+
           <div class="mb-4">
             <label for="partner_listNum" class="block text-sm font-medium text-gray-700">Lista de Precios</label>
-            <input v-model="partner_listNum" id="partner_listNum" name="partner_listNum" type="number" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
+            <select v-model="partner_listNum" id="partner_listNum" name="partner_listNum" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm">
+              <option v-for="price in pricelist" :key="price" :value="price">{{ price }}</option>
+            </select>
           </div>
           <div class="mb-4">
             <label for="partner_slpcode" class="block text-sm font-medium text-gray-700">Código de Vendedor</label>
             <input v-model="partner_slpcode" id="partner_slpcode" name="partner_slpcode" type="number" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
           </div>
           <div class="mb-4">
-            <label for="partner_validFor" class="block text-sm font-medium text-gray-700">Activo o Inactivo</label>
-            <input v-model="partner_validFor" id="partner_validFor" name="partner_validFor" type="text" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
-          </div>
-          <div class="mb-4">
-            <label for="partner_type" class="block text-sm font-medium text-gray-700">Tipo</label>
-            <input v-model="partner_type" id="partner_type" name="partner_type" type="text" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
-          </div>
-          <div class="mb-4">
-            <label for="partner_bank" class="block text-sm font-medium text-gray-700">Banco</label>
-            <input v-model="partner_bank" id="partner_bank" name="partner_bank" type="text" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
-          </div>
-          <div class="mb-4">
             <label for="partner_bankAccount" class="block text-sm font-medium text-gray-700">Número de Cuenta </label>
             <input v-model="partner_bankAccount" id="partner_bankAccount" name="partner_bankAccount" type="text" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
           </div>
           <div class="mb-4">
-            <label for="partner_conditionPay" class="block text-sm font-medium text-gray-700">Condiciones de Pago </label>
-            <input v-model="partner_conditionPay" id="partner_conditionPay" name="partner_conditionPay" type="text" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
+            <label for="partner_conditionPay" class="block text-sm font-medium text-gray-700">Condiciones de Pago</label>
+            <select v-model="partner_conditionPay" id="partner_conditionPay" name="partner_conditionPay" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm">
+              <option v-for="condition in condicionespago" :key="condition" :value="condition">{{ condition }}</option>
+            </select>
+          </div>
+  
+          <div class="mb-4">
+            <label for="partner_methodPay" class="block text-sm font-medium text-gray-700">Forma de Pago</label>
+            <select v-model="partner_methodPay" id="partner_methodPay" name="partner_methodPay" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm">
+              <option v-for="method in Formapago" :key="method" :value="method">{{ method }}</option>
+            </select>
+          </div>
+  
+          <div class="mb-4">
+            <label for="partner_type" class="block text-sm font-medium text-gray-700">Tipo</label>
+            <select v-model="partner_type" id="partner_type" name="partner_type" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm">
+              <option v-for="type in tipo" :key="type" :value="type.value">{{ type.text }}</option>
+            </select>
           </div>
           <div class="mb-4">
-            <label for="partner_methodPay" class="block text-sm font-medium text-gray-700">Forma de Pago </label>
-            <input v-model="partner_methodPay" id="partner_methodPay" name="partner_methodPay" type="text" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
+            <label for="partner_validFor" class="block text-sm font-medium text-gray-700">Estado del cliente</label>
+            <select v-model="partner_validFor" id="partner_validFor" name="partner_validFor" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm">
+              <option v-for="state in status" :key="state.value" :value="state.value">{{ state.text }}</option>
+            </select>
           </div>
   
           <div>
@@ -100,6 +109,9 @@
   </template>
   
   <script>
+  import useAuthStore from '../../store/auth.js';
+import axios from 'axios';
+import Swal from 'sweetalert2';
   export default {
     data() {
       return {
@@ -114,23 +126,51 @@
         partner_phone: '',
         partner_fax: '',
         partner_contactPerson: '',
-        partner_balance: '',
-        partner_creditLine: '',
+        partner_balance: 0,
+        partner_creditLine: 0,
         partner_licTradNum: '',
         partner_listNum: '',
-        partner_slpcode: '',
+        partner_slpcode: 0,
         partner_createDate: '',
         partner_validFor: '',
         partner_type: '',
         partner_bank: '',
-        partner_bankAccount: '',
+        partner_bankAccount: 0,
         partner_conditionPay: '',
         partner_methodPay: '',
+        Formapago: ['Efectivo', 'Transferencia', 'Tarjeta de Crédito', 'Cancelado'],
+        condicionespago: ['Contado', 'Credito'],
+        bancos: ['BBVA', 'EUROS', 'USD', 'BASE', 'Banamex', 'CI BANCO', 'MONEX'],
+        tipo: [
+          { value: 'C', text: 'Cliente' },
+          { value: 'P', text: 'Provedor' },
+        ],
+        pricelist: [
+           'Clientes lista' ,
+           'Provedor lista' ,
+        ],
+        status: [
+          { text: 'ACTIVO', value: 'Y' },
+          { text: 'INACTIVO', value: 'N' },
+        ],
+        clientConsecutive: 1,
+        providerConsecutive: 1,
       };
     },
     methods: {
-        //enviar form
       async submitForm() {
+        const token = localStorage.getItem('token');
+        this.partner_createDate = new Date().toISOString().split('T')[0];
+        if (this.partner_type === 'C') {
+          this.partner_cardcode = `C${String(this.clientConsecutive).padStart(4, '0')}`;
+          this.clientConsecutive++;
+
+        } else if (this.partner_type === 'P') {
+          this.partner_cardcode = `P${String(this.providerConsecutive).padStart(4, '0')}`;
+          this.providerConsecutive++;
+          
+        }
+  
         const partner = {
           partner_cardcode: this.partner_cardcode,
           partner_cardname: this.partner_cardname,
@@ -161,7 +201,8 @@
           const response = await fetch('http://localhost:3000/partners', {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
             },
             body: JSON.stringify(partner),
           });
@@ -185,7 +226,6 @@
         }
       },
       resetForm() {
-        this.partner_id = '';
         this.partner_cardcode = '';
         this.partner_cardname = '';
         this.partner_address = '';
@@ -215,6 +255,4 @@
   </script>
   
   <style scoped>
-  
   </style>
-  
