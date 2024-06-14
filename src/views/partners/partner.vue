@@ -1,5 +1,12 @@
 <template>
-  <div class="space-y-12 sm:space-y-16">
+
+<div v-if="showloader" class="flex justify-center w-full">
+    <div class=" grid h-full">
+      <loader class="fixed top-1/2"></loader>
+    </div>
+  </div>
+
+  <div v-else class="space-y-12 sm:space-y-16">
     <div
       class="mt-10 space-y-8 border-b border-gray-900/10 pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0">
       <h2 class="text-base font-semibold leading-7 text-gray-900">Crear Socio de Negocios</h2>
@@ -254,6 +261,8 @@
 import useAuthStore from '../../store/auth.js';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import loader from '../../components/LoaderCss.vue'
+
 export default {
   data() {
     return {
@@ -285,7 +294,7 @@ export default {
       bancos: ['BBVA', 'EUROS', 'USD', 'BASE', 'Banamex', 'CI BANCO', 'MONEX'],
       tipo: [
         { value: 'C', text: 'Cliente' },
-        { value: 'P', text: 'Provedor' },
+        { value: 'S', text: 'Provedor' },
       ],
       pricelist: [
         'Clientes lista',
@@ -297,10 +306,14 @@ export default {
       ],
       clientConsecutive: 1,
       providerConsecutive: 1,
+
+      showloader: false,
+
     };
   },
   methods: {
     async submitForm() {
+      this.showloader = true; // Mostrar loader al iniciar la consulta
       const token = localStorage.getItem('token');
       this.partner_createDate = new Date().toISOString().split('T')[0];
       if (this.partner_type === 'C') {
@@ -365,6 +378,9 @@ export default {
           text: error.message,
           icon: 'error',
         });
+      }
+      finally{
+        this.showloader = false
       }
     },
     resetForm() {

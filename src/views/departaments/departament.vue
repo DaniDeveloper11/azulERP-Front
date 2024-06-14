@@ -1,7 +1,11 @@
 <template>
-  <div>
+  <div v-if="showloader" class="flex justify-center w-full">
+    <div class=" grid h-full">
+      <loader class="fixed top-1/2"></loader>
+    </div>
+  </div>
 
-
+  <div v-else>
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
         <h1 class="text-base font-semibold leading-6 text-gray-900">Departamentos</h1>
@@ -63,6 +67,7 @@
 import useAuthStore from '../../store/auth.js';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import loader from '../../components/LoaderCss.vue'
 
 export default {
   data() {
@@ -72,6 +77,7 @@ export default {
       showModal: false,
       departments: [],
       users: [],
+      showloader: false,
     };
   },
 
@@ -88,7 +94,7 @@ export default {
         department_create: this.department_create,
         user_create: user_id,
       };
-
+      this.showloader = true; // Mostrar loader al iniciar la consulta
       try {
         const response = await fetch('http://localhost:3000/departments', {
           method: 'POST',
@@ -116,6 +122,9 @@ export default {
           text: 'No se pudo crear departamento',
           icon: 'error'
         });
+      }
+      finally{
+        this.showloader = false
       }
     },
 
