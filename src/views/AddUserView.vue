@@ -1,5 +1,5 @@
 <template>
-  <form submit.prevent="register">
+  <form @submit.prevent="register">
     <div class="space-y-12">
       <div class="border-b border-gray-900/10 pb-12">
         <h2 class="text-base font-semibold leading-7 text-gray-900">Perfil</h2>
@@ -135,7 +135,7 @@
           <div class="sm:col-span-2">
             <label for="region" class="block text-sm font-medium leading-6 text-gray-900">Estado</label>
             <div class="mt-2">
-              <input v-model="state" type="text" name="region" id="region" autocomplete="address-level1" required
+              <input v-model="user_state" type="text" name="region" id="region" autocomplete="address-level1" required
                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
             </div>
           </div>
@@ -143,7 +143,7 @@
           <div class="sm:col-span-2 sm:col-start-1">
             <label for="city" class="block text-sm font-medium leading-6 text-gray-900">Ciudad o Municipio</label>
             <div class="mt-2">
-              <input type="text" name="city" id="city" autocomplete="address-level2" required
+              <input v-model="user_city" type="text" name="city" id="city" autocomplete="address-level2" required
                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
             </div>
           </div>
@@ -168,9 +168,20 @@
       </div>
 
       <div>
+            <label for="department"
+              class="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">Departamento</label>
+            <div class="mt-2 sm:col-span-2 sm:mt-0">
+              <select v-model="user_department" id="department" name="department"
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                <option v-for="depa in departments" :key="depa.department_id" :value='depa.department_id'> {{ depa.department_name }}</option>
+              </select>
+            </div>
+          </div>
+
+      <div>
         <label for="puesto" class="block text-sm font-medium leading-6 text-gray-900">Puesto</label>
         <div class="mt-2">
-          <input v-model="user_department" type="text" name="puesto" id="puesto"
+          <input v-model="user_position" type="text" name="puesto" id="puesto"
             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             placeholder="Credito y Cobranza" />
         </div>
@@ -211,12 +222,13 @@
 <script setup>
 // 
 import { PhotoIcon, UserCircleIcon } from '@heroicons/vue/24/solid'
-import { reactive, ref, } from 'vue'
+import { reactive, ref,onBeforeMount, onMounted, computed } from 'vue'
 import ListBox from '@/components/ListBox.vue'
 import SuccesMessege from '@/components/SuccesMessege.vue'
 import loader from '@/components/LoaderCss.vue'
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import axios from '@/utils/axios'
+import Swal from 'sweetalert2';
 
 
 const enabled = ref(false)
@@ -228,59 +240,76 @@ const user_nickname = ref('');
 const user_phone = ref('');
 const user_password = ref('');
 const user_address = ref('');
-const state = ref('');
+const user_state = ref('');
+const user_city = ref('');
 const user_create = ref('');
 const user_image = ref('');
 const user_department = ref('');
 const user_email = ref('')
-const errorMessage = ref('');
-const user_rol = ref('');
+const user_level = ref('');
+const user_position = ref('');
 const user_status = ref(true);
 
 const confirm_password = ref('');
 const fileName = ref('');
 const fileUrl = ref('');
+const errorMessage = ref('');
 
+// const user_active: computed(() => user_status.value ? 1 : 0)  
 const register = async () => {
 
   try {
-    await axios.post('/auth/register', {
+    const response = await axios.post('http://localhost:3000/auth/register', {
       user_name: user_name.value,
       user_lastname: user_lastname.value,
       user_nickname: user_nickname.value,
       user_phone: user_phone.value,
       user_password: user_password.value,
       user_address: user_address.value,
-      state: state.value,
+      user_state: user_state.value,
+      user_city: user_city.value,
       user_create: user_create.value,
       user_image: user_image.value,
       user_department: user_department.value,
       user_email: user_email.value,
-      user_rol: user_rol.value,
-      user_status: user_status.value
+      user_level: user_level.value,
+      user_position: user_position.value,
+      user_active: user_status.value ? 1 : 0,
     });
     // router.push('/');
-    showMessage = true;
-    dismissMessage();
+    if (response) {
+          Swal.fire({
+            title: 'Correcto',
+            text: 'Usuario Guardado Correctamente',
+            icon: 'success'
+          });
+         
+        }
+    // showMessage = true;
+    // dismissMessage();
 
   } catch (error) {
-    errorMessage.value = 'Fallo el registro del usuario';
-  }
+    console.error('Error:', error);
+        Swal.fire({
+          title: 'Error',
+          text: 'No se pudo crear el Usuario',
+          icon: 'error'
+        });
 
-};
-
+}
+}
 // Roles de la aplicacion
 const publishingOptions = ref([
-  { title: 'Administrador', description: 'El Administrador el es super Usuario de la aplicacion, capaz de ver todos los modulos de la aplicacion.', current: true },
-  { title: 'Directivo', description: 'El Directivo tiene la capacidad de aprobar requisiciones, ver analitica, accede a la informacion de los usuarios y tiene permiso de modificacion.', current: false },
-  { title: 'Miembro', description: 'El usuario Miembro tiene la capacidad de solicitar material, items, insumos, comestibles o cualquier elemento que pase como requision', current: false },
+  { title: 'Administrador',value:1, description: 'El Administrador el es super Usuario de la aplicacion, capaz de ver todos los modulos de la aplicacion.', current: true },
+  { title: 'Directivo', value:2, description: 'El Directivo tiene la capacidad de aprobar requisiciones, ver analitica, accede a la informacion de los usuarios y tiene permiso de modificacion.', current: false },
+  { title: 'Miembro',value:3, description: 'El usuario Miembro tiene la capacidad de solicitar material, items, insumos, comestibles o cualquier elemento que pase como requision', current: false },
 
 ]);
 
 // Funcion para recibir el rol seleccionado
 function handleSelectedUpdate(selectedOption) {
   console.log('Selected option:', selectedOption);
-  user_rol.value = selectedOption;
+  user_level.value = selectedOption;
 }
 
 
@@ -288,8 +317,9 @@ function handleSelectedUpdate(selectedOption) {
 function inputImage(event) {
   const file = event.target.files[0];
   if (file) {
-    user_image.value = file,
-      fileName.value = file.name
+    // user_image.value = file,
+      fileName.value = file.name;
+      user_image.value = fileName.value;
 
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -305,5 +335,30 @@ const dismissMessage = () => {
     showMessage.value = false
   }, 3000)
 }
+
+const departments = ref([])
+const getDepartments = async () => {
+  try{
+    const response = await axios.get('http://localhost:3000/departments');
+    departments.value = response.data;
+  }catch (error){
+    console.log('algo salio mal perro')
+  }
+};
+
+onMounted(() =>{
+  getDepartments();
+  getCurrentDate();
+})
+
+// Función para obtener la fecha actual
+const getCurrentDate = () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const formattedDate = `${year}-${month}-${day}`;
+  user_create.value = formattedDate;
+};
 
 </script>

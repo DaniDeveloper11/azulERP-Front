@@ -15,7 +15,7 @@
   
         <transition leave-active-class="transition ease-in duration-100" leave-from-class="opacity-100" leave-to-class="opacity-0">
           <ListboxOptions class="absolute left-0 z-10 mt-2 w-72 origin-top-right divide-y divide-gray-200 overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-            <ListboxOption as="template" v-for="option in publishingOptions" :key="option.title" :value="option.title" v-slot="{ active, selected }">
+            <ListboxOption as="template" v-for="option in publishingOptions" :key="option.title" :value="option.value" v-slot="{ active, selected }">
               <li :class="[active ? 'bg-indigo-600 text-white' : 'text-gray-900', 'cursor-default select-none p-4 text-sm']">
                 <div class="flex flex-col">
                   <div class="flex justify-between">
@@ -47,7 +47,7 @@
   });
   
   const emit = defineEmits(['update:selected']);
-  const selected = ref(props.publishingOptions[0].title);
+  const selected = ref(props.publishingOptions[0].value);
   
   watch(selected, (newValue) => {
     emit('update:selected', newValue);
