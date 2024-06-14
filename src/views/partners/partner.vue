@@ -158,16 +158,11 @@
           </div>
         </div>
 
-        <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
-          <label for="partner_listNum" class="block text-sm font-medium text-gray-700">Lista de Precios</label>
-          <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div
-              class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-              <select v-model="partner_listNum" id="partner_listNum" name="partner_listNum"
-                class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm">
-                <option v-for="price in pricelist" :key="price" :value="price">{{ price }}</option>
-              </select>
-            </div>
+          <div class="mb-4">
+            <label for="partner_listNum" class="block text-sm font-medium text-gray-700">Lista de Precios</label>
+            <select v-model="partner_listNum" id="partner_listNum" name="partner_listNum" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm">
+              <option v-for="price in pricelist" :key="price" :value="price">{{ price }}</option>
+            </select>
           </div>
         </div>
 
@@ -261,64 +256,58 @@
 import useAuthStore from '../../store/auth.js';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import loader from '../../components/LoaderCss.vue'
-
-export default {
-  data() {
-    return {
-      partner_cardcode: '',
-      partner_cardname: '',
-      partner_address: '',
-      partner_city: '',
-      partner_block: '',
-      partner_zipcode: '',
-      partner_state: '',
-      partner_email: '',
-      partner_phone: '',
-      partner_fax: '',
-      partner_contactPerson: '',
-      partner_balance: 0,
-      partner_creditLine: 0,
-      partner_licTradNum: '',
-      partner_listNum: '',
-      partner_slpcode: 0,
-      partner_createDate: '',
-      partner_validFor: '',
-      partner_type: '',
-      partner_bank: '',
-      partner_bankAccount: 0,
-      partner_conditionPay: '',
-      partner_methodPay: '',
-      Formapago: ['Efectivo', 'Transferencia', 'Tarjeta de Crédito', 'Cancelado'],
-      condicionespago: ['Contado', 'Credito'],
-      bancos: ['BBVA', 'EUROS', 'USD', 'BASE', 'Banamex', 'CI BANCO', 'MONEX'],
-      tipo: [
-        { value: 'C', text: 'Cliente' },
-        { value: 'S', text: 'Provedor' },
-      ],
-      pricelist: [
-        'Clientes lista',
-        'Provedor lista',
-      ],
-      status: [
-        { text: 'ACTIVO', value: 'Y' },
-        { text: 'INACTIVO', value: 'N' },
-      ],
-      clientConsecutive: 1,
-      providerConsecutive: 1,
-
-      showloader: false,
-
-    };
-  },
-  methods: {
-    async submitForm() {
-      this.showloader = true; // Mostrar loader al iniciar la consulta
-      const token = localStorage.getItem('token');
-      this.partner_createDate = new Date().toISOString().split('T')[0];
-      if (this.partner_type === 'C') {
-        this.partner_cardcode = `C${String(this.clientConsecutive).padStart(4, '0')}`;
-        this.clientConsecutive++;
+  export default {
+    data() {
+      return {
+        partner_cardcode: '',
+        partner_cardname: '',
+        partner_address: '',
+        partner_city: '',
+        partner_block: '',
+        partner_zipcode: '',
+        partner_state: '',
+        partner_email: '',
+        partner_phone: '',
+        partner_fax: '',
+        partner_contactPerson: '',
+        partner_balance: 0,
+        partner_creditLine: 0,
+        partner_licTradNum: '',
+        partner_listNum: '',
+        partner_slpcode: 0,
+        partner_createDate: '',
+        partner_validFor: '',
+        partner_type: '',
+        partner_bank: '',
+        partner_bankAccount: 0,
+        partner_conditionPay: '',
+        partner_methodPay: '',
+        Formapago: ['Efectivo', 'Transferencia', 'Tarjeta de Crédito', 'Cancelado'],
+        condicionespago: ['Contado', 'Credito'],
+        bancos: ['BBVA', 'EUROS', 'USD', 'BASE', 'Banamex', 'CI BANCO', 'MONEX'],
+        tipo: [
+          { value: 'C', text: 'Cliente' },
+          { value: 'P', text: 'Provedor' },
+        ],
+        pricelist: [
+           'Clientes lista' ,
+           'Provedor lista' ,
+        ],
+        status: [
+          { text: 'ACTIVO', value: 'Y' },
+          { text: 'INACTIVO', value: 'N' },
+        ],
+        clientConsecutive: 1,
+        providerConsecutive: 1,
+      };
+    },
+    methods: {
+      async submitForm() {
+        const token = localStorage.getItem('token');
+        this.partner_createDate = new Date().toISOString().split('T')[0];
+        if (this.partner_type === 'C') {
+          this.partner_cardcode = `C${String(this.clientConsecutive).padStart(4, '0')}`;
+          this.clientConsecutive++;
 
       } else if (this.partner_type === 'P') {
         this.partner_cardcode = `P${String(this.providerConsecutive).padStart(4, '0')}`;
