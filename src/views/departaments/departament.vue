@@ -24,7 +24,6 @@
       </div>
     </div>
 
-    <hr class="p-8"></hr>
     <div>
       <h2 class="text-xl font-bold mb-4 text-center">Catálogo De Departamentos</h2>
       <div class="overflow-x-auto">
@@ -112,15 +111,29 @@ export default {
     },
 
     async getDepartments() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        Swal.fire({
+          title: 'Error',
+          text: 'Token no encontrado',
+          icon: 'error',
+        });
+        return;
+      }
       try {
-        const response = await axios.get('http://localhost:3000/departments');
-        if (response) {
+        const response = await axios.get('http://localhost:3000/departments', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        if (response && response.status === 200) {
           this.departments = response.data;
         } else {
-          throw new Error('No se pudo obtener la lista de departamentos');
+          throw new Error('Respuesta inesperada del servidor');
         }
-      } catch (error) {
-        console.error('Error:', error);
+      } 
+      catch (error) {
+        console.error('Error al obtener los departamentos:', error);
         Swal.fire({
           title: 'Error',
           text: 'No se pudo obtener la lista de departamentos',
