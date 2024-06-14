@@ -57,11 +57,11 @@
             <input v-model="partner_licTradNum" id="partner_licTradNum" name="partner_licTradNum" type="text" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
           </div>
           <div class="mb-4">
-            <label for="partner_listNum" class="block text-sm font-medium text-gray-700">Lista de Precios Asignada a Socio de Negocios</label>
+            <label for="partner_listNum" class="block text-sm font-medium text-gray-700">Lista de Precios</label>
             <input v-model="partner_listNum" id="partner_listNum" name="partner_listNum" type="number" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
           </div>
           <div class="mb-4">
-            <label for="partner_slpcode" class="block text-sm font-medium text-gray-700">Código de Vendedor Asignado a Socio de Negocios</label>
+            <label for="partner_slpcode" class="block text-sm font-medium text-gray-700">Código de Vendedor</label>
             <input v-model="partner_slpcode" id="partner_slpcode" name="partner_slpcode" type="number" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
           </div>
           <div class="mb-4">
@@ -103,7 +103,6 @@
   export default {
     data() {
       return {
-        partner_id: '',
         partner_cardcode: '',
         partner_cardname: '',
         partner_address: '',
@@ -133,7 +132,6 @@
         //enviar form
       async submitForm() {
         const partner = {
-          partner_id: this.partner_id,
           partner_cardcode: this.partner_cardcode,
           partner_cardname: this.partner_cardname,
           partner_address: this.partner_address,
