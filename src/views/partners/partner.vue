@@ -60,7 +60,7 @@
           <div class="mb-4">
             <label for="partner_listNum" class="block text-sm font-medium text-gray-700">Lista de Precios</label>
             <select v-model="partner_listNum" id="partner_listNum" name="partner_listNum" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm">
-              <option v-for="price in pricelist" :key="price" :value="price">{{ price }}</option>
+              <option v-for="price in pricelist" :key="price.value" :value="price.value">{{ price.text }}</option>
             </select>
           </div>
           <div class="mb-4">
@@ -146,8 +146,8 @@ import Swal from 'sweetalert2';
           { value: 'P', text: 'Provedor' },
         ],
         pricelist: [
-           'Clientes lista' ,
-           'Provedor lista' ,
+          { text: 'Clientes lista', value: 0 },
+          { text: 'Proveedor lista', value: 1 }
         ],
         status: [
           { text: 'ACTIVO', value: 'Y' },
