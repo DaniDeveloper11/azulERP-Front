@@ -1,7 +1,7 @@
 <template>
-  <div v-if="showloader" class="flex justify-center w-full" >
+  <div v-if="showloader" class="flex justify-center w-full">
     <div class=" grid h-full">
-       <loader class="fixed top-1/2"></loader>
+      <loader class="fixed top-1/2"></loader>
 
     </div>
   </div>
@@ -28,7 +28,7 @@
                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Nombre
                 </th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Puesto</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Estado</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">status</th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Role</th>
                 <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
                   <span class="sr-only">Edit</span>
@@ -40,27 +40,35 @@
                 <td class="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
                   <div class="flex items-center">
                     <div class="h-11 w-11 flex-shrink-0">
-                      <img class="h-11 w-11 rounded-full" :src="person.image" alt="" />
+                      <span class="inline-block h-10 w-10 overflow-hidden rounded-full bg-gray-100">
+                        <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                          <path
+                            d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                      </span>
+                      <!-- <img class="h-11 w-11 rounded-full" :src="person.image" alt="" /> -->
                     </div>
                     <div class="ml-4">
-                      <div class="font-medium text-gray-900">{{ person.user_name }} {{ person.user_lastname }}</div>
-                      <div class="mt-1 text-gray-700">{{ person.user_nickname }}</div>
-                      <div class="mt-1 text-gray-500">{{ person.user_email }}</div>
+                      <div class="font-medium text-gray-900">{{ user.user_name }} {{ user.user_lastname }}</div>
+                      <div class="mt-1 text-gray-700">{{ user.user_nickname }}</div>
+                      <div class="mt-1 text-gray-500">{{ user.user_email }}</div>
                     </div>
                   </div>
                 </td>
                 <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                   <!-- <div class="text-gray-900">{{ person.user_role }}</div> -->
-                  <div class="mt-1 text-gray-500">{{ person.user_department }}</div>
+                  <div class="mt-1 text-gray-500">{{ user.user_position }}</div>
                 </td>
                 <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                  <span
-                    class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ person.user_state }}</span>
+                  <span :class="user.user_active == 1 ? 'text-green-700 bg-green-100' : 'text-red-500 bg-red-100'"
+                    class="inline-flex items-center rounded-md  px-2 py-1 text-xs font-medium  ring-1 ring-inset ring-green-600/20">{{
+                      user.user_active == 1 ? 'Activo' : 'Inactivo' }}</span>
                 </td>
-                <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{{ person.role }}</td>
+                <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{{ user.user_level == 1 ?
+                  'Administrativo' : user.user_level == 2 ? 'Directivo': 'Miembro' }}</td>
                 <td class="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                  <button v-on:click="editOpen = true; emptyPerson = person;"
-                    class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, {{ person.name
+                  <button v-on:click="editOpen = true; emptyPerson = user;"
+                    class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, {{ user.user_name
                       }}</span></button>
                 </td>
               </tr>
@@ -74,9 +82,10 @@
         props = emptyuser: objeto con datos del usuario
                 editOpen: bandera para abrir o cerrar el modal
       -->
-  <EditUserModal @update-value="handleUpdate" v-bind:open="editOpen" v-bind:User="emptyPerson" @close="editOpen = false"></EditUserModal>
-    <SuccesMessege  v-show="showMessage" class="fixed bottom-72 z-40"></SuccesMessege>
-  </template>
+  <EditUserModal @update-value="handleUpdate" v-bind:open="editOpen" v-bind:User="emptyPerson"
+    @close="editOpen = false"></EditUserModal>
+  <SuccesMessege v-show="showMessage" class="fixed bottom-72 z-40"></SuccesMessege>
+</template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -84,68 +93,70 @@ import EditUserModal from '../components/EditUser.vue'
 import SuccesMessege from '../components/SuccesMessege.vue';
 import loader from '@/components/LoaderCss.vue'
 import axios from '../utils/axios';
-const showloader = ref(true)
+const showloader = ref(false)
 let showMessage = ref('')
 
 // Funcion para cambiar valor del loader
 const setLoader = () => {
-  setTimeout(() =>{
+  setTimeout(() => {
     showloader.value = false
-  },3000)
+  }, 3000)
 }
 
 onMounted(async () => {
-  setLoader();
+  // setLoader();
+  getUsers();
+
 })
 
 const handleUpdate = (value) => {
   showMessage.value = value;
   setTimeout(() => {
-      showMessage.value = false
-    },3000)
+    showMessage.value = false
+  }, 3000)
 };
 
 
 const users = ref([]);
-  // {
-  //   user_name: 'Paulina',
-  //   user_lastname: 'Velador',
-  //   user_nickname:' Manager',
-  //   user_phone:3314857062,
-  //   user_password:'villamontes11',
-  //   user_addres:'Guadalupe victoria #12',
-  //   state:"Jalisco",
-  //   user_department: 'Optimization',
-  //   user_email: 'Paulina.Velador@AgaveAzul.com',
-  //   role: 'Directivo',
-  //   user_image:
-  //     'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-  //   user_state: 1,
-  //   constry:'Mexico',
-  //   city:'Guadalajara',
-  //   cp:46560
-  // },
+// {
+//   user_name: 'Paulina',
+//   user_lastname: 'Velador',
+//   user_nickname:' Manager',
+//   user_phone:3314857062,
+//   user_password:'villamontes11',
+//   user_addres:'Guadalupe victoria #12',
+//   state:"Jalisco",
+//   user_department: 'Optimization',
+//   user_email: 'Paulina.Velador@AgaveAzul.com',
+//   role: 'Directivo',
+//   user_image:
+//     'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+//   user_state: 1,
+//   constry:'Mexico',
+//   city:'Guadalajara',
+//   cp:46560
+// },
 
-  // More people...
+// More people...
 
 
 const emptyPerson = ref({
-   user_name: '',
-    user_lastname: '',
-    user_nickname:'',
-    user_phone:null,
-    user_password:'',
-    user_addres:'',
-    state:'',
-    user_department: '',
-    user_email: '',
-    role: '',
-    user_image:
-      '',
-    user_state: null,
-    constry:'',
-    city:'',
-    cp:null,
+  user_name: '',
+  user_lastname: '',
+  user_nickname: '',
+  user_phone: null,
+  user_password: '',
+  user_addres: '',
+  state: '',
+  user_department: '',
+  user_email: '',
+  role: '',
+  user_image:
+    '',
+  user_state: null,
+  constry: '',
+  city: '',
+  cp: null,
 })
 
 const editOpen = ref(false)
@@ -156,8 +167,8 @@ const editOpen = ref(false)
 const getUsers = async () => {
   const token = localStorage.getItem('token');
   try {
-    const response = await axios.get('http://localhost:3000/users',{
-      Authorization:`Bearer ${token}`
+    const response = await axios.get('http://localhost:3000/users', {
+      Authorization: `Bearer ${token}`
     });
     users.value = response.data;
     console.log(response.data) // Suponiendo que la API devuelve un array de socios
@@ -170,9 +181,6 @@ const getUsers = async () => {
     // });
   }
 };
-onMounted(() => {
-  getUsers()
-})
+
 
 </script>
-
