@@ -1,8 +1,22 @@
 <template>
-  <div>
-    <button @click="openModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+  <div v-if="showloader" class="flex justify-center w-full">
+    <div class=" grid h-full">
+      <loader class="fixed top-1/2"></loader>
+    </div>
+  </div>
+
+  <div v-else>
+    <div class="sm:flex sm:items-center">
+      <div class="sm:flex-auto">
+        <h1 class="text-base font-semibold leading-6 text-gray-900">Departamentos</h1>
+        <p class="mt-2 text-sm text-gray-700">Consulta el listado de departamentos previamente creados, ademas de la posibilidad de crear un nuevo departamento </p>
+      </div>
+      <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+        <button @click="openModal" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
       Crear Departamento
     </button>
+      </div>
+    </div>
 
     <div v-if="showModal" class="fixed inset-0 overflow-y-auto flex items-center justify-center z-50">
       <div class="fixed inset-0 bg-gray-900 bg-opacity-70"></div>
@@ -24,8 +38,7 @@
       </div>
     </div>
 
-    <div>
-      <h2 class="text-xl font-bold mb-4 text-center">Catálogo De Departamentos</h2>
+    <div class="mt-14">
       <div class="overflow-x-auto">
         <table class="table-auto border-collapse w-full">
           <thead>
@@ -54,6 +67,7 @@
 import useAuthStore from '../../store/auth.js';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import loader from '../../components/LoaderCss.vue'
 
 export default {
   data() {
@@ -63,6 +77,7 @@ export default {
       showModal: false,
       departments: [],
       users: [],
+      showloader: false,
     };
   },
 
@@ -79,7 +94,7 @@ export default {
         department_create: this.department_create,
         user_create: user_id,
       };
-
+      this.showloader = true; // Mostrar loader al iniciar la consulta
       try {
         const response = await fetch('http://localhost:3000/departments', {
           method: 'POST',
@@ -107,6 +122,9 @@ export default {
           text: 'No se pudo crear departamento',
           icon: 'error'
         });
+      }
+      finally{
+        this.showloader = false
       }
     },
 
