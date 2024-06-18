@@ -119,24 +119,7 @@ const handleUpdate = (value) => {
 
 const users = ref([]);
 
-const emptyPerson = ref({
-  user_name: '',
-  user_lastname: '',
-  user_nickname: '',
-  user_phone: null,
-  user_password: '',
-  user_addres: '',
-  state: '',
-  user_department: '',
-  user_email: '',
-  role: '',
-  user_image:
-    '',
-  user_state: null,
-  constry: '',
-  city: '',
-  cp: null,
-})
+const emptyPerson = ref({})
 
 const editOpen = ref(false)
 
