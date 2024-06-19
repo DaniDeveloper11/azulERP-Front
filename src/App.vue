@@ -231,30 +231,26 @@ const logout = () => {
 const navigation = [
   { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
   { name: 'Usuarios', to: '/users', icon: UserIcon, current: false, },
-  { name: 'Departamentos', to: '/departaments', icon: HomeModernIcon, current: false, },
-  { name: 'Socios de negocio', to: '/partnerlist', icon: UserGroupIcon, current: false, },
+  { name: 'Departamentos', to: '/departments', icon: HomeModernIcon, current: false, },
+  { name: 'Proveedores', to: '/proveedors', icon: UserGroupIcon, current: false, },
   {
-    name: 'Requisiciones',
-    // to: '/requisionesAdmin',
+    name: 'Solicitud de compra',
     icon: FolderIcon,
     current: false,
     children:
       [
-        { name: 'Solicitar Requisicion', href: '/solicitarRequisicion' },
-        { name: 'Listado', href: '/listaRequisiciones' },
-        // { name: 'Customer Success', href: '#' },
+        { name: 'Crear solicitud de compra', href: '/solicitarRequisicion' },
+        { name: 'Mis solicitudes de compra', href: '/listaRequisiciones' },
       ]
   },
   {
     name: 'Orden de Compra',
-    // to: '/requisionesAdmin',
     icon: FolderIcon,
     current: false,
     children:
       [
-        { name: 'Generar Orden de Compra', href: '/makeBuyOrder' },
-        // { name: 'Listado', href: '#' },
-        // { name: 'Customer Success', href: '#' },
+        { name: 'Crear orden de compra', href: '/makeBuyOrder' },
+        { name: 'Mis órdenes de compra', href: '#' },
       ]
   },
   { name: 'Reportes', to: '/reports', icon: ChartPieIcon, current: false },
