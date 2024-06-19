@@ -1,37 +1,30 @@
 <template>
-
-<div v-if="showloader" class="flex justify-center w-full">
-    <div class=" grid h-full">
+  <div v-if="showloader" class="flex justify-center w-full">
+    <div class="grid h-full">
       <loader class="fixed top-1/2"></loader>
     </div>
   </div>
 
   <div v-else class="space-y-12 sm:space-y-16">
-    <div
-      class="mt-10 space-y-8 border-b border-gray-900/10 pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0">
+    <div class="mt-10 space-y-8 border-b border-gray-900/10 pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0">
       <h2 class="text-base font-semibold leading-7 text-gray-900">Crear Socio de Negocios</h2>
-      <p class="mt-1 text-sm leading-6 text-gray-600">Esta informacion sera vista por Directivos y Administrativos.
-        </p>
+      <p class="mt-1 text-sm leading-6 text-gray-600">Esta información será vista por Directivos y Administrativos.</p>
 
       <form @submit.prevent="submitForm">
-
         <div class="mt-4 sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
           <label for="partner_cardname" class="block text-sm font-medium text-gray-700">Nombre</label>
           <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div
-              class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-              <input v-model="partner_cardname" id="partner_cardname" name="partner_cardname" type="text"
-                class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
+            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+              <input v-model="partner_cardname" id="partner_cardname" name="partner_cardname" type="text" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
             </div>
           </div>
         </div>
+
         <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
           <label for="partner_address" class="block text-sm font-medium text-gray-700">Dirección</label>
           <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div
-              class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-              <input v-model="partner_address" id="partner_address" name="partner_address" type="text"
-                class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
+            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+              <input v-model="partner_address" id="partner_address" name="partner_address" type="text" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
             </div>
           </div>
         </div>
@@ -39,10 +32,8 @@
         <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
           <label for="partner_city" class="block text-sm font-medium text-gray-700">Ciudad</label>
           <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div
-              class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-              <input v-model="partner_city" id="partner_city" name="partner_city" type="text"
-                class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
+            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+              <input v-model="partner_city" id="partner_city" name="partner_city" type="text" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
             </div>
           </div>
         </div>
@@ -50,10 +41,8 @@
         <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
           <label for="partner_block" class="block text-sm font-medium text-gray-700">Colonia</label>
           <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div
-              class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-              <input v-model="partner_block" id="partner_block" name="partner_block" type="text"
-                class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
+            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+              <input v-model="partner_block" id="partner_block" name="partner_block" type="text" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
             </div>
           </div>
         </div>
@@ -61,10 +50,8 @@
         <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
           <label for="partner_zipcode" class="block text-sm font-medium text-gray-700">Código Postal</label>
           <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div
-              class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-              <input v-model="partner_zipcode" id="partner_zipcode" name="partner_zipcode" type="text"
-                class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
+            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+              <input v-model="partner_zipcode" id="partner_zipcode" name="partner_zipcode" type="text" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
             </div>
           </div>
         </div>
@@ -72,10 +59,8 @@
         <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
           <label for="partner_state" class="block text-sm font-medium text-gray-700">Estado</label>
           <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div
-              class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-              <input v-model="partner_state" id="partner_state" name="partner_state" type="text"
-                class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
+            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+              <input v-model="partner_state" id="partner_state" name="partner_state" type="text" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
             </div>
           </div>
         </div>
@@ -83,10 +68,8 @@
         <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
           <label for="partner_email" class="block text-sm font-medium text-gray-700">Email</label>
           <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div
-              class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-              <input v-model="partner_email" id="partner_email" name="partner_email" type="email"
-                class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
+            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+              <input v-model="partner_email" id="partner_email" name="partner_email" type="email" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
             </div>
           </div>
         </div>
@@ -94,10 +77,8 @@
         <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
           <label for="partner_phone" class="block text-sm font-medium text-gray-700">Teléfono</label>
           <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div
-              class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-              <input v-model="partner_phone" id="partner_phone" name="partner_phone" type="text"
-                class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
+            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+              <input v-model="partner_phone" id="partner_phone" name="partner_phone" type="text" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
             </div>
           </div>
         </div>
@@ -105,10 +86,8 @@
         <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
           <label for="partner_fax" class="block text-sm font-medium text-gray-700">Fax</label>
           <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div
-              class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-              <input v-model="partner_fax" id="partner_fax" name="partner_fax" type="text"
-                class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
+            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+              <input v-model="partner_fax" id="partner_fax" name="partner_fax" type="text" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
             </div>
           </div>
         </div>
@@ -116,10 +95,17 @@
         <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
           <label for="partner_contactPerson" class="block text-sm font-medium text-gray-700">Persona de Contacto</label>
           <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div
-              class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-              <input v-model="partner_contactPerson" id="partner_contactPerson" name="partner_contactPerson" type="text"
-                class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
+            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+              <input v-model="partner_contactPerson" id="partner_contactPerson" name="partner_contactPerson" type="text" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
+            </div>
+          </div>
+        </div>
+
+        <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
+          <label for="partner_notes" class="block text-sm font-medium text-gray-700">Notas</label>
+          <div class="mt-2 sm:col-span-2 sm:mt-0">
+            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+              <input v-model="partner_notes" id="partner_notes" name="partner_notes" type="text" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
             </div>
           </div>
         </div>
@@ -127,22 +113,8 @@
         <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
           <label for="partner_balance" class="block text-sm font-medium text-gray-700">Saldo en Cuenta</label>
           <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div
-              class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-              <input v-model="partner_balance" id="partner_balance" name="partner_balance" type="number" step="0.01"
-                class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
-            </div>
-          </div>
-        </div>
-
-
-        <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
-          <label for="partner_balance" class="block text-sm font-medium text-gray-700">Saldo en Cuenta</label>
-          <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div
-              class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-              <input v-model="partner_balance" id="partner_balance" name="partner_balance" type="number" step="0.01"
-                class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
+            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+              <input v-model="partner_balance" id="partner_balance" name="partner_balance" type="number" step="0.01" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
             </div>
           </div>
         </div>
@@ -150,100 +122,21 @@
         <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
           <label for="partner_licTradNum" class="block text-sm font-medium text-gray-700">RFC o CURP</label>
           <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div
-              class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-              <input v-model="partner_licTradNum" id="partner_licTradNum" name="partner_licTradNum" type="text"
-                class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
+            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+              <input v-model="partner_licTradNum" id="partner_licTradNum" name="partner_licTradNum" type="text" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
             </div>
           </div>
         </div>
 
-          <div class="mb-4">
-            <label for="partner_listNum" class="block text-sm font-medium text-gray-700">Lista de Precios</label>
-            <select v-model="partner_listNum" id="partner_listNum" name="partner_listNum" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm">
-              <option v-for="price in pricelist" :key="price" :value="price">{{ price }}</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
-          <label for="partner_slpcode" class="block text-sm font-medium text-gray-700">Código de Vendedor</label>
-          <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div
-              class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-              <input v-model="partner_slpcode" id="partner_slpcode" name="partner_slpcode" type="number"
-                class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
-            </div>
-          </div>
-        </div>
-
-        <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
-          <label for="partner_bankAccount" class="block text-sm font-medium text-gray-700">Número de Cuenta </label>
-          <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div
-              class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-              <input v-model="partner_bankAccount" id="partner_bankAccount" name="partner_bankAccount" type="text"
-                class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
-            </div>
-          </div>
-        </div>
-
-        <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
-          <label for="partner_conditionPay" class="block text-sm font-medium text-gray-700">Condiciones de Pago</label>
-          <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div
-              class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-              <select v-model="partner_conditionPay" id="partner_conditionPay" name="partner_conditionPay"
-                class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm">
-                <option v-for="condition in condicionespago" :key="condition" :value="condition">{{ condition }}
-                </option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
-          <label for="partner_methodPay" class="block text-sm font-medium text-gray-700">Forma de Pago</label>
-          <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div
-              class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-              <select v-model="partner_methodPay" id="partner_methodPay" name="partner_methodPay"
-                class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm">
-                <option v-for="method in Formapago" :key="method" :value="method">{{ method }}</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
-          <label for="partner_type" class="block text-sm font-medium text-gray-700">Tipo</label>
-          <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div
-              class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-              <select v-model="partner_type" id="partner_type" name="partner_type"
-                class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm">
-                <option v-for="type in tipo" :key="type" :value="type.value">{{ type.text }}</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
-          <label for="partner_validFor" class="block text-sm font-medium text-gray-700">Estado del cliente</label>
-          <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div
-              class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-              <select v-model="partner_validFor" id="partner_validFor" name="partner_validFor"
-                class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm">
-                <option v-for="state in status" :key="state.value" :value="state.value">{{ state.text }}</option>
-              </select>
-            </div>
-          </div>
+        <div class="mb-4">
+          <label for="partner_listNum" class="block text-sm font-medium text-gray-700">Lista de Precios</label>
+          <select v-model="partner_listNum" id="partner_listNum" name="partner_listNum" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm">
+            <option v-for="price in pricelist" :key="price.value" :value="price.value">{{ price.text }}</option>
+          </select>
         </div>
 
         <div class="mt-6 flex items-center justify-end gap-x-6">
-          <button type="submit"
-          class="inline-flex justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+          <button type="submit" class="inline-flex justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
             Guardar
           </button>
         </div>
@@ -290,8 +183,8 @@ import Swal from 'sweetalert2';
           { value: 'P', text: 'Provedor' },
         ],
         pricelist: [
-           'Clientes lista' ,
-           'Provedor lista' ,
+          { text: 'Clientes lista', value: 0 },
+          { text: 'Proveedor lista', value: 1 }
         ],
         status: [
           { text: 'ACTIVO', value: 'Y' },
