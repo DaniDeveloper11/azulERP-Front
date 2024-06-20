@@ -45,38 +45,51 @@
             <tr>
               <th class="border px-4 py-2">ID</th>
               <th class="border px-4 py-2">Nombre del Departamento</th>
-              <th class="border px-4 py-2">Sub-Departamentos</th>
+              <th class="border px-4 py-2">SubDepartamentos</th>
+              <th class="border px-4 py-2">Lista</th>
             </tr>
           </thead>
-          <tbody>
-            <tr v-for="(department, index) in departments" :key="index" @click="toggleSubDepartment(index)">
-              <td class="border px-4 py-2 text-center">{{ department.department_id }}</td>
-              <td class="border px-4 py-2 text-center">{{ department.department_name }}</td>
-              <td class="border px-4 py-2">
-                <div class="space-x-4 text-center">
-                  <div class="inline-block">
-                    <button @click="openModal" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                      Crear
-                    </button>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr v-if="expandedRow === index" :key="'sub-' + index">
-              <td colspan="3" class="border px-4 py-2 text-center bg-gray-100">
-                <p>Sub-Departamento Harcodeado</p>
-              </td>
-               <td colspan="3" class="border px-4 py-2 text-center bg-gray-100">
-                <p>Sub-Departamento Harcodeado</p>
-              </td>
-            </tr>
-          </tbody>
+<tbody>
+  <tr v-for="(department, index) in departments" :key="index" @click="toggleSubDepartment(index, department.id)" :class="{ 'bg-gray-200': expandedRow === index }">
+    <td class="border px-4 py-2 text-center">{{ department.id }}</td>
+    <td class="border px-4 py-2 text-center">{{ department.name }}</td>
+    <td class="border px-4 py-2 text-center"><button @click="openSubDepartmentModal(department.id)" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+     Añadir
+    </button></td>
+    <td class="border px-4 py-2">
+      <div v-if="expandedRow === index">
+        <ul>
+          <li v-for="subdepartment in department.subdepartments" :key="subdepartment.id">{{ subdepartment.name }}</li>
+        </ul>
+      </div>
+    </td>
+  </tr>
+</tbody>
         </table>
       </div>
+      
+    </div>
+  </div>
+  <div v-if="showSubDepartmentModal" class="fixed inset-0 overflow-y-auto flex items-center justify-center z-50">
+    <div class="fixed inset-0 bg-gray-900 bg-opacity-70"></div>
+
+    <div class="relative bg-white rounded-lg p-8 max-w-md mx-auto">
+      <h2 class="text-xl font-bold mb-6 text-center">Crear Sub-Departamento</h2>
+      <form @submit.prevent="submitSubDepartmentForm">
+        <div class="mb-6">
+          <label for="subdepartment_name" class="block text-sm font-medium text-gray-700">Nombre del Sub-Departamento</label>
+          <input v-model="subdepartment_name" id="subdepartment_name" name="subdepartment_name" type="text" required class="mt-2 px-8 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
+        </div>
+        <div>
+          <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Insertar
+          </button>
+        </div>
+      </form>
+      <button @click="closeSubDepartmentModal" class="absolute top-0 right-0 m-4 text-gray-500 hover:text-gray-900">&times;</button>
     </div>
   </div>
 </template>
-
 <script>
 import useAuthStore from '../../store/auth.js';
 import axios from 'axios';
@@ -91,12 +104,17 @@ export default {
   data() {
     return {
       department_name: '',
+      showSubDepartmentModal: false,
+      subdepartment_name: '',
       department_create: '',
       showModal: false,
       departments: [],
       users: [],
       showloader: false,
+      expandedRows: [],
       expandedRow: null,
+      subdepartments: [],
+      selectedDepartmentId: null,
     };
   },
   created() {
@@ -105,12 +123,13 @@ export default {
   },
   methods: {
     async submitForm() {
+      const token = localStorage.getItem('token');
       const authStore = useAuthStore();
       const user_id = authStore.user ? authStore.user.user_id : null;
 
-      const department = {
-        department_name: this.department_name,
-        department_create: this.department_create,
+      const departments = {
+        name: this.department_name,
+        date_create: this.department_create,
         user_create: user_id,
       };
       this.showloader = true;
@@ -118,11 +137,13 @@ export default {
         const response = await fetch('http://localhost:3000/departments', {
           method: 'POST',
           headers: {
+            Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(department),
-        });
 
+          },
+          body: JSON.stringify(departments),
+        });
+        console.log(response);
         if (response.ok) {
           Swal.fire({
             title: 'Correcto',
@@ -212,10 +233,86 @@ export default {
     closeModal() {
       this.showModal = false;
     },
+    openSubDepartmentModal(departmentId) {
+  this.selectedDepartmentId = departmentId;
+  this.showSubDepartmentModal = true;
+  console.log(departmentId);
+},
 
-    toggleSubDepartment(index) {
+    closeSubDepartmentModal() {
+      this.showSubDepartmentModal = false;
+    },
+    async submitSubDepartmentForm() {
+      console.log(this.selectedDepartmentId);
+  const token = localStorage.getItem('token');
+  const authStore = useAuthStore();
+  const user_id = authStore.user ? authStore.user.user_id : null;
+
+  const subdepartments = {
+    name: this.subdepartment_name,
+    date_create: this.department_create,
+    user_create: user_id,
+    id_department: this.selectedDepartmentId,
+  };
+  this.showloader = true;
+  try {
+    const response = await fetch('http://localhost:3000/subdepartments', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+
+      },
+      body: JSON.stringify(subdepartments),
+    });
+    console.log(response);
+    if (response.ok) {
+      Swal.fire({
+        title: 'Correcto',
+        text: 'Sub-Departamento creado correctamente',
+        icon: 'success',
+      });
+      this.getDepartments();
+      this.subdepartment_name = '';
+      this.department_create = new Date().toISOString().split('T')[0];
+      this.showSubDepartmentModal = false; // Cerrar el modal después de la creación
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    Swal.fire({
+      title: 'Error',
+      text: 'No se pudo crear sub-departamento',
+      icon: 'error',
+    });
+  } finally {
+    this.showloader = false;
+  }
+},
+ 
+
+    async toggleSubDepartment(index, departmentId) {
+      const token = localStorage.getItem('token');
+      
       this.expandedRow = this.expandedRow === index ? null : index;
-      console.log(index);
+      if (this.expandedRow !== null) {
+        try {
+          const response = await axios.get(`http://localhost:3000/departments/${departmentId}/subdepartments`,{
+            headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          });
+          if (response.data) {
+            this.subdepartments = response.data;
+          }
+        } catch (error) {
+          console.error('Error al obtener los subdepartamentos:', error);
+          Swal.fire({
+            title: 'Error',
+            text: 'No se pudo obtener la lista de subdepartamentos',
+            icon: 'error',
+          });
+        }
+      }
     },
   },
 
