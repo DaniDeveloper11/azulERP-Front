@@ -47,15 +47,15 @@ const router = createRouter({
       meta: { requiresAuth: true } 
     },
     {
-      path: '/solicitarRequisicion',
-      name: 'solicitarRequisicion',
-      component: () => import('../views/Requisiones/SolicitarRequisicion.vue'),
+      path: '/requestPurchase',
+      name: 'requestPurchase',
+      component: () => import('../views/RequestPurchases/RequestPurchases.vue'),
       meta: { requiresAuth: true } 
     },
     {
-      path: '/listaRequisiciones',
-      name: 'listaRequisiciones',
-      component: () => import('../views/Requisiones/ListaRequisiciones.vue'),
+      path: '/listRequest',
+      name: 'listRequest',
+      component: () => import('../views/RequestPurchases/ListRequest.vue'),
       meta: { requiresAuth: true } 
     },
     {
@@ -71,9 +71,9 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/makeBuyOrder',
-      name: 'makeBuyOrder',
-      component: () => import('../views/BuyOrder/MakeBuyOrder.vue'),
+      path: '/orderPurchase',
+      name: 'orderPurchase',
+      component: () => import('../views/OrderPurchases/OrderPurchases.vue'),
       meta: { requiresAuth: true }
     },
     {
@@ -83,9 +83,9 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/addproveedor',
-      name: 'addproveedor',
-      component: () => import('../views/Proveedors/AddProveedor.vue'),
+      path: '/addproveedors',
+      name: 'addproveedors',
+      component: () => import('../views/Proveedors/AddProveedors.vue'),
       meta: { requiresAuth: true }
     }
   ]
