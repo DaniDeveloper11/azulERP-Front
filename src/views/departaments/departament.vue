@@ -1,6 +1,6 @@
 <template>
   <div v-if="showloader" class="flex justify-center w-full">
-    <div class=" grid h-full">
+    <div class="grid h-full">
       <loader class="fixed top-1/2"></loader>
     </div>
   </div>
@@ -9,12 +9,12 @@
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
         <h1 class="text-base font-semibold leading-6 text-gray-900">Departamentos</h1>
-        <p class="mt-2 text-sm text-gray-700">Consulta el listado de departamentos previamente creados, ademas de la posibilidad de crear un nuevo departamento </p>
+        <p class="mt-2 text-sm text-gray-700">Consulta el listado de departamentos previamente creados, además de la posibilidad de crear un nuevo departamento</p>
       </div>
       <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
         <button @click="openModal" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-      Crear Departamento
-    </button>
+          Crear Departamento
+        </button>
       </div>
     </div>
 
@@ -40,21 +40,35 @@
 
     <div class="mt-14">
       <div class="overflow-x-auto">
-        <table class="table-auto border-collapse w-full">
-          <thead>
+        <table class="border-collapse border border-green-800">
+          <thead class="border-b border-neutral-200 bg-[#332D2D] font-medium text-white dark:border-white/10">
             <tr>
               <th class="border px-4 py-2">ID</th>
               <th class="border px-4 py-2">Nombre del Departamento</th>
-              <th class="border px-4 py-2">Fecha de Creación</th>
-              <th class="border px-4 py-2">Usuario que Creó</th>
+              <th class="border px-4 py-2">Sub-Departamentos</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(department, index) in departments" :key="index">
-              <td class="border px-4 py-2">{{ department.department_id }}</td>
-              <td class="border px-4 py-2">{{ department.department_name }}</td>
-              <td class="border px-4 py-2">{{ department.department_create }}</td>
-              <td class="border px-4 py-2">{{ getUserName(department.user_create) }}</td>
+            <tr v-for="(department, index) in departments" :key="index" @click="toggleSubDepartment(index)">
+              <td class="border px-4 py-2 text-center">{{ department.department_id }}</td>
+              <td class="border px-4 py-2 text-center">{{ department.department_name }}</td>
+              <td class="border px-4 py-2">
+                <div class="space-x-4 text-center">
+                  <div class="inline-block">
+                    <button @click="openModal" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                      Crear
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr v-if="expandedRow === index" :key="'sub-' + index">
+              <td colspan="3" class="border px-4 py-2 text-center bg-gray-100">
+                <p>Sub-Departamento Harcodeado</p>
+              </td>
+               <td colspan="3" class="border px-4 py-2 text-center bg-gray-100">
+                <p>Sub-Departamento Harcodeado</p>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -67,9 +81,13 @@
 import useAuthStore from '../../store/auth.js';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import loader from '../../components/LoaderCss.vue'
+import loader from '../../components/LoaderCss.vue';
+import { Collapse, Ripple, initTWE } from "tw-elements";
 
 export default {
+  components: {
+    loader,
+  },
   data() {
     return {
       department_name: '',
@@ -78,11 +96,12 @@ export default {
       departments: [],
       users: [],
       showloader: false,
+      expandedRow: null,
     };
   },
-
   created() {
     this.department_create = new Date().toISOString().split('T')[0];
+    initTWE({ Collapse, Ripple });
   },
   methods: {
     async submitForm() {
@@ -94,7 +113,7 @@ export default {
         department_create: this.department_create,
         user_create: user_id,
       };
-      this.showloader = true; // Mostrar loader al iniciar la consulta
+      this.showloader = true;
       try {
         const response = await fetch('http://localhost:3000/departments', {
           method: 'POST',
@@ -108,7 +127,7 @@ export default {
           Swal.fire({
             title: 'Correcto',
             text: 'Departamento creado correctamente',
-            icon: 'success'
+            icon: 'success',
           });
           this.getDepartments();
           this.department_name = '';
@@ -120,11 +139,10 @@ export default {
         Swal.fire({
           title: 'Error',
           text: 'No se pudo crear departamento',
-          icon: 'error'
+          icon: 'error',
         });
-      }
-      finally{
-        this.showloader = false
+      } finally {
+        this.showloader = false;
       }
     },
 
@@ -141,16 +159,15 @@ export default {
       try {
         const response = await axios.get('http://localhost:3000/departments', {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
         if (response && response.status === 200) {
           this.departments = response.data;
         } else {
           throw new Error('Respuesta inesperada del servidor');
         }
-      } 
-      catch (error) {
+      } catch (error) {
         console.error('Error al obtener los departamentos:', error);
         Swal.fire({
           title: 'Error',
@@ -165,8 +182,8 @@ export default {
       try {
         const response = await axios.get('http://localhost:3000/users', {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
         if (response.data) {
           this.users = response.data;
@@ -194,7 +211,12 @@ export default {
 
     closeModal() {
       this.showModal = false;
-    }
+    },
+
+    toggleSubDepartment(index) {
+      this.expandedRow = this.expandedRow === index ? null : index;
+      console.log(index);
+    },
   },
 
   mounted() {

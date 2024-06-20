@@ -135,18 +135,6 @@
           </div>
         </div>
 
-
-        <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
-          <label for="partner_balance" class="block text-sm font-medium text-gray-700">Saldo en Cuenta</label>
-          <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div
-              class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-              <input v-model="partner_balance" id="partner_balance" name="partner_balance" type="number" step="0.01"
-                class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
-            </div>
-          </div>
-        </div>
-
         <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
           <label for="partner_licTradNum" class="block text-sm font-medium text-gray-700">RFC o CURP</label>
           <div class="mt-2 sm:col-span-2 sm:mt-0">
@@ -164,7 +152,7 @@
               <option v-for="price in pricelist" :key="price" :value="price">{{ price }}</option>
             </select>
           </div>
-        </div>
+      
 
         <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
           <label for="partner_slpcode" class="block text-sm font-medium text-gray-700">Código de Vendedor</label>
@@ -200,6 +188,7 @@
               </select>
             </div>
           </div>
+        </div>
           <div class="mb-4">
             <label for="partner_bank" class="block text-sm font-medium text-gray-700">Banco</label>
             <select v-model="partner_bank" id="partner_bank" name="partner_bank" class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm">
@@ -230,8 +219,7 @@
         <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
           <label for="partner_validFor" class="block text-sm font-medium text-gray-700">Estado del cliente</label>
           <div class="mt-2 sm:col-span-2 sm:mt-0">
-            <div
-              class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
               <select v-model="partner_validFor" id="partner_validFor" name="partner_validFor"
                 class="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm">
                 <option v-for="state in status" :key="state.value" :value="state.value">{{ state.text }}</option>
@@ -239,7 +227,6 @@
             </div>
           </div>
         </div>
-
         <div class="mt-6 flex items-center justify-end gap-x-6">
           <button type="submit"
           class="inline-flex justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
@@ -249,6 +236,7 @@
       </form>
     </div>
   </div>
+
 </template>
 
 <script>
