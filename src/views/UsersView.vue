@@ -10,7 +10,7 @@
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
         <h1 class="text-base font-semibold leading-6 text-gray-900">Usuarios</h1>
-        <p class="mt-2 text-sm text-gray-700">Lista de Usuarios donde se especifica, nombre, puesto, status, role.
+        <p class="mt-2 text-sm text-gray-700">Lista de usuarios donde se especifica, nombre, puesto, status, role.
           Ademas puedes crear un nuevo usuario, editarlo y hasta eliminarlo </p>
       </div>
       <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
@@ -119,24 +119,7 @@ const handleUpdate = (value) => {
 
 const users = ref([]);
 
-const emptyPerson = ref({
-  user_name: '',
-  user_lastname: '',
-  user_nickname: '',
-  user_phone: null,
-  user_password: '',
-  user_addres: '',
-  state: '',
-  user_department: '',
-  user_email: '',
-  role: '',
-  user_image:
-    '',
-  user_state: null,
-  constry: '',
-  city: '',
-  cp: null,
-})
+const emptyPerson = ref({})
 
 const editOpen = ref(false)
 

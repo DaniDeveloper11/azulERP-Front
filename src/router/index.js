@@ -65,15 +65,9 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/departaments',
-      name: 'departaments',
-      component: () => import('../views/departaments/departament.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/partners',
-      name: 'partners',
-      component: () => import('../views/partners/partner.vue'),
+      path: '/departments',
+      name: 'departments',
+      component: () => import('../views/Departments/Departments.vue'),
       meta: { requiresAuth: true }
     },
     {
@@ -83,14 +77,12 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/partnerlist',
-      name: 'partnertlist',
-      component: () => import('../views/partners/partnerList.vue'),
+      path: '/proveedors',
+      name: 'proveedors',
+      component: () => import('../views/Proveedors/Proveedors.vue'),
       meta: { requiresAuth: true }
-    },
+    }
   ]
-  
-  
 })
 
 router.beforeEach((to, from, next) => {
