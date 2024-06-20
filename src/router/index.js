@@ -85,7 +85,7 @@ const router = createRouter({
     {
       path: '/addproveedors',
       name: 'addproveedors',
-      component: () => import('../views/Proveedors/addProveedors.vue'),
+      component: () => import('../views/Proveedors/AddProveedors.vue'),
       meta: { requiresAuth: true }
     }
   ]
