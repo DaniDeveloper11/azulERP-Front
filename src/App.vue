@@ -239,8 +239,8 @@ const navigation = [
     current: false,
     children:
       [
-        { name: 'Crear solicitud de compra', href: '/solicitarRequisicion' },
-        { name: 'Mis solicitudes de compra', href: '/listaRequisiciones' },
+        { name: 'Crear solicitud de compra', href: '/requestPurchase' },
+        { name: 'Mis solicitudes de compra', href: '/listRequest' },
       ]
   },
   {
@@ -249,7 +249,7 @@ const navigation = [
     current: false,
     children:
       [
-        { name: 'Crear orden de compra', href: '/makeBuyOrder' },
+        { name: 'Crear orden de compra', href: '/orderPurchase' },
         { name: 'Mis órdenes de compra', href: '#' },
       ]
   },

@@ -120,6 +120,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import useAuthStore from '../../store/auth.js';
 import axios from 'axios';
@@ -144,7 +145,6 @@ export default {
       departments: [],
       users: [],
       showloader: false,
-      expandedRows: [],
       expandedRow: null,
       subdepartments: [],
       selectedDepartmentId: null,
@@ -175,7 +175,6 @@ export default {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
-
           },
           body: JSON.stringify(departments),
         });
@@ -269,6 +268,7 @@ export default {
     closeModal() {
       this.showModal = false;
     },
+
     openSubDepartmentModal(departmentId) {
       this.selectedDepartmentId = departmentId;
       this.showSubDepartmentModal = true;
@@ -278,6 +278,7 @@ export default {
     closeSubDepartmentModal() {
       this.showSubDepartmentModal = false;
     },
+
     async submitSubDepartmentForm() {
       console.log(this.selectedDepartmentId);
       const token = localStorage.getItem('token');
@@ -297,7 +298,6 @@ export default {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
-
           },
           body: JSON.stringify(subdepartments),
         });
@@ -324,7 +324,6 @@ export default {
         this.showloader = false;
       }
     },
-
 
     async toggleSubDepartment(index, departmentId) {
       const token = localStorage.getItem('token');
