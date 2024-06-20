@@ -322,7 +322,7 @@ watchEffect(() => {
   }
 });
 
-
+//funtion that change the boolean value in switch element to bit value witch means true = 1 & false = 0
 const userActiveBoolean = computed({
   get() {
     return props.User.user_active === 1;
