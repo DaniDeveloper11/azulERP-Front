@@ -1,6 +1,14 @@
 <template>
-  <TransitionRoot as="template" :show="open">
-    <Dialog class="relative z-10" @close="open = false">
+
+  <div v-if="showloader" class="flex justify-center w-full">
+    <div class=" grid h-full">
+      <loader class="fixed top-1/2"></loader>
+    </div>
+  </div>
+
+
+  <TransitionRoot v-else as="template" :show="open">
+    <Dialog class="relative z-10" @close="emit('update-value', false)">
       <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100"
         leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
@@ -16,7 +24,7 @@
             <DialogPanel
               class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-20 text-left shadow-xl transition-all sm:my-20 sm:w-auto sm:p-6">
               <!-- <h1>{{ User.name }}</h1> -->
-              <form>
+              <form @submit.prevent="Update">
                 <div class="space-y-12">
                   <div class="border-b border-gray-900/10 pb-12">
                     <h2 class="text-base font-semibold leading-7 text-gray-900">Perfil</h2>
@@ -133,19 +141,6 @@
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                         </div>
                       </div>
-
-                      <!-- <div class="sm:col-span-3">
-                          <label for="country" class="block text-sm font-medium leading-6 text-gray-900">Pais</label>
-                          <div class="mt-2">
-                            <select v-model="User.constry" id="country" name="country" autocomplete="country-name"
-                              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                              <option>United States</option>
-                              <option>Canada</option>
-                              <option>Mexico</option>
-                            </select>
-                          </div>
-                        </div> -->
-
                       <div class="col-span-full">
                         <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">Domicilio
                           (calle y
@@ -175,15 +170,6 @@
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                         </div>
                       </div>
-
-                      <!-- <div class="sm:col-span-2">
-                          <label for="postal-code" class="block text-sm font-medium leading-6 text-gray-900">Codigo
-                            Postal</label>
-                          <div class="mt-2">
-                            <input v-model="User.cp" type="text" name="postal-code" id="postal-code" autocomplete="postal-code"
-                              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                          </div>
-                        </div> -->
                     </div>
                   </div>
 
@@ -197,7 +183,7 @@
                             class="inline-flex items-center gap-x-1.5 rounded-l-md bg-indigo-600 px-3 py-2 text-white shadow-sm">
                             <CheckIcon class="-ml-0.5 h-5 w-5" aria-hidden="true" />
                             <p class="text-sm font-semibold">{{ User.user_level == 1 ? 'Administrativo' :
-                              User.user_level == 2 ? 'Directivo':'Miembro' }}</p>
+                              User.user_level == 2 ? 'Directivo' : 'Miembro' }}</p>
                           </div>
                           <ListboxButton
                             class="inline-flex items-center rounded-l-none rounded-r-md bg-indigo-600 p-2 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 focus:ring-offset-gray-50">
@@ -253,24 +239,24 @@
                         disponible o dejalo apagado para no disponible
                       </SwitchDescription>
                     </span>
-                    <Switch v-model="User.user_active"
-                      :class="[User.user_active == 1 ? 'bg-indigo-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2']">
+                    <Switch v-model="userActiveBoolean"
+                      :class="[userActiveBoolean ? 'bg-indigo-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2']">
                       <span aria-hidden="true"
-                        :class="[User.user_active == 1 ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                        :class="[userActiveBoolean ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                     </Switch>
                   </SwitchGroup>
 
                 </div>
 
                 <div class="mt-6 flex items-center justify-end gap-x-6">
-                  <button type="button"
+                  <button type="button" @click="Delete(); sendValue()"
                     class="text-sm font-semibold leading-6 text-gray-900 hover:bg-red-600 hover: px-3 py-2 hover:rounded-md hover:text-white">Eliminar
                   </button>
-                  <button v-on:click="sendValue()" type="button"
+                  <button v-on:click="sendValue()" type="submit"
                     class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Guardar</button>
                 </div>
               </form>
-              <DropZone v-bind:open="openModal" @close="openModal = false"></DropZone>
+
             </DialogPanel>
           </TransitionChild>
         </div>
@@ -279,28 +265,32 @@
   </TransitionRoot>
 </template>
 <script setup>
-import { ref, defineEmits,watchEffect } from 'vue'
+import { ref, defineEmits, watchEffect, computed } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import ListBox from '@/components/ListBox.vue'
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import DropZone from '@/components/DropZone.vue'
+import axios from '@/utils/axios'
+import Swal from 'sweetalert2';
+import loader from '../components/LoaderCss.vue'
 
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/20/solid';
 
-const props = defineProps({
+let props = defineProps({
   open: Boolean,
   User: {}
 })
 const openModal = ref(false)
-const enabled = ref(false)
+// const enabled = ref(false)
 const emit = defineEmits(['update-value']);
 
 const fileName = ref('');
 const fileUrl = ref('');
+const showloader = ref(false)
 
 const sendValue = () => {
-  emit('update-value', true)
+  emit('update-value', false)
 }
 
 const publishingOptions = ref([
@@ -314,8 +304,8 @@ function inputImage(event) {
   const file = event.target.files[0];
   if (file) {
     // user_image.value = file,
-      fileName.value = file.name;
-      // user_image.value = fileName.value;
+    fileName.value = file.name;
+    // user_image.value = fileName.value;
 
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -331,4 +321,68 @@ watchEffect(() => {
     fileName.value = props.User.user_image;
   }
 });
+
+
+const userActiveBoolean = computed({
+  get() {
+    return props.User.user_active === 1;
+  },
+  set(value) {
+    props.User.user_active = value ? 1 : 0;
+  }
+});
+
+//resquest https to server
+const Delete = async () => {
+  showloader.value = true;
+  try {
+    const response = await axios.delete(`http://localhost:3000/users/${props.User.user_id}`);
+    if (response) {
+      Swal.fire({
+        title: 'Correcto',
+        text: 'Usuario Eliminado Correctamente',
+        icon: 'success'
+      });
+
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    Swal.fire({
+      title: 'Error',
+      text: 'No se pudo Eliminar el Usuario',
+      icon: 'error'
+    });
+  } finally {
+    showloader.value = false
+
+  }
+}
+
+const Update = async () => {
+    console.log("holi")
+    try {
+      const response = await axios.put(`http://localhost:3000/users/${props.User.user_id}`, props.User, {
+      });
+      if (response) {
+      Swal.fire({
+        title: 'Correcto',
+        text: 'Usuario Actualizado Correctamente',
+        icon: 'success'
+      });
+
+    }
+
+      console.log('Respuesta del servidor:', response.data);
+    } catch(error) {
+      console.error('Error al actualizar el usuario',error);
+      Swal.fire({
+          title: 'Error',
+          text: 'No se pudo Actulizar el usuario',
+          icon: 'error'
+        });
+    } finally {
+      console.log('holi fin')
+    }
+
+  }
 </script>

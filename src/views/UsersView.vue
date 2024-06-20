@@ -84,18 +84,20 @@
       -->
   <EditUserModal @update-value="handleUpdate" v-bind:open="editOpen" v-bind:User="emptyPerson"
     @close="editOpen = false"></EditUserModal>
-  <SuccesMessege v-show="showMessage" class="fixed bottom-72 z-40"></SuccesMessege>
+  <!-- <SuccesMessege v-show="showMessage" class="fixed bottom-72 z-40"></SuccesMessege> -->
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import EditUserModal from '../components/EditUser.vue'
-import SuccesMessege from '../components/SuccesMessege.vue';
+
 import loader from '@/components/LoaderCss.vue'
 import axios from '../utils/axios';
+import { useRouter } from 'vue-router';
 const showloader = ref(false)
-let showMessage = ref('')
 
+const router = useRouter();
+const key = ref(0)
 // Funcion para cambiar valor del loader
 const setLoader = () => {
   setTimeout(() => {
@@ -110,17 +112,17 @@ onMounted(async () => {
 })
 
 const handleUpdate = (value) => {
-  showMessage.value = value;
-  setTimeout(() => {
-    showMessage.value = false
-  }, 3000)
+  // showMessage.value = value;
+  // setTimeout(() => {
+  //   showMessage.value = false
+  // }, 3000)
+  editOpen.value = value;
+
 };
 
 
 const users = ref([]);
-
 const emptyPerson = ref({})
-
 const editOpen = ref(false)
 
 // const handleUpdate = (value) => {
