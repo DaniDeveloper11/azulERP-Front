@@ -231,6 +231,7 @@ import axios from '@/utils/axios'
 import Swal from 'sweetalert2';
 import loader from '../components/LoaderCss.vue'
 
+const showloader = ref(false);
 const user_name = ref('');
 const user_lastname = ref('');
 const user_nickname = ref('');
@@ -263,7 +264,6 @@ const register = async () => {
       user_address: user_address.value,
       user_state: user_state.value,
       user_city: user_city.value,
-      user_create: user_create.value,
       user_image: user_image.value,
       user_department: user_department.value,
       user_email: user_email.value,
