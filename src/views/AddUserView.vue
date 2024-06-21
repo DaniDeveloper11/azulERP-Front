@@ -179,7 +179,7 @@
             <div class="mt-2 sm:col-span-2 sm:mt-0">
               <select v-model="user_department" id="department" name="department"
                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                <option v-for="depa in departments" :key="depa.department_id" :value='depa.department_id'> {{ depa.department_name }}</option>
+                <option v-for="depa in departments" :key="depa.id" :value='depa.id'> {{ depa.name }}</option>
               </select>
             </div>
           </div>
@@ -348,9 +348,16 @@ const dismissMessage = () => {
 
 const departments = ref([])
 const getDepartments = async () => {
+  const token = localStorage.getItem('token');
   try{
-    const response = await axios.get('http://localhost:3000/departments');
+    const response = await axios.get('http://localhost:3000/departments',{
+      headers:{
+      Authorization: `Bearer ${token}`
+      }
+
+    });
     departments.value = response.data;
+    console.log(departments)
   }catch (error){
     console.log('algo salio mal perro')
   }
