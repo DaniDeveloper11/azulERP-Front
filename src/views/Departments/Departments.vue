@@ -65,7 +65,7 @@
           :aria-labelledby="'accordion-collapse-heading-' + index">
           <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
             <div>
-              <div v-for="subdepa in department.subdepartments" :key="subdepa.id"
+              <div v-for="subdepa in department.details" :key="subdepa.id"
                 class="inline-block relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
                 <div class="flex">
                   <span>{{subdepa.name }}</span>
