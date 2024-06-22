@@ -96,13 +96,6 @@
       @close="editOpen = false">
     </EditUserModal>
   </div>
-  <!-- Modal para editar usuario selecionado 
-        props = emptyuser: objeto con datos del usuario
-                editOpen: bandera para abrir o cerrar el modal
-      -->
-  <EditUserModal @update-value="handleUpdate" v-bind:open="editOpen" v-bind:User="emptyPerson"
-    @close="editOpen = false"></EditUserModal>
-  <!-- <SuccesMessege v-show="showMessage" class="fixed bottom-72 z-40"></SuccesMessege> -->
 </template>
 
 <script setup>
