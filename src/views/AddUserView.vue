@@ -219,10 +219,6 @@
     </div>
   </form>
 
-  <!-- <DropZone v-bind:open="openModal" @close="openModal = false"></DropZone> -->
-  <SuccesMessege v-bind:message="'Usuario fue añadido con exito'" v-if="showMessage" class="fixed bottom-72 z-40">
-  </SuccesMessege>
-
 </template>
 
 <script setup>
@@ -230,41 +226,32 @@
 import { PhotoIcon, UserCircleIcon } from '@heroicons/vue/24/solid'
 import { reactive, ref,onBeforeMount, onMounted, computed } from 'vue'
 import ListBox from '@/components/ListBox.vue'
-import SuccesMessege from '@/components/SuccesMessege.vue'
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import axios from '@/utils/axios'
 import Swal from 'sweetalert2';
 import loader from '../components/LoaderCss.vue'
 
-
-const enabled = ref(false)
-let showMessage = ref(false)
-const showloader = ref(false)
-
-
-
+const showloader = ref(false);
 const user_name = ref('');
 const user_lastname = ref('');
 const user_nickname = ref('');
 const user_phone = ref('');
 const user_password = ref('');
+const confirm_password = ref('');
 const user_address = ref('');
 const user_state = ref('');
 const user_city = ref('');
 const user_create = ref('');
 const user_image = ref('');
 const user_department = ref('');
-const user_email = ref('')
+const user_email = ref('');
 const user_level = ref('');
 const user_position = ref('');
 const user_status = ref(true);
+const fileName = ref(''); 
+const fileUrl = ref(''); 
+const showMessage = ref(false); 
 
-const confirm_password = ref('');
-const fileName = ref('');
-const fileUrl = ref('');
-const errorMessage = ref('');
-
-// const user_active: computed(() => user_status.value ? 1 : 0)  
 const register = async () => {
   showloader.value = true; // Mostrar loader al iniciar la consulta
   try {
@@ -277,7 +264,6 @@ const register = async () => {
       user_address: user_address.value,
       user_state: user_state.value,
       user_city: user_city.value,
-      user_create: user_create.value,
       user_image: user_image.value,
       user_department: user_department.value,
       user_email: user_email.value,
@@ -285,7 +271,6 @@ const register = async () => {
       user_position: user_position.value,
       user_active: user_status.value ? 1 : 0,
     });
-    // router.push('/');
     if (response) {
           Swal.fire({
             title: 'Correcto',
@@ -349,52 +334,42 @@ const dismissMessage = () => {
 const departments = ref([])
 const getDepartments = async () => {
   const token = localStorage.getItem('token');
-  try{
-    const response = await axios.get('http://localhost:3000/departments',{
-      headers:{
-      Authorization: `Bearer ${token}`
+  try {
+    const response = await axios.get('http://localhost:3000/departments', {
+      headers: {
+        Authorization: `Bearer ${token}`
       }
-
     });
     departments.value = response.data;
-    console.log(departments)
-  }catch (error){
-    console.log('algo salio mal perro')
+    console.log(departments);
+  } catch (error) {
+    console.log('algo salio mal perro');
   }
 };
 
 onMounted(() =>{
   getDepartments();
-  getCurrentDate();
 })
 
-// Función para obtener la fecha actual
-const getCurrentDate = () => {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-  const day = String(now.getDate()).padStart(2, '0');
-  const formattedDate = `${year}-${month}-${day}`;
-  user_create.value = formattedDate;
-};
-
-//Resetea el valor de las variables
 const resetForm = () => {
-      user_name.value = '';
-      user_lastname.value = '';
-      user_nickname.value = '';
-      user_phone.value = '';
-      user_password.value = '';
-      user_address.value = '';
-      user_state.value = '';
-      user_city.value = '';
-      user_create.value = '';
-      user_image.value = '';
-      user_department.value = '';
-      user_email.value = '';
-      user_level.value = '';
-      user_position.value = '';
-      user_status.value = true;
-    };
+  user_name.value = '';
+  user_lastname.value = '';
+  user_nickname.value = '';
+  user_phone.value = '';
+  user_password.value = '';
+  user_address.value = '';
+  user_state.value = '';
+  user_city.value = '';
+  user_create.value = '';
+  user_image.value = '';
+  user_department.value = '';
+  user_email.value = '';
+  user_level.value = '';
+  user_position.value = '';
+  user_status.value = true;
+  confirm_password.value = '';
+  fileName.value = ''; 
+  fileUrl.value = ''; 
+};
 
 </script>
