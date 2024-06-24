@@ -285,8 +285,7 @@ export default {
       };
       this.showloader = true;
       try {
-        const response = await fetch('/subdepartments', {
-          method: 'POST',
+        const response = await axios.post('/subdepartments', {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
