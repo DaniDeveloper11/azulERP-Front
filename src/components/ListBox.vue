@@ -5,7 +5,7 @@
         <div class="inline-flex divide-x divide-indigo-700 rounded-md shadow-sm">
           <div class="inline-flex items-center gap-x-1.5 rounded-l-md bg-indigo-600 px-3 py-2 text-white shadow-sm">
             <CheckIcon class="-ml-0.5 h-5 w-5" aria-hidden="true" />
-            <p class="text-sm font-semibold">{{selected}}</p>
+            <p class="text-sm font-semibold">{{selected == 1 ? 'Administrador': selected == 2 ? 'Directivo' : 'Miembro'}}</p>
           </div>
           <ListboxButton class="inline-flex items-center rounded-l-none rounded-r-md bg-indigo-600 p-2 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 focus:ring-offset-gray-50">
             <span class="sr-only">Change published status</span>

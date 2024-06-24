@@ -211,7 +211,6 @@ export default {
         invoice: this.invoice,
         docReference: 1,
         docTotal: this.docTotal,
-        docStatus: 1,
       };
       
       try {

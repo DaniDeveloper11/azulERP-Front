@@ -42,10 +42,6 @@
           class="absolute top-0 right-0 m-4 text-gray-500 hover:text-gray-900">&times;</button>
       </div>
     </div>
-
-
-
-
     <div class="my-4" id="accordion-collapse" data-accordion="collapse">
       <div v-for="(department, index) in departments" :key="department">
         <h2 :id="'accordion-collapse-heading-' + index">
@@ -65,7 +61,7 @@
           :aria-labelledby="'accordion-collapse-heading-' + index">
           <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
             <div>
-              <div v-for="subdepa in department.subdepartments" :key="subdepa.id"
+              <div v-for="subdepa in department.details" :key="subdepa.id"
                 class="inline-block relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
                 <div class="flex">
                   <span>{{subdepa.name }}</span>
@@ -88,35 +84,31 @@
 
           </div>
         </div>
-
       </div>
-
     </div>
 
+    <div v-if="showSubDepartmentModal" class="fixed inset-0 overflow-y-auto flex items-center justify-center z-50">
+      <div class="fixed inset-0 bg-gray-900 bg-opacity-70"></div>
 
-
-  </div>
-  <div v-if="showSubDepartmentModal" class="fixed inset-0 overflow-y-auto flex items-center justify-center z-50">
-    <div class="fixed inset-0 bg-gray-900 bg-opacity-70"></div>
-
-    <div class="relative bg-white rounded-lg p-8 max-w-md mx-auto">
-      <h2 class="text-xl font-bold mb-6 text-center">Crear Sub-Departamento</h2>
-      <form @submit.prevent="submitSubDepartmentForm">
-        <div class="mb-6">
-          <label for="subdepartment_name" class="block text-sm font-medium text-gray-700">Nombre del
-            Sub-Departamento</label>
-          <input v-model="subdepartment_name" id="subdepartment_name" name="subdepartment_name" type="text" required
-            class="mt-2 px-8 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
-        </div>
-        <div>
-          <button type="submit"
-            class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            Insertar
-          </button>
-        </div>
-      </form>
-      <button @click="closeSubDepartmentModal"
-        class="absolute top-0 right-0 m-4 text-gray-500 hover:text-gray-900">&times;</button>
+      <div class="relative bg-white rounded-lg p-8 max-w-md mx-auto">
+        <h2 class="text-xl font-bold mb-6 text-center">Crear Sub-Departamento</h2>
+        <form @submit.prevent="submitSubDepartmentForm">
+          <div class="mb-6">
+            <label for="subdepartment_name" class="block text-sm font-medium text-gray-700">Nombre del
+              Sub-Departamento</label>
+            <input v-model="subdepartment_name" id="subdepartment_name" name="subdepartment_name" type="text" required
+              class="mt-2 px-8 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
+          </div>
+          <div>
+            <button type="submit"
+              class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Insertar
+            </button>
+          </div>
+        </form>
+        <button @click="closeSubDepartmentModal"
+          class="absolute top-0 right-0 m-4 text-gray-500 hover:text-gray-900">&times;</button>
+      </div>
     </div>
   </div>
 </template>
