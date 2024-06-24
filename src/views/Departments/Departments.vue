@@ -65,11 +65,6 @@
                 class="inline-block relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
                 <div class="flex">
                   <span>{{subdepa.name }}</span>
-                  <svg  @click="deleteSubdepartment(subdepa.id)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                  stroke-width="1.5" stroke="currentColor" class="size-6 opacity-25 hover:opacity-100 text-red-500 mx-2">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                </svg>
                 </div>
 
             </div>
@@ -170,7 +165,6 @@ export default {
           },
           body: JSON.stringify(departments),
         });
-        console.log(response);
         if (response.ok) {
           Swal.fire({
             title: 'Correcto',
@@ -193,7 +187,6 @@ export default {
         this.showloader = false;
       }
     },
-
     async getDepartments() {
       const token = localStorage.getItem('token');
       if (!token) {
@@ -212,6 +205,14 @@ export default {
         });
         if (response && response.status === 200) {
           this.departments = response.data;
+          for(let i in this.departments){
+            this.departments[i].details = [];
+            for(let j in this.subdepartments){
+              if(this.subdepartments[j].id_department === this.departments[i].id){
+                this.departments[i].details.push(this.subdepartments[j]);
+              }
+            }
+          }
         } else {
           throw new Error('Respuesta inesperada del servidor');
         }
@@ -224,7 +225,37 @@ export default {
         });
       }
     },
-
+    async getSubDepartments(){
+      const token = localStorage.getItem('token');
+      if (!token) {
+        Swal.fire({
+          title: 'Error',
+          text: 'Token no encontrado',
+          icon: 'error',
+        });
+        return;
+      }
+      try {
+        const response = await axios.get('/subdepartments', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response && response.status === 200) {
+          this.subdepartments = response.data;
+          console.log(this.subdepartments);
+        } else {
+          throw new Error('Respuesta inesperada del servidor');
+        }
+      } catch (error) {
+        console.error('Error al obtener los departamentos:', error);
+        Swal.fire({
+          title: 'Error',
+          text: 'No se pudo obtener la lista de departamentos',
+          icon: 'error',
+        });
+      }
+    },
     async getUsers() {
       const token = localStorage.getItem('token');
       try {
@@ -247,30 +278,24 @@ export default {
         });
       }
     },
-
     getUserName(userId) {
       const user = this.users.find(user => user.user_id === userId);
       return user ? user.user_name : 'Usuario desconocido';
     },
-
     openModal() {
       this.showModal = true;
     },
-
     closeModal() {
       this.showModal = false;
     },
-
     openSubDepartmentModal(departmentId) {
       this.selectedDepartmentId = departmentId;
       this.showSubDepartmentModal = true;
       console.log(departmentId);
     },
-
     closeSubDepartmentModal() {
       this.showSubDepartmentModal = false;
     },
-
     async submitSubDepartmentForm() {
       console.log(this.selectedDepartmentId);
       const token = localStorage.getItem('token');
@@ -316,58 +341,18 @@ export default {
         this.showloader = false;
       }
     },
-
-    async toggleSubDepartment(index, departmentId) {
-      const token = localStorage.getItem('token');
-
-      this.expandedRow = this.expandedRow === index ? null : index;
-      if (this.expandedRow !== null) {
-        try {
-          const response = await axios.get(`/departments/${departmentId}/subdepartments`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          if (response.data) {
-            this.subdepartments = response.data;
-          }
-        } catch (error) {
-          console.error('Error al obtener los subdepartamentos:', error);
-          Swal.fire({
-            title: 'Error',
-            text: 'No se pudo obtener la lista de subdepartamentos',
-            icon: 'error',
-          });
-        }
-      }
-    },
-async deleteSubdepartment(subdepartment_id){
-  const token = localStorage.getItem('token');
-      try{
-        const response = await axios.delete(`/subdepartments/${subdepartment_id}`,{
-          headers:{
-            Authorization: `Bearer ${token}`,
-          }
-        })
-      }catch(error){
-        console.error('Error:', error);
-      }finally{
-        console.log('termino')
-        this.getDepartments();
-      }
-    },
-    //Funcion que manejra el estado de accordion-collapse
     toggleAccordion(index) {
+      this.selectedDepartmentId = this.departments[index].id
       const body = document.getElementById(`accordion-collapse-body-${index}`);
       const isHidden = body.classList.contains('hidden');
       body.classList.toggle('hidden', !isHidden);
       body.previousElementSibling.querySelector('button').setAttribute('aria-expanded', isHidden);
     }
   },
-
   mounted() {
-    this.getDepartments();
+    this.getSubDepartments();
     this.getUsers();
+    this.getDepartments();
   },
 };
 </script>
