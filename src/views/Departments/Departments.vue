@@ -170,8 +170,7 @@ export default {
       };
       this.showloader = true;
       try {
-        const response = await fetch('/departments', {
-          method: 'POST',
+        const response = await axios.post('/departments', {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -220,6 +219,7 @@ export default {
         });
         if (response && response.status === 200) {
           this.departments = response.data;
+          console.log(response.data);
         } else {
           throw new Error('Respuesta inesperada del servidor');
         }
