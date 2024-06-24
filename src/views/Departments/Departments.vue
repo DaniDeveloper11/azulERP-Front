@@ -123,7 +123,7 @@
 
 <script>
 import useAuthStore from '../../store/auth.js';
-import axios from 'axios';
+import axios from '../../utils/axios.js';
 import Swal from 'sweetalert2';
 import loader from '../../components/LoaderCss.vue';
 import { Collapse, Ripple, initTWE } from "tw-elements";
@@ -170,7 +170,7 @@ export default {
       };
       this.showloader = true;
       try {
-        const response = await fetch('http://localhost:3000/departments', {
+        const response = await fetch('/departments', {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -213,7 +213,7 @@ export default {
         return;
       }
       try {
-        const response = await axios.get('http://localhost:3000/departments', {
+        const response = await axios.get('/departments', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -236,7 +236,7 @@ export default {
     async getUsers() {
       const token = localStorage.getItem('token');
       try {
-        const response = await axios.get('http://localhost:3000/users', {
+        const response = await axios.get('/users', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -293,7 +293,7 @@ export default {
       };
       this.showloader = true;
       try {
-        const response = await fetch('http://localhost:3000/subdepartments', {
+        const response = await fetch('/subdepartments', {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -311,7 +311,7 @@ export default {
           this.getDepartments();
           this.subdepartment_name = '';
           this.department_create = new Date().toISOString().split('T')[0];
-          this.showSubDepartmentModal = false; // Cerrar el modal después de la creación
+          this.showSubDepartmentModal = false; 
         }
       } catch (error) {
         console.error('Error:', error);
@@ -331,7 +331,7 @@ export default {
       this.expandedRow = this.expandedRow === index ? null : index;
       if (this.expandedRow !== null) {
         try {
-          const response = await axios.get(`http://localhost:3000/departments/${departmentId}/subdepartments`, {
+          const response = await axios.get(`/departments/${departmentId}/subdepartments`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -352,7 +352,7 @@ export default {
 async deleteSubdepartment(subdepartment_id){
   const token = localStorage.getItem('token');
       try{
-        const response = await axios.delete(`http://localhost:3000/subdepartments/${subdepartment_id}`,{
+        const response = await axios.delete(`/subdepartments/${subdepartment_id}`,{
           headers:{
             Authorization: `Bearer ${token}`,
           }
