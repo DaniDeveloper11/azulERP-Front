@@ -157,7 +157,8 @@ export default {
       };
       this.showloader = true;
       try {
-        const response = await axios.post('/departments', {
+        const response = await fetch('http://localhost:3000/departments', {
+          method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -197,7 +198,7 @@ export default {
         return;
       }
       try {
-        const response = await axios.get('/departments', {
+        const response = await axios.get('http://localhost:3000/departments', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -235,14 +236,13 @@ export default {
         return;
       }
       try {
-        const response = await axios.get('/subdepartments', {
+        const response = await axios.get('http://localhost:3000/subdepartments', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         if (response && response.status === 200) {
           this.subdepartments = response.data;
-          console.log(this.subdepartments);
         } else {
           throw new Error('Respuesta inesperada del servidor');
         }
@@ -258,7 +258,7 @@ export default {
     async getUsers() {
       const token = localStorage.getItem('token');
       try {
-        const response = await axios.get('/users', {
+        const response = await axios.get('http://localhost:3000/users', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -290,13 +290,11 @@ export default {
     openSubDepartmentModal(departmentId) {
       this.selectedDepartmentId = departmentId;
       this.showSubDepartmentModal = true;
-      console.log(departmentId);
     },
     closeSubDepartmentModal() {
       this.showSubDepartmentModal = false;
     },
     async submitSubDepartmentForm() {
-      console.log(this.selectedDepartmentId);
       const token = localStorage.getItem('token');
       const authStore = useAuthStore();
       const user_id = authStore.user ? authStore.user.user_id : null;
@@ -309,24 +307,25 @@ export default {
       };
       this.showloader = true;
       try {
-        const response = await axios.post('/subdepartments', {
+        const response = await fetch('http://localhost:3000/subdepartments', {
+          method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(subdepartments),
         });
-        console.log(response);
         if (response.ok) {
           Swal.fire({
             title: 'Correcto',
             text: 'Sub-Departamento creado correctamente',
             icon: 'success',
           });
-          this.getDepartments();
+          this.getSubDepartments();
           this.subdepartment_name = '';
           this.department_create = new Date().toISOString().split('T')[0];
-          this.showSubDepartmentModal = false; 
+          this.showSubDepartmentModal = false;
+          this.getDepartments(); 
         }
       } catch (error) {
         console.error('Error:', error);
