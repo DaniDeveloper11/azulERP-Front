@@ -32,6 +32,14 @@
           </select>
         </div>
       </div>
+            <div class="mb-4">
+        <label for="beneficiary" class="block text-gray-700 mb-1"><i class="fas fa-user text-blue-500 mr-2"></i>Beneficiario</label>
+          <div class="flex items-center">
+          <select v-model="beneficiary" id="beneficiary" class="mt-1 p-2 w-full border rounded-md">
+            <option v-for="user in usersG" :key="user.user_id" :value="user.user_id">{{ user.user_name }} {{user.user_lastname}}</option>
+          </select>
+        </div>
+      </div>
       <div class="mb-4">
         <label for="type" class="block text-gray-700 mb-1">
           <i class="fas fa-tag text-blue-500 mr-2"></i>Tipo de caja
@@ -52,12 +60,6 @@
         <label for="concept" class="block text-gray-700 mb-1"><i class="fas fa-pencil-alt text-blue-500 mr-2"></i>Concepto</label>
         <div class="flex items-center">
           <input v-model="concept" id="concept" type="text" class="mt-1 p-2 w-full border rounded-md" />
-        </div>
-      </div>
-      <div class="mb-4">
-        <label for="beneficiary" class="block text-gray-700 mb-1"><i class="fas fa-user text-blue-500 mr-2"></i>Beneficiario</label>
-        <div class="flex items-center">
-          <input v-model="beneficiary" id="beneficiary" type="text" class="mt-1 p-2 w-full border rounded-md" />
         </div>
       </div>
       <div class="mb-4">
@@ -92,12 +94,6 @@
           <input v-model="docReference" id="docReference" type="number" class="mt-1 p-2 w-full border rounded-md" />
         </div>
       </div>
-      <div class="mb-4">
-        <label for="docTotal" class="block text-gray-700 mb-1"><i class="fas fa-dollar-sign text-blue-500 mr-2"></i>Total del Documento</label>
-        <div class="flex items-center">
-          <input v-model="docTotal" id="docTotal" type="number" class="mt-1 p-2 w-full border rounded-md" />
-        </div>
-      </div>
       
     </form>
     <div class="mt-8 w-full">
@@ -115,7 +111,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in items" :key="index">
+          <tr v-for="(item, index,) in items" :key="index">
             <td class="py-2 px-4 border">
               <input v-model="item.article" type="text" class="w-full p-2 border rounded-md" />
             </td>
@@ -138,9 +134,20 @@
         <button @click="addItem" class="bg-blue-500 text-white px-4 py-2 rounded-md">+</button>
       </div>
       <br>
+<div class="grid grid-cols-1 md:grid-cols-8 gap-4 w-full items-end">
+  <div class="md:col-span-6"></div>
+  <div class="md:col-span-2">
+    <label for="docTotal" class="block text-gray-700 mb-1"><i class="fas fa-dollar-sign text-blue-500 mr-2"></i>Total</label>
+    <div class="flex items-center">
+      <input v-model="docTotal" id="docTotal" type="number" class="mt-1 p-2 w-full border rounded-md" readonly/>
+    </div>
+  </div>
+</div>
+
+      <br>
       <hr style="height: 4px; background-color: #01539b;">
     </div>
-   
+
     <div class="mt-4 w-full text-center">
       <button @click="EnviarForm" class="bg-green-500 text-white px-6 py-2 rounded-md">Enviar Solicitud</button>
     </div>
@@ -156,24 +163,25 @@ import '@fortawesome/fontawesome-free/css/all.css';
 export default {
   data() {
     return {
-        department: '',
-        subdepartment: '',
-        type: '',
-        subType: '',
-        concept: '',
-        beneficiary: '',
-        payConditions: '',
-        payMethod: '',
-        docStatus: '',
-        userRequest: '',
-        payDate: new Date().toISOString().slice(0, 16),
-        invoice: '',
-        docReference: '',
-        docTotal: 0,
-        items: [], 
+      department: '',
+      subdepartment: '',
+      type: '',
+      subType: '',
+      concept: '',
+      beneficiary: '',
+      payConditions: '',
+      payMethod: '',
+      docStatus: '1',
+      userRequest: '',
+      payDate: new Date().toISOString().slice(0, 16),
+      invoice: '',
+      docReference: '',
+      docTotal: 0,
+      items: [], 
       departments: [],
       subdepartments: [],
       users: [],
+      usersG: [],
       typogastos: [
         { id: '1', value: 'Fiscal' },
         { id: '2', value: 'No Fiscal' }
@@ -189,6 +197,24 @@ export default {
         { id: '3', value: 'Transferencia' }
       ]
     };
+  },
+  created() {
+    this.addItem();
+  },
+  computed: {
+    calculateTotal() {
+      return this.items.reduce((total, item) => {
+        return total + (item.quantity * item.price);
+      }, 0);
+    }
+  },
+  watch: {
+    items: {
+      handler() {
+        this.docTotal = this.calculateTotal;
+      },
+      deep: true
+    }
   },
   methods: {
     async EnviarForm() {
@@ -214,12 +240,11 @@ export default {
       };
       
       try {
-        const response = await axios.post('/requestPurchases',requestPurchase, {
+        const response = await axios.post('/requestPurchases', requestPurchase, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-          
         });
         if (response.data) {
           const result = response.data;
@@ -251,7 +276,7 @@ export default {
       }));
       console.log(items);
       try {
-        const response = await  axios.post(`/requestPurchases/${docEntry}/items`,items, {
+        const response = await  axios.post(`/requestPurchases/${docEntry}/items`, items, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -314,7 +339,7 @@ export default {
         return;
       }
       try {
-        const response = await axios.get(`/departments/${this.department}/subdepartments`, {
+        const response = await axios.get(`/subdepartments/group/${this.department}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -333,6 +358,29 @@ export default {
         });
       }
     },
+    async getUsers() {
+      const token = localStorage.getItem('token');
+      try {
+        const response = await axios.get('/users', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.data) {
+          this.usersG = response.data;
+        } else {
+          throw new Error('No se pudo obtener la lista de usuarios');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        Swal.fire({
+          title: 'Error',
+          text: 'No se pudo obtener la lista de usuarios',
+          icon: 'error',
+        });
+      }
+    },
+
     async getUsersByDepartment(departmentId) {
       const token = localStorage.getItem('token');
       if (!token) {
@@ -370,13 +418,17 @@ export default {
         description: '',
         price: 0
       });
+      this.docTotal = this.calculateTotal;
     },
     removeItem(index) {
       this.items.splice(index, 1);
+      this.docTotal = this.calculateTotal;
     }
   },
   mounted() {
     this.getDepartments();
+    this.getUsers();
+    this.docTotal = this.calculateTotal;
   },
 };
 </script>

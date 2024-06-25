@@ -47,7 +47,7 @@
         <h2 :id="'accordion-collapse-heading-' + index">
           <button type="button" @click="toggleAccordion(index)"
             class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
-            :data-accordion-target="'#accordion-collapse-body-' + index" aria-expanded="false"
+            :data-accordion-target="'#aaaccordion-collapse-body-' + index" aria-expanded="false"
             :aria-controls="'accordion-collapse-body-' + index">
             <span>{{ department.name }}</span>
             <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
@@ -157,15 +157,13 @@ export default {
       };
       this.showloader = true;
       try {
-        const response = await fetch('http://localhost:3000/departments', {
-          method: 'POST',
+        const response = await axios.post('/departments',departments, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(departments),
+          }
         });
-        if (response.ok) {
+        if (response.data) {
           Swal.fire({
             title: 'Correcto',
             text: 'Departamento creado correctamente',
@@ -198,7 +196,7 @@ export default {
         return;
       }
       try {
-        const response = await axios.get('http://localhost:3000/departments', {
+        const response = await axios.get('/departments', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -236,7 +234,7 @@ export default {
         return;
       }
       try {
-        const response = await axios.get('http://localhost:3000/subdepartments', {
+        const response = await axios.get('/subdepartments', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -258,7 +256,7 @@ export default {
     async getUsers() {
       const token = localStorage.getItem('token');
       try {
-        const response = await axios.get('http://localhost:3000/users', {
+        const response = await axios.get('/users', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -307,15 +305,13 @@ export default {
       };
       this.showloader = true;
       try {
-        const response = await fetch('http://localhost:3000/subdepartments', {
-          method: 'POST',
+        const response = await axios.post('/subdepartments',subdepartments, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(subdepartments),
         });
-        if (response.ok) {
+        if (response.data) {
           Swal.fire({
             title: 'Correcto',
             text: 'Sub-Departamento creado correctamente',
