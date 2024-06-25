@@ -157,15 +157,13 @@ export default {
       };
       this.showloader = true;
       try {
-        const response = await fetch('http://localhost:3000/departments', {
-          method: 'POST',
+        const response = await axios.post('/departments',departments, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(departments),
+          }
         });
-        if (response.ok) {
+        if (response.data) {
           Swal.fire({
             title: 'Correcto',
             text: 'Departamento creado correctamente',
@@ -198,7 +196,7 @@ export default {
         return;
       }
       try {
-        const response = await axios.get('http://localhost:3000/departments', {
+        const response = await axios.get('/departments', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -236,7 +234,7 @@ export default {
         return;
       }
       try {
-        const response = await axios.get('http://localhost:3000/subdepartments', {
+        const response = await axios.get('/subdepartments', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -307,15 +305,13 @@ export default {
       };
       this.showloader = true;
       try {
-        const response = await fetch('http://localhost:3000/subdepartments', {
-          method: 'POST',
+        const response = await axios.post('/subdepartments',subdepartments, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(subdepartments),
         });
-        if (response.ok) {
+        if (response.data) {
           Swal.fire({
             title: 'Correcto',
             text: 'Sub-Departamento creado correctamente',
