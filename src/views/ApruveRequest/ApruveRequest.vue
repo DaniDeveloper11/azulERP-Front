@@ -1,50 +1,84 @@
 <template>
-  <div class="divide-y divide-gray-200 overflow-hidden rounded-lg bg-gray-200 shadow sm:grid sm:grid-cols-2 sm:gap-px sm:divide-y-0">
-    <div v-for="(action, actionIdx) in actions" :key="action.title" :class="[actionIdx === 0 ? 'rounded-tl-lg rounded-tr-lg sm:rounded-tr-none' : '', actionIdx === 1 ? 'sm:rounded-tr-lg' : '', actionIdx === actions.length - 2 ? 'sm:rounded-bl-lg' : '', actionIdx === actions.length - 1 ? 'rounded-bl-lg rounded-br-lg sm:rounded-bl-none' : '', 'group relative bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500']">
-      <div>
-        <span :class="[action.iconBackground, action.iconForeground, 'inline-flex rounded-lg p-3 ring-4 ring-white']">
-          <component :is="action.icon" class="h-6 w-6" aria-hidden="true" />
-        </span>
-      </div>
-      <div class="mt-8">
-        <h3 class="text-base font-semibold leading-6 text-gray-900">
-          <a :href="action.href" class="focus:outline-none">
-            <!-- Extend touch target to entire panel -->
-            <span class="absolute inset-0" aria-hidden="true" />
-            {{ action.title }}
-          </a>
-        </h3>
-        <p class="mt-2 text-sm text-gray-500">{{ action.text }}</p>
-      </div>
-      <span class="pointer-events-none absolute right-6 top-6 text-gray-300 group-hover:text-gray-400" aria-hidden="true">
-        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
-        </svg>
-      </span>
-    </div>
+  <div>
+    <h2 class="text-sm font-medium text-gray-500">Pinned Projects</h2>
+    <ul role="list" class="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
+      <li v-for="project in projects" :key="project.name" class="col-span-1 flex rounded-md shadow-sm">
+        <div
+          :class="[project.bgColor, 'flex w-16 flex-shrink-0 items-center justify-center rounded-l-md text-sm font-medium text-white']">
+          {{ project.initials }}</div>
+        <div
+          class="flex flex-1 items-center justify-between truncate rounded-r-md border-b border-r border-t border-gray-200 bg-white">
+          <div class="flex-1 truncate px-4 py-2 text-sm">
+            <a :href="project.href" class="font-medium text-gray-900 hover:text-gray-600">{{ project.name }}</a>
+            <p class="text-gray-500">{{ project.members }} Members</p>
+          </div>
+          <div class="flex-shrink-0 pr-2">
+            <button type="button"
+              class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-transparent bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+              <span class="sr-only">Open options</span>
+              <EllipsisVerticalIcon class="h-5 w-5" aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
   </div>
+  <tables v-bind:requests="requests"></tables>
 </template>
 
 <script setup>
-import {
-  AcademicCapIcon,
-  BanknotesIcon,
-  CheckBadgeIcon,
-  ClockIcon,
-  ReceiptRefundIcon,
-  UsersIcon,
-} from '@heroicons/vue/24/outline'
+import { EllipsisVerticalIcon } from '@heroicons/vue/20/solid'
+import tables from '../../components/table.vue'
+import axios from '../../utils/axios';
+import { onMounted, ref, reactive } from 'vue'
+import { request } from 'utilities';
 
-const actions = [
-  {
-    title: 'Solicitud de Compra',
-    href: '#',
-    icon: ClockIcon,
-    iconForeground: 'text-teal-700',
-    iconBackground: 'bg-teal-50',
-    text: 'Aprueba o Rechaza Solicitudes de compra con un solo click'
-  },
-
+const requests = ref([]);
+const countRequests = ref('')
+const projects = [
+  { name: 'Solicitud de compra', initials: 'SC', href: '#', members: 16, bgColor: 'bg-pink-600' },
+  { name: 'Orden de Compra', initials: 'OC', href: '#', members: 12, bgColor: 'bg-purple-600' },
 
 ]
+
+onMounted(() => {
+  getRequests();
+})
+
+const getRequests = async () => {
+  const token = localStorage.getItem('token');
+  try {
+    const response = await axios.get('http://localhost:3000/requestPurchases', {
+      Authorization: `Bearer ${token}`
+    });
+    requests.value = response.data;
+    countRequests.value = requests.value.length
+    for (const element of requests.value) {
+      const response2 = await axios.get(`http://localhost:3000/users/${element.userRequest}`, {
+        headers: { // Corregir el uso de headers
+          Authorization: `Bearer ${token}`
+        }
+      });
+      element.userRequest_name = response2.data.user_name; // Asignar el nombre obtenido de la respuesta
+    }
+  } catch (error) {
+    console.log('algo salio mal')
+  } finally {
+
+  }
+}
+
+const getUser = async (userRequest) => {
+  const token = localStorage.getItem('token');
+  try {
+    const response = await axios.get(`http://localhost:3000/users/${userRequest}`, {
+      Authorization: `Bearer ${token}`
+    });
+
+    // agrega el nombre del usuario al objeto en turno 
+
+  } catch (error) {
+    console.log('Error al obtener datos del usuario')
+  }
+}
 </script>
