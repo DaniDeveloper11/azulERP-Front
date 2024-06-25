@@ -32,6 +32,14 @@
           </select>
         </div>
       </div>
+            <div class="mb-4">
+        <label for="beneficiary" class="block text-gray-700 mb-1"><i class="fas fa-user text-blue-500 mr-2"></i>Beneficiario</label>
+          <div class="flex items-center">
+          <select v-model="beneficiary" id="beneficiary" class="mt-1 p-2 w-full border rounded-md">
+            <option v-for="user in usersG" :key="user.user_id" :value="user.user_id">{{ user.user_name }} {{user.user_lastname}}</option>
+          </select>
+        </div>
+      </div>
       <div class="mb-4">
         <label for="type" class="block text-gray-700 mb-1">
           <i class="fas fa-tag text-blue-500 mr-2"></i>Tipo de caja
@@ -52,12 +60,6 @@
         <label for="concept" class="block text-gray-700 mb-1"><i class="fas fa-pencil-alt text-blue-500 mr-2"></i>Concepto</label>
         <div class="flex items-center">
           <input v-model="concept" id="concept" type="text" class="mt-1 p-2 w-full border rounded-md" />
-        </div>
-      </div>
-      <div class="mb-4">
-        <label for="beneficiary" class="block text-gray-700 mb-1"><i class="fas fa-user text-blue-500 mr-2"></i>Beneficiario</label>
-        <div class="flex items-center">
-          <input v-model="beneficiary" id="beneficiary" type="text" class="mt-1 p-2 w-full border rounded-md" />
         </div>
       </div>
       <div class="mb-4">
@@ -179,6 +181,7 @@ export default {
       departments: [],
       subdepartments: [],
       users: [],
+      usersG: [],
       typogastos: [
         { id: '1', value: 'Fiscal' },
         { id: '2', value: 'No Fiscal' }
@@ -355,6 +358,29 @@ export default {
         });
       }
     },
+    async getUsers() {
+      const token = localStorage.getItem('token');
+      try {
+        const response = await axios.get('/users', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.data) {
+          this.usersG = response.data;
+        } else {
+          throw new Error('No se pudo obtener la lista de usuarios');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        Swal.fire({
+          title: 'Error',
+          text: 'No se pudo obtener la lista de usuarios',
+          icon: 'error',
+        });
+      }
+    },
+
     async getUsersByDepartment(departmentId) {
       const token = localStorage.getItem('token');
       if (!token) {
@@ -401,6 +427,7 @@ export default {
   },
   mounted() {
     this.getDepartments();
+    this.getUsers();
     this.docTotal = this.calculateTotal;
   },
 };
