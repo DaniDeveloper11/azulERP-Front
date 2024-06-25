@@ -164,7 +164,7 @@ export default {
         beneficiary: '',
         payConditions: '',
         payMethod: '',
-        docStatus: '',
+        docStatus: '1',
         userRequest: '',
         payDate: new Date().toISOString().slice(0, 16),
         invoice: '',
@@ -314,7 +314,7 @@ export default {
         return;
       }
       try {
-        const response = await axios.get(`/departments/${this.department}/subdepartments`, {
+        const response = await axios.get(`/subdepartments/group/${this.department}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
