@@ -21,7 +21,7 @@
                 <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">AzulERP.com/</span>
                 <input v-model="user_nickname" type="text" name="username" id="username" autocomplete="username"
                   class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                  placeholder="janesmith" required />
+                  placeholder="usuario" required />
               </div>
             </div>
           </div>
@@ -138,11 +138,16 @@
                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
             </div>
           </div>
+          
           <div class="sm:col-span-2">
             <label for="region" class="block text-sm font-medium leading-6 text-gray-900">Estado</label>
             <div class="mt-2">
-              <input v-model="user_state" type="text" name="region" id="region" autocomplete="address-level1" required
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+              <select v-model="user_state" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                <option value="" disabled selected>Seleccione un estado</option>
+                <option v-for="estado in estados" :key="estado.abreviatura" :value="estado.abreviatura">
+                  {{ estado.nombre }}
+                </option>
+              </select>
             </div>
           </div>
 
@@ -299,6 +304,41 @@ const publishingOptions = ref([
   { title: 'Directivo', value:2, description: 'El Directivo tiene la capacidad de aprobar requisiciones, ver analitica, accede a la informacion de los usuarios y tiene permiso de modificacion.', current: false },
   { title: 'Miembro',value:3, description: 'El usuario Miembro tiene la capacidad de solicitar material, items, insumos, comestibles o cualquier elemento que pase como requision', current: false },
 
+]);
+
+const estados = ref([
+  { nombre: "Aguascalientes", abreviatura: "AGS" },
+  { nombre: "Baja California", abreviatura: "BC" },
+  { nombre: "Baja California Sur", abreviatura: "BCS" },
+  { nombre: "Campeche", abreviatura: "CAMP" },
+  { nombre: "Chiapas", abreviatura: "CHIS" },
+  { nombre: "Chihuahua", abreviatura: "CHIH" },
+  { nombre: "Ciudad de México", abreviatura: "CDMX" },
+  { nombre: "Coahuila", abreviatura: "COAH" },
+  { nombre: "Colima", abreviatura: "COL" },
+  { nombre: "Durango", abreviatura: "DGO" },
+  { nombre: "Estado de México", abreviatura: "MEX" },
+  { nombre: "Guanajuato", abreviatura: "GTO" },
+  { nombre: "Guerrero", abreviatura: "GRO" },
+  { nombre: "Hidalgo", abreviatura: "HGO" },
+  { nombre: "Jalisco", abreviatura: "JAL" },
+  { nombre: "Michoacán", abreviatura: "MICH" },
+  { nombre: "Morelos", abreviatura: "MOR" },
+  { nombre: "Nayarit", abreviatura: "NAY" },
+  { nombre: "Nuevo León", abreviatura: "NL" },
+  { nombre: "Oaxaca", abreviatura: "OAX" },
+  { nombre: "Puebla", abreviatura: "PUE" },
+  { nombre: "Querétaro", abreviatura: "QRO" },
+  { nombre: "Quintana Roo", abreviatura: "QROO" },
+  { nombre: "San Luis Potosí", abreviatura: "SLP" },
+  { nombre: "Sinaloa", abreviatura: "SIN" },
+  { nombre: "Sonora", abreviatura: "SON" },
+  { nombre: "Tabasco", abreviatura: "TAB" },
+  { nombre: "Tamaulipas", abreviatura: "TAMPS" },
+  { nombre: "Tlaxcala", abreviatura: "TLAX" },
+  { nombre: "Veracruz", abreviatura: "VER" },
+  { nombre: "Yucatán", abreviatura: "YUC" },
+  { nombre: "Zacatecas", abreviatura: "ZAC" }
 ]);
 
 // Funcion para recibir el rol seleccionado

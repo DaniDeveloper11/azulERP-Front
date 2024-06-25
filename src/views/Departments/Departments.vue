@@ -47,7 +47,7 @@
         <h2 :id="'accordion-collapse-heading-' + index">
           <button type="button" @click="toggleAccordion(index)"
             class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
-            :data-accordion-target="'#accordion-collapse-body-' + index" aria-expanded="false"
+            :data-accordion-target="'#aaaccordion-collapse-body-' + index" aria-expanded="false"
             :aria-controls="'accordion-collapse-body-' + index">
             <span>{{ department.name }}</span>
             <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
@@ -65,11 +65,6 @@
                 class="inline-block relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
                 <div class="flex">
                   <span>{{subdepa.name }}</span>
-                  <svg  @click="deleteSubdepartment(subdepa.id)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                  stroke-width="1.5" stroke="currentColor" class="size-6 opacity-25 hover:opacity-100 text-red-500 mx-2">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                </svg>
                 </div>
 
             </div>
@@ -162,14 +157,14 @@ export default {
       };
       this.showloader = true;
       try {
-        const response = await axios.post('/departments', {
+        const response = await fetch('http://localhost:3000/departments', {
+          method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(departments),
         });
-        console.log(response);
         if (response.ok) {
           Swal.fire({
             title: 'Correcto',
@@ -192,7 +187,6 @@ export default {
         this.showloader = false;
       }
     },
-
     async getDepartments() {
       const token = localStorage.getItem('token');
       if (!token) {
@@ -204,14 +198,21 @@ export default {
         return;
       }
       try {
-        const response = await axios.get('/departments', {
+        const response = await axios.get('http://localhost:3000/departments', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         if (response && response.status === 200) {
           this.departments = response.data;
-          console.log(response.data);
+          for(let i in this.departments){
+            this.departments[i].details = [];
+            for(let j in this.subdepartments){
+              if(this.subdepartments[j].id_department === this.departments[i].id){
+                this.departments[i].details.push(this.subdepartments[j]);
+              }
+            }
+          }
         } else {
           throw new Error('Respuesta inesperada del servidor');
         }
@@ -224,11 +225,40 @@ export default {
         });
       }
     },
-
+    async getSubDepartments(){
+      const token = localStorage.getItem('token');
+      if (!token) {
+        Swal.fire({
+          title: 'Error',
+          text: 'Token no encontrado',
+          icon: 'error',
+        });
+        return;
+      }
+      try {
+        const response = await axios.get('http://localhost:3000/subdepartments', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response && response.status === 200) {
+          this.subdepartments = response.data;
+        } else {
+          throw new Error('Respuesta inesperada del servidor');
+        }
+      } catch (error) {
+        console.error('Error al obtener los departamentos:', error);
+        Swal.fire({
+          title: 'Error',
+          text: 'No se pudo obtener la lista de departamentos',
+          icon: 'error',
+        });
+      }
+    },
     async getUsers() {
       const token = localStorage.getItem('token');
       try {
-        const response = await axios.get('/users', {
+        const response = await axios.get('http://localhost:3000/users', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -247,32 +277,24 @@ export default {
         });
       }
     },
-
     getUserName(userId) {
       const user = this.users.find(user => user.user_id === userId);
       return user ? user.user_name : 'Usuario desconocido';
     },
-
     openModal() {
       this.showModal = true;
     },
-
     closeModal() {
       this.showModal = false;
     },
-
     openSubDepartmentModal(departmentId) {
       this.selectedDepartmentId = departmentId;
       this.showSubDepartmentModal = true;
-      console.log(departmentId);
     },
-
     closeSubDepartmentModal() {
       this.showSubDepartmentModal = false;
     },
-
     async submitSubDepartmentForm() {
-      console.log(this.selectedDepartmentId);
       const token = localStorage.getItem('token');
       const authStore = useAuthStore();
       const user_id = authStore.user ? authStore.user.user_id : null;
@@ -285,7 +307,7 @@ export default {
       };
       this.showloader = true;
       try {
-        const response = await fetch('/subdepartments', {
+        const response = await fetch('http://localhost:3000/subdepartments', {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -293,17 +315,17 @@ export default {
           },
           body: JSON.stringify(subdepartments),
         });
-        console.log(response);
         if (response.ok) {
           Swal.fire({
             title: 'Correcto',
             text: 'Sub-Departamento creado correctamente',
             icon: 'success',
           });
-          this.getDepartments();
+          this.getSubDepartments();
           this.subdepartment_name = '';
           this.department_create = new Date().toISOString().split('T')[0];
-          this.showSubDepartmentModal = false; 
+          this.showSubDepartmentModal = false;
+          this.getDepartments(); 
         }
       } catch (error) {
         console.error('Error:', error);
@@ -316,58 +338,18 @@ export default {
         this.showloader = false;
       }
     },
-
-    async toggleSubDepartment(index, departmentId) {
-      const token = localStorage.getItem('token');
-
-      this.expandedRow = this.expandedRow === index ? null : index;
-      if (this.expandedRow !== null) {
-        try {
-          const response = await axios.get(`/departments/${departmentId}/subdepartments`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          if (response.data) {
-            this.subdepartments = response.data;
-          }
-        } catch (error) {
-          console.error('Error al obtener los subdepartamentos:', error);
-          Swal.fire({
-            title: 'Error',
-            text: 'No se pudo obtener la lista de subdepartamentos',
-            icon: 'error',
-          });
-        }
-      }
-    },
-async deleteSubdepartment(subdepartment_id){
-  const token = localStorage.getItem('token');
-      try{
-        const response = await axios.delete(`/subdepartments/${subdepartment_id}`,{
-          headers:{
-            Authorization: `Bearer ${token}`,
-          }
-        })
-      }catch(error){
-        console.error('Error:', error);
-      }finally{
-        console.log('termino')
-        this.getDepartments();
-      }
-    },
-    //Funcion que manejra el estado de accordion-collapse
     toggleAccordion(index) {
+      this.selectedDepartmentId = this.departments[index].id
       const body = document.getElementById(`accordion-collapse-body-${index}`);
       const isHidden = body.classList.contains('hidden');
       body.classList.toggle('hidden', !isHidden);
       body.previousElementSibling.querySelector('button').setAttribute('aria-expanded', isHidden);
     }
   },
-
   mounted() {
-    this.getDepartments();
+    this.getSubDepartments();
     this.getUsers();
+    this.getDepartments();
   },
 };
 </script>
