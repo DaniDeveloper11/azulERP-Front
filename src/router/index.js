@@ -3,7 +3,6 @@ import Login from '../views/Users/Login.vue'
 import HomeView from '../views/HomeView.vue'
 import Settings from '@/views/SettingsView.vue'
 
-// Función para verificar si el usuario está autenticado
 function isAuthenticated() {
   return !!localStorage.getItem('token'); 
 }
