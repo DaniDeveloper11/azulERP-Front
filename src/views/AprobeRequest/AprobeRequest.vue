@@ -22,8 +22,8 @@
         </div>
       </li>
     </ul>
+    <tables v-bind:requests="requests"></tables>
   </div>
-  <tables v-bind:requests="requests"></tables>
 </template>
 
 <script setup>
