@@ -3,7 +3,6 @@ import Login from '../views/Users/Login.vue'
 import HomeView from '../views/HomeView.vue'
 import Settings from '@/views/SettingsView.vue'
 
-// Función para verificar si el usuario está autenticado
 function isAuthenticated() {
   return !!localStorage.getItem('token'); 
 }
@@ -86,6 +85,12 @@ const router = createRouter({
       path: '/addproveedors',
       name: 'addproveedors',
       component: () => import('../views/Proveedors/AddProveedors.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/aprobeRequest',
+      name: 'aprobeRequest',
+      component: () => import('../views/AprobeRequest/AprobeRequest.vue'),
       meta: { requiresAuth: true }
     }
   ]
