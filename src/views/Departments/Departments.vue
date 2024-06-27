@@ -64,10 +64,10 @@
               <div v-for="subdepa in department.details" :key="subdepa.id"
                 class="inline-block relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
                 <div class="flex">
-                  <span>{{subdepa.name }}</span>
+                  <span>{{ subdepa.name }}</span>
                 </div>
 
-            </div>
+              </div>
 
             </div>
             <div class="flex place-content-end">
@@ -203,10 +203,10 @@ export default {
         });
         if (response && response.status === 200) {
           this.departments = response.data;
-          for(let i in this.departments){
+          for (let i in this.departments) {
             this.departments[i].details = [];
-            for(let j in this.subdepartments){
-              if(this.subdepartments[j].id_department === this.departments[i].id){
+            for (let j in this.subdepartments) {
+              if (this.subdepartments[j].id_department === this.departments[i].id) {
                 this.departments[i].details.push(this.subdepartments[j]);
               }
             }
@@ -223,7 +223,7 @@ export default {
         });
       }
     },
-    async getSubDepartments(){
+    async getSubDepartments() {
       const token = localStorage.getItem('token');
       if (!token) {
         Swal.fire({
@@ -321,7 +321,7 @@ export default {
           this.subdepartment_name = '';
           this.department_create = new Date().toISOString().split('T')[0];
           this.showSubDepartmentModal = false;
-          this.getDepartments(); 
+          this.getDepartments();
         }
       } catch (error) {
         console.error('Error:', error);

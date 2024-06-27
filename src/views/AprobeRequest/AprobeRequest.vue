@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="text-sm font-medium text-gray-500">Pinned Projects</h2>
+    <h2 class="text-sm font-medium text-gray-500">Aprobar o Cancelar </h2>
     <ul role="list" class="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
       <li v-for="project in projects" :key="project.name" class="col-span-1 flex rounded-md shadow-sm">
         <div
@@ -8,37 +8,61 @@
           {{ project.initials }}</div>
         <div
           class="flex flex-1 items-center justify-between truncate rounded-r-md border-b border-r border-t border-gray-200 bg-white">
-          <div class="flex-1 truncate px-4 py-2 text-sm">
-            <a :href="project.href" class="font-medium text-gray-900 hover:text-gray-600">{{ project.name }}</a>
+          <div @click="project.value != showtable ? showtable = project.value: showtable = showtable " class="flex-1 truncate px-4 py-2 text-sm cursor-pointer">
+            <a  class="font-medium text-gray-900 hover:text-gray-600">{{ project.name }}</a>
             <p class="text-gray-500">{{ project.members }} Members</p>
           </div>
           <div class="flex-shrink-0 pr-2">
-            <button type="button"
-              class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-transparent bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-              <span class="sr-only">Open options</span>
-              <EllipsisVerticalIcon class="h-5 w-5" aria-hidden="true" />
-            </button>
+            <Menu as="div" class="relative flex-none">
+                    <MenuButton class="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
+                        <span class="sr-only">Open options</span>
+                        <EllipsisVerticalIcon class="h-5 w-5" aria-hidden="true" />
+                    </MenuButton>
+                    <transition enter-active-class="transition ease-out duration-100"
+                        enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100"
+                        leave-active-class="transition ease-in duration-75"
+                        leave-from-class="transform opacity-100 scale-100"
+                        leave-to-class="transform opacity-0 scale-95">
+                        <MenuItems
+                            class="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
+                            <MenuItem v-slot="{ active }">
+                            <a 
+                                :class="[active ? 'bg-gray-50' : '', ' hover:text-white hover:bg-green-300 block px-3 py-1 text-sm leading-6 text-gray-900 cursor-pointer']">Aprobar<span
+                                    class="sr-only"> </span></a>
+                            </MenuItem>
+                            <MenuItem v-slot="{ active }">
+                            <a 
+                                :class="[active ? 'bg-gray-50' : '', ' hover:text-white hover:bg-red-500 block px-3 py-1 text-sm leading-6 text-gray-900 cursor-pointer']">Rechazar<span
+                                    class="sr-only"></span></a>
+                            </MenuItem>
+                        </MenuItems>
+                    </transition>
+                </Menu>
           </div>
         </div>
       </li>
     </ul>
     <tables v-bind:requests="requests"></tables>
   </div>
+  <tableRequests v-if="showtable === 1" v-bind:requests="requests"></tableRequests>
 </template>
 
 <script setup>
+import { initFlowbite, initDropdowns } from 'flowbite'
 import { EllipsisVerticalIcon } from '@heroicons/vue/20/solid'
-import tables from '../../components/table.vue'
+import tableRequests from '../../components/tableRequests.vue'
 import axios from '../../utils/axios';
 import { onMounted, ref, reactive } from 'vue'
 import { request } from 'utilities';
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+
+const showtable = ref(1) //1 tabla solicitudes de compra 2 tabla ordenes de compra
 
 const requests = ref([]);
 const countRequests = ref('')
 const projects = [
-  { name: 'Solicitud de compra', initials: 'SC', href: '#', members: 16, bgColor: 'bg-pink-600' },
-  { name: 'Orden de Compra', initials: 'OC', href: '#', members: 12, bgColor: 'bg-purple-600' },
-
+  { name: 'Solicitud de compra', initials: 'SC', href: '#', members: 16, bgColor: 'bg-pink-600',value:1 },
+  { name: 'Orden de Compra', initials: 'OC', href: '#', members: 12, bgColor: 'bg-purple-600', value:2 },
 ]
 
 onMounted(() => {
@@ -59,7 +83,7 @@ const getRequests = async () => {
           Authorization: `Bearer ${token}`
         }
       });
-      element.userRequest_name = response2.data.user_name; // Asignar el nombre obtenido de la respuesta
+      element.userRequest_name = (response2.data.user_name + " " + response2.data.user_lastname).toUpperCase(); // Asignar el nombre obtenido de la respuesta
     }
   } catch (error) {
     console.log('algo salio mal')
