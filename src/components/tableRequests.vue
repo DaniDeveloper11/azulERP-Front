@@ -68,9 +68,11 @@
                     </transition>
                 </Menu>
             </div>
+            <!-- modal para aprobar o rechazar solicitudes de compra -->
+            <modal1  v-bind:open="modal1Open" v-bind:request="request" @close="modal1Open = false"  @update-value="handleUpdate" ></modal1>
         </li>
     </ul>
-    <modal1 v-bind:open="modal1Open" @close="modal1Open = false"></modal1>
+
 </template>
 
 <script setup>
@@ -126,5 +128,14 @@ function search() {
     // Este método puede ser usado para realizar alguna acción adicional cuando se hace clic en el botón de búsqueda
     console.log('Buscando:', searchQuery.value)
 }
+
+const handleUpdate = (value) => {
+  // showMessage.value = value;
+  // setTimeout(() => {
+  //   showMessage.value = false
+  // }, 3000)
+  modal1Open.value = value;
+
+};
 
 </script>
