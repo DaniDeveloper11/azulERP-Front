@@ -42,7 +42,7 @@
         </div>
       </li>
     </ul>
-    <tables v-bind:requests="requests"></tables>
+    <!-- <tables v-bind:requests="requests"></tables> -->
   </div>
   <tableRequests v-if="showtable === 1" v-bind:requests="requests"></tableRequests>
 </template>

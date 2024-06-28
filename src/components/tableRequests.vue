@@ -3,7 +3,8 @@
     <div class="flex mx-auto py-4 sm:py-10">
 
         <div class="flex w-full mx-10 rounded bg-white">
-            <input v-model="searchQuery" class=" w-full border-none bg-transparent px-4 py-1 text-gray-400 outline-none focus:outline-none "
+            <input v-model="searchQuery"
+                class=" w-full border-none bg-transparent px-4 py-1 text-gray-400 outline-none focus:outline-none "
                 type="search" name="search" placeholder="Search..." />
             <button type="submit" class="m-2 rounded bg-blue-600 px-4 py-2 text-white">
                 <svg class="fill-current h-6 w-6" xmlns="http://www.w3.org/2000/svg"
@@ -19,7 +20,8 @@
 
     <!-- tabla -->
     <ul role="list" class="divide-y divide-gray-100">
-        <li v-for="request in filteredRequests" :key="request.id" class="flex items-center justify-between gap-x-6 py-5">
+        <li v-for="request in filteredRequests" :key="request.id"
+            class="flex items-center justify-between gap-x-6 py-5">
             <div class="min-w-0">
                 <div class="flex items-start gap-x-3">
                     <p class="text-sm font-semibold leading-6 text-gray-900">{{ request.concept }}</p>
@@ -39,9 +41,12 @@
                 </div>
             </div>
             <div class="flex flex-none items-center gap-x-4">
-                <button @click="modal1Open = true"
-                    class="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block">Revisar<span
-                        class="sr-only">, {{ request.concept }}</span></button>
+          
+                <!-- <button data-modal-target="static-modal" data-modal-toggle="static-modal"
+                    class="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block">
+                    Revisar
+                </button> -->
+                <modal1 v-bind:request="request"></modal1>
                 <Menu as="div" class="relative flex-none">
                     <MenuButton class="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
                         <span class="sr-only">Open options</span>
@@ -68,10 +73,15 @@
                     </transition>
                 </Menu>
             </div>
-            <!-- modal para aprobar o rechazar solicitudes de compra -->
-            <modal1  v-bind:open="modal1Open" v-bind:request="request" @close="modal1Open = false"  @update-value="handleUpdate" ></modal1>
+
+
         </li>
     </ul>
+
+
+    <!-- modal para aprobar o rechazar solicitudes de compra -->
+  
+   
 
 </template>
 
@@ -79,9 +89,13 @@
 import { onMounted, reactive, ref, computed } from 'vue'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { EllipsisVerticalIcon } from '@heroicons/vue/20/solid'
-import { initFlowbite, initDropdowns } from 'flowbite'
+import { initFlowbite, initDropdowns, initModals, initDials } from 'flowbite'
 import axios from '@/utils/axios'
 import modal1 from '@/components/ModalRequest.vue'
+// import { formatDate } from '@/utils/formateDate';
+import Swal from 'sweetalert2';
+
+
 
 const props = defineProps({
     requests: Array
@@ -94,7 +108,7 @@ const statuses = {
 }
 
 const searchQuery = ref('');
-const modal1Open = ref(false);
+// const modal1Open = ref(false);
 const getStatusText = (docStatus) => {
     switch (docStatus) {
         case 1:
@@ -112,7 +126,7 @@ const filteredRequests = computed(() => {
     const queries = searchQuery.value.toLowerCase().split(',').map(q => q.trim())
     return props.requests.filter(request => {
         const statusText = getStatusText(request.docStatus).toLowerCase()
-        return queries.every(query => 
+        return queries.every(query =>
             request.concept.toLowerCase().includes(query) ||
             request.userRequest_name.toLowerCase().includes(query) ||
             statusText.includes(query)
@@ -122,6 +136,8 @@ const filteredRequests = computed(() => {
 
 onMounted(() => {
     initFlowbite();
+    initDials();
+    initModals();
 })
 
 function search() {
@@ -129,13 +145,66 @@ function search() {
     console.log('Buscando:', searchQuery.value)
 }
 
-const handleUpdate = (value) => {
-  // showMessage.value = value;
-  // setTimeout(() => {
-  //   showMessage.value = false
-  // }, 3000)
-  modal1Open.value = value;
+// const handleUpdate = (value) => {
+// showMessage.value = value;
+// setTimeout(() => {
+//   showMessage.value = false
+// }, 3000)
+//   modal1Open.value = value;
 
-};
+// };
+const posts = [
+    {
+        id: 1,
+        title: 'Boost your conversion rate',
+        href: '#',
+        description:
+            'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
+        date: 'Mar 16, 2020',
+        datetime: '2020-03-16',
+        category: { title: 'Marketing', href: '#' },
+        author: {
+            name: 'Michael Foster',
+            role: 'Co-Founder / CTO',
+            href: '#',
+            imageUrl:
+                'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        },
+    },
+    {
+        id: 2,
+        title: 'Boost your conversion rate',
+        href: '#',
+        description:
+            'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
+        date: 'Mar 16, 2020',
+        datetime: '2020-03-16',
+        category: { title: 'Marketing', href: '#' },
+        author: {
+            name: 'Michael Foster',
+            role: 'Co-Founder / CTO',
+            href: '#',
+            imageUrl:
+                'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        },
+    },
+    {
+        id: 3,
+        title: 'Boost your conversion rate',
+        href: '#',
+        description:
+            'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
+        date: 'Mar 16, 2020',
+        datetime: '2020-03-16',
+        category: { title: 'Marketing', href: '#' },
+        author: {
+            name: 'Michael Foster',
+            role: 'Co-Founder / CTO',
+            href: '#',
+            imageUrl:
+                'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        },
+    },
+]
 
 </script>
