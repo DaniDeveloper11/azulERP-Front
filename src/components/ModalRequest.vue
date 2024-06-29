@@ -4,9 +4,9 @@
   <!-- Main modal -->
   <div v-if="open"
     class="fixed inset-0 overflow-y-auto flex items-center justify-center z-50">
-    <div class="relative p-4 w-full max-w-2xl max-h-full bg-gray-900 bg-opacity-70">
+    <div class="fixed inset-0 bg-gray-900 bg-opacity-70">
       <!-- Modal content -->
-      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700 sm:max-w-4xl mx-auto overflow-y-auto h-screen">
         <!-- Modal header -->
         <div class="flex items-start justify-between p-4 md:p-5  rounded-t">
 
@@ -35,8 +35,9 @@
         </div>
         <!-- Modal body -->
         <div class="p-4 md:p-5 space-y-4">
-          <article v-for="post in posts" :key="post.id" class="flex max-w-xl flex-col items-start justify-between">
-            <div class="flex items-center gap-x-4 text-xs">
+          <article v-for="item in request.items" :key="item.id" class="flex max-w-xl flex-col items-start justify-between">
+            <h2>{{ item.article }}</h2>
+            <!-- <div class="flex items-center gap-x-4 text-xs">
               <time :datetime="post.datetime" class="text-gray-500">{{ post.date }}</time>
               <a :href="post.category.href"
                 class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">{{
@@ -62,7 +63,7 @@
                 </p>
                 <p class="text-gray-600">{{ post.author.role }}</p>
               </div>
-            </div>
+            </div> -->
           </article>
         </div>
         <!-- Modal footer -->
