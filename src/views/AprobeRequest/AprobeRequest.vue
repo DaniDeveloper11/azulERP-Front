@@ -52,7 +52,7 @@ import { initFlowbite, initDropdowns } from 'flowbite'
 import { EllipsisVerticalIcon } from '@heroicons/vue/20/solid'
 import tableRequests from '../../components/tableRequests.vue'
 import axios from '../../utils/axios';
-import { onMounted, ref, reactive } from 'vue'
+import { onMounted, ref, reactive, provide } from 'vue'
 import { request } from 'utilities';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
@@ -91,6 +91,8 @@ const getRequests = async () => {
 
   }
 }
+
+provide('getRequests',getRequests);
 
 const getUser = async (userRequest) => {
   const token = localStorage.getItem('token');
