@@ -42,11 +42,11 @@
             </div>
             <div class="flex flex-none items-center gap-x-4">
           
-                <!-- <button data-modal-target="static-modal" data-modal-toggle="static-modal"
+                <button @click="open = true; requestModal = request"
                     class="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block">
                     Revisar
-                </button> -->
-                <modal1 v-bind:request="request"></modal1>
+                </button>
+
                 <Menu as="div" class="relative flex-none">
                     <MenuButton class="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
                         <span class="sr-only">Open options</span>
@@ -80,13 +80,13 @@
 
 
     <!-- modal para aprobar o rechazar solicitudes de compra -->
-  
+    <modal1 @update-value="handleUpdate" v-bind:request="requestModal" v-bind:open="open" @close="open = false"></modal1>
    
 
 </template>
 
 <script setup>
-import { onMounted, reactive, ref, computed } from 'vue'
+import { onMounted, reactive, ref, computed, } from 'vue'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { EllipsisVerticalIcon } from '@heroicons/vue/20/solid'
 import { initFlowbite, initDropdowns, initModals, initDials } from 'flowbite'
@@ -96,6 +96,8 @@ import modal1 from '@/components/ModalRequest.vue'
 import Swal from 'sweetalert2';
 
 
+const open = ref(false);
+const requestModal = ref('') 
 
 const props = defineProps({
     requests: Array
@@ -145,14 +147,12 @@ function search() {
     console.log('Buscando:', searchQuery.value)
 }
 
-// const handleUpdate = (value) => {
-// showMessage.value = value;
-// setTimeout(() => {
-//   showMessage.value = false
-// }, 3000)
-//   modal1Open.value = value;
 
-// };
+const handleUpdate = (value) => {
+  open.value = value;
+
+};
+
 const posts = [
     {
         id: 1,
