@@ -47,7 +47,7 @@
                     Revisar
                 </button>
 
-                <Menu as="div" class="relative flex-none">
+                <!-- <Menu as="div" class="relative flex-none">
                     <MenuButton class="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
                         <span class="sr-only">Open options</span>
                         <EllipsisVerticalIcon class="h-5 w-5" aria-hidden="true" />
@@ -71,7 +71,7 @@
                             </MenuItem>
                         </MenuItems>
                     </transition>
-                </Menu>
+                </Menu> -->
             </div>
 
 
@@ -95,7 +95,7 @@ import modal1 from '@/components/ModalRequest.vue'
 // import { formatDate } from '@/utils/formateDate';
 import Swal from 'sweetalert2';
 
-const getRequests =inject('getRequest')
+// const getRequests =inject('getRequest')
 const open = ref(false);
 const requestModal = ref('') 
 
@@ -150,7 +150,7 @@ function search() {
 
 const handleUpdate = (value) => {
   open.value = value;
-    getRequests();
+    // getRequests();
 };
 
 
