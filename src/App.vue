@@ -204,7 +204,8 @@ import {
   HomeModernIcon,
   ChevronDownIcon,
   MagnifyingGlassIcon,
-  UserGroupIcon
+  UserGroupIcon,
+  CheckBadgeIcon
 } from '@heroicons/vue/24/outline'
 import Profile from './components/ProfileModal.vue'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
@@ -233,6 +234,7 @@ const logout = () => {
 }
 
 const navigation = [
+  { name: 'Aprobación de solicitudes', to: '/aprobeRequest', icon: CheckBadgeIcon, current: false },
   { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
   { name: 'Usuarios', to: '/users', icon: UserIcon, current: false, },
   { name: 'Departamentos', to: '/departments', icon: HomeModernIcon, current: false, },

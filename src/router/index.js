@@ -88,9 +88,9 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/aprobeRequest',
-      name: 'aprobeRequest',
-      component: () => import('../views/AprobeRequest/AprobeRequest.vue'),
+      path: '/approveRequest',
+      name: 'approveRequest',
+      component: () => import('../views/ApproveRequest/ApproveRequest.vue'),
       meta: { requiresAuth: true }
     }
   ]

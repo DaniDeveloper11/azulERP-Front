@@ -43,8 +43,8 @@
       </li>
     </ul>
     <!-- <tables v-bind:requests="requests"></tables> -->
+    <tableRequests v-if="showtable === 1" v-bind:requests="requests"></tableRequests>
   </div>
-  <tableRequests v-if="showtable === 1" v-bind:requests="requests"></tableRequests>
 </template>
 
 <script setup>
