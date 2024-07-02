@@ -26,8 +26,8 @@
                 <div class="flex items-start gap-x-3">
                     <p class="text-sm font-semibold leading-6 text-gray-900">{{ request.concept }}</p>
                     <div class="px-3 py-0.5 font-medium rounded-full text-sm"
-                        :class="request.docStatus == 1 ? statuses.pendiente : request.docStatus == 2 ? statuses.aprobado : statuses.rechazado">
-                        {{ request.docStatus == 1 ? 'Pendiente' : request.docStatus == 2 ? 'Aprobado' : 'Rechazado' }}
+                        :class="request.docStatus == 1 ? statuses.pendiente : request.docStatus == 2 ? statuses.aprobado : request.docStatus == 3 ? statuses.rechazado : statuses.cerrado">
+                        {{ request.docStatus == 1 ? 'Pendiente' : request.docStatus == 2 ? 'Aprobado' : request.docStatus == 3 ? 'Rechazado' : 'Cerrado' }}
                     </div>
                 </div>
                 <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
@@ -47,7 +47,7 @@
                     Revisar
                 </button>
 
-                <Menu as="div" class="relative flex-none">
+                <!-- <Menu as="div" class="relative flex-none">
                     <MenuButton class="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
                         <span class="sr-only">Open options</span>
                         <EllipsisVerticalIcon class="h-5 w-5" aria-hidden="true" />
@@ -71,7 +71,7 @@
                             </MenuItem>
                         </MenuItems>
                     </transition>
-                </Menu>
+                </Menu> -->
             </div>
 
 
@@ -95,7 +95,7 @@ import modal1 from '@/components/ModalRequest.vue'
 // import { formatDate } from '@/utils/formateDate';
 import Swal from 'sweetalert2';
 
-const getRequests =inject('getRequest')
+// const getRequests =inject('getRequest')
 const open = ref(false);
 const requestModal = ref('') 
 
@@ -106,7 +106,8 @@ const props = defineProps({
 const statuses = {
     pendiente: 'text-yellow-800 bg-yellow-100 ring-yellow-600/20',
     aprobado: 'text-green-700 bg-green-100 ring-green-600/20',
-    rechazado: 'text-red-600 bg-red-100 ring-red-600/20'
+    rechazado: 'text-red-600 bg-red-100 ring-red-600/20',
+    cerrado: 'text grey-700 bg-gray-100 ring-gray-600/20'
 }
 
 const searchQuery = ref('');
@@ -150,7 +151,7 @@ function search() {
 
 const handleUpdate = (value) => {
   open.value = value;
-    getRequests();
+    // getRequests();
 };
 
 
