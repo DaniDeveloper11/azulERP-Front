@@ -36,13 +36,14 @@
 
         <!-- Modal body -->
         <div class="sm:grid sm:grid-cols-3 sm:gap-8 p-4 md:p-5">
-          <article v-for="item in request.items" :key="item.id"
+          <article v-for="(item,index) in request.items" :key="item.id"
             class="flex max-w-xl flex-col items-start justify-between mt-4 sm:mt-0">
 
             <div class="flex items-center gap-x-4 text-xs">
               <!-- <time :datetime="date" class="text-gray-500">{{ date }}</time> -->
-              <a class="relative z-10 rounded-full bg-sky-200 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Item: {{
-                  item.id }}</a>
+              <a class="relative z-10 rounded-full bg-sky-200 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Articulo 
+                {{
+                  index + 1 }}</a>
             </div>
             <div class="group relative">
               <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
@@ -51,7 +52,8 @@
                   {{ item.article }}
                 </a>
               </h3>
-              <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600"><span>Descripcion:</span> <br>{{ item.description }}</p>
+              <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600"><span>Descripcion:</span> <br>{{
+                item.description }}</p>
             </div>
             <div class="relative mt-2 flex items-center gap-x-4">
               <!-- <img :src="post.author.imageUrl" alt="" class="h-10 w-10 rounded-full bg-gray-50" /> -->
@@ -88,6 +90,20 @@
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Aprobar</button>
           <button type="button" @click="declineRequest()"
             class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Rechazar</button>
+        </div>
+        <div v-if="props.request.docStatus == 2"
+          class="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+          <button type="button"
+            class="flex gap-1 text-white bg-green-500 hover:bg-green-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            Generar Orden de compra
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+              <path fill-rule="evenodd"
+                d="M12.97 3.97a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 1 1-1.06-1.06l6.22-6.22H3a.75.75 0 0 1 0-1.5h16.19l-6.22-6.22a.75.75 0 0 1 0-1.06Z"
+                clip-rule="evenodd" />
+            </svg>
+
+          </button>
+
         </div>
       </div>
     </div>
