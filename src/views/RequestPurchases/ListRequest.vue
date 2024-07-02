@@ -1,11 +1,11 @@
 <template>
     <div>
-        <h2 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">{{ returnTitle() }}</h2>
+        <h4 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{{ returnTitle() }}</h4>
         <ul role="list" class="divide-y divide-gray-200" v-if="hasData">
             <li v-for="req in request" :key="req.id" v-if="request.length > 0" class="px-4 py-4 sm:px-0">
                 <div class="flex justify-between items-center">
                     <div class="ml-4 mr-4">
-                        <button @click="toggleItems(req.id)" class="text-blue-500 hover:underline">
+                        <button @click="showModal(req)" class="text-blue-500 hover:underline">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -30,7 +30,7 @@
                     </div>
                 </div>
 
-                <div class="mt-8 flow-root" v-if="req.showItems">
+                <!-- <div class="mt-8 flow-root" v-if="req.showItems">
                     <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                             <table class="min-w-full divide-y divide-gray-300">
@@ -60,32 +60,39 @@
                                             item.description }}</td>
                                         <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">{{
                                             moneyFormatter(item.price) }}</td>
-
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </li>
         </ul>
         <div class="noHasData" v-if="!hasData">
             <p class="mt-6 text-xl leading-8 text-gray-700">No hay resultados</p>
         </div>
 
+        <RequestDetails v-if="showDetails" :data="itemSelected" @closeModal="handleClose"></RequestDetails>
+
     </div>
 </template>
 <script>
 import axios from '../../utils/axios.js';
 import Swal from 'sweetalert2';
-export default {
+import RequestDetails from './modals/RequestDetails.vue';
 
+export default {
+    components: {
+        RequestDetails
+    },
     data() {
         return {
             request: [],
             user: JSON.parse(localStorage.getItem("user")),
             token: localStorage.getItem('token'),
             hasData: true,
+            showDetails: false,
+            itemSelected: null
         }
     },
     created() {
@@ -143,13 +150,30 @@ export default {
             }
 
         },
-        toggleItems(id) {
-            const req = this.request.find(r => r.id === id);
-            if (req) {
-                req.showItems = !req.showItems;
+        // toggleItems(id) {
+        //     const req = this.request.find(r => r.id === id);
+        //     if (req) {
+        //         req.showItems = !req.showItems;
+        //     }
+        // }
+        showModal(item) {
+            if (item?.items?.length > 0) {
+                this.showDetails = true;
+                this.itemSelected = { ...item }
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'No cuenta con items esta solicitud',
+                    icon: 'warning',
+                });
             }
+
+        },
+        handleClose() {
+            this.showDetails = false;
+            this.itemSelected = null;
         }
-    },
+    }
 }
 </script>
 <style></style>
