@@ -128,7 +128,7 @@ const submitForm = async () => {
   };
 
   try {
-    const response = await fetch('http://localhost:3000/Proveedors', {
+    const response = await fetch('/Proveedors', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,

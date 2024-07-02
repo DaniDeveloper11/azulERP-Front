@@ -149,7 +149,7 @@ const approveRequest = async () => {
   const token = localStorage.getItem('token');
   const docStatus = 2;
   try {
-    const response = await axios.put(`http://localhost:3000/requestPurchases/${props.request.id}`, { docStatus }, {
+    const response = await axios.put(`/requestPurchases/${props.request.id}`, { docStatus }, {
       Authorization: `Bearer ${token}`,
     });
     if (response) {
@@ -177,7 +177,7 @@ const declineRequest = async () => {
   const token = localStorage.getItem('token');
   const docStatus = 3;
   try {
-    const response = await axios.put(`http://localhost:3000/requestPurchases/${props.request.id}`, { docStatus }, {
+    const response = await axios.put(`/requestPurchases/${props.request.id}`, { docStatus }, {
       Authorization: `Bearer ${token}`,
     })
     if (response) {
