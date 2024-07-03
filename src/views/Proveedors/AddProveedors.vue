@@ -1,58 +1,68 @@
 <template>
-  <div class="w-full items-center justify-center bg-gray-150 py-1 px-4 sm:px-2 lg:px-2">
-    <div class="max-w-md w-full space-y-8" style="border: 3px solid #4f46e5; border-radius: 2%;">
-      <div>
-        <h2 class="pb-8 text-center text-4xl font-extrabold text-gray-1000" style="background-color: #4f46e5; color: white">
-          Agregar Proveedor
-        </h2>
-        <hr>
+  <form>
+    <div class="space-y-12">
+      <div class="border-b border-gray-900/10 pb-12">
+        <h2 class="text-base font-semibold leading-7 text-gray-900">Alta de proveedor</h2>
+        <p class="mt-1 text-sm leading-6 text-gray-600">Todos los campos del formulario son obligatorios.</p>
       </div>
-      <form @submit.prevent="submitForm" class="p-2 space-y-6">
-        <div class="grid grid-cols-12 gap-5">
-          <div class="col-span-12">
-            <label for="name" class="sr-only">Nombre</label>
-            <input v-model="name" id="name" name="name" type="text" required
-                   class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Nombre" />
+
+      <div class="border-b border-gray-900/10 pb-12">
+        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+
+          <div class="sm:col-span-3">
+            <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Nombre</label>
+            <div class="mt-2">
+              <input v-model="name" id="name" name="name" type="text" autocomplete="name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
           </div>
-          <div class="col-span-4">
-            <label for="rfc" class="sr-only">RFC</label>
-            <input v-model="rfc" id="rfc" name="rfc" type="text"
-                   class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="RFC" />
+
+          <div class="sm:col-span-3">
+            <label for="rfc" class="block text-sm font-medium leading-6 text-gray-900">RFC</label>
+            <div class="mt-2">
+              <input v-model="rfc" id="rfc" name="rfc" type="text" autocomplete="rfc" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
           </div>
-          <div class="col-span-4">
-            <label for="curp" class="sr-only">CURP</label>
-            <input v-model="curp" id="curp" name="curp" type="text"
-                   class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="CURP" />
+
+          <div class="sm:col-span-3">
+            <label for="curp" class="block text-sm font-medium leading-6 text-gray-900">CURP</label>
+            <div class="mt-2">
+              <input v-model="curp" id="curp" name="curp" type="text" autocomplete="curp" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
           </div>
-          <div class="col-span-4">
-            <label for="phone" class="sr-only">Teléfono</label>
-            <input v-model="phone" id="phone" name="phone" type="phone"
-                   class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Teléfono" />
+
+          <div class="sm:col-span-3">
+            <label for="address" class="block text-sm font-medium leading-6 text-gray-900">Calle</label>
+            <div class="mt-2">
+              <input v-model="address" id="address" name="address" type="text" autocomplete="address" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
           </div>
-          <div class="col-span-12">
-            <label for="address" class="sr-only">Dirección</label>
-            <input v-model="address" id="address" name="address" type="text"
-                   class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Dirección" />
+
+          <div class="sm:col-span-3">
+            <label for="city" class="block text-sm font-medium leading-6 text-gray-900">Ciudad</label>
+            <div class="mt-2">
+              <input v-model="city" id="city" name="city" type="text" autocomplete="city" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
           </div>
-          <div class="col-span-12">
-            <label for="city" class="sr-only">Ciudad</label>
-            <input v-model="city" id="city" name="city" type="text"
-                   class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Ciudad" />
-          </div>
-          <div class="col-span-12">
-            <label for="state" class="sr-only">Estado</label>
-            <input v-model="state" id="state" name="state" type="text"
-                   class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Estado" />
+
+          <div class="sm:col-span-3">
+            <label for="region" class="block text-sm font-medium leading-6 text-gray-900">Estado</label>
+            <div class="mt-2">
+              <select v-model="state" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                <option value="" disabled selected>Seleccione un estado</option>
+                <option v-for="estado in estados" :key="estado.abreviatura" :value="estado.abreviatura">
+                  {{ estado.nombre }}
+                </option>
+              </select>
+            </div>
           </div>
         </div>
-        <div>
-          <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            Crear
-          </button>
-        </div>
-      </form>
+      </div>
     </div>
-  </div>
+    <div class="mt-6 flex items-center justify-end gap-x-6">
+      <button @click="reset" type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancelar</button>
+      <button @click="submitForm" type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Guardar</button>
+    </div>
+  </form>
 </template>
 
 <script setup>
@@ -68,10 +78,43 @@ const phone = ref('');
 const address = ref('');
 const city = ref('');
 const state = ref('');
+const estados = ref([
+  { nombre: "Aguascalientes", abreviatura: "AGS" },
+  { nombre: "Baja California", abreviatura: "BC" },
+  { nombre: "Baja California Sur", abreviatura: "BCS" },
+  { nombre: "Campeche", abreviatura: "CAMP" },
+  { nombre: "Chiapas", abreviatura: "CHIS" },
+  { nombre: "Chihuahua", abreviatura: "CHIH" },
+  { nombre: "Ciudad de México", abreviatura: "CDMX" },
+  { nombre: "Coahuila", abreviatura: "COAH" },
+  { nombre: "Colima", abreviatura: "COL" },
+  { nombre: "Durango", abreviatura: "DGO" },
+  { nombre: "Estado de México", abreviatura: "MEX" },
+  { nombre: "Guanajuato", abreviatura: "GTO" },
+  { nombre: "Guerrero", abreviatura: "GRO" },
+  { nombre: "Hidalgo", abreviatura: "HGO" },
+  { nombre: "Jalisco", abreviatura: "JAL" },
+  { nombre: "Michoacán", abreviatura: "MICH" },
+  { nombre: "Morelos", abreviatura: "MOR" },
+  { nombre: "Nayarit", abreviatura: "NAY" },
+  { nombre: "Nuevo León", abreviatura: "NL" },
+  { nombre: "Oaxaca", abreviatura: "OAX" },
+  { nombre: "Puebla", abreviatura: "PUE" },
+  { nombre: "Querétaro", abreviatura: "QRO" },
+  { nombre: "Quintana Roo", abreviatura: "QROO" },
+  { nombre: "San Luis Potosí", abreviatura: "SLP" },
+  { nombre: "Sinaloa", abreviatura: "SIN" },
+  { nombre: "Sonora", abreviatura: "SON" },
+  { nombre: "Tabasco", abreviatura: "TAB" },
+  { nombre: "Tamaulipas", abreviatura: "TAMPS" },
+  { nombre: "Tlaxcala", abreviatura: "TLAX" },
+  { nombre: "Veracruz", abreviatura: "VER" },
+  { nombre: "Yucatán", abreviatura: "YUC" },
+  { nombre: "Zacatecas", abreviatura: "ZAC" }
+]);
 
 const submitForm = async () => {
   const token = localStorage.getItem('token');
-  const authStore = useAuthStore();
 
   const formData = {
     name: name.value,
@@ -112,6 +155,17 @@ const submitForm = async () => {
     });
   }
 };
+
+const reset = () => {
+  name.value = '';
+  rfc.value = '';
+  curp.value = '';
+  phone.value = '';
+  address.value = '';
+  city.value = '';
+  state.value = '';
+}
+
 </script>
 
 <style scoped>
