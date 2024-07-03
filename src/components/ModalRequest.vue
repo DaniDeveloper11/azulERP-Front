@@ -120,6 +120,13 @@
             </div>
           </article>
         </div>
+        <div v-if="props.request.docStatus == 1" class="md:w-3/5 p-4 md:p-6">
+          <label for="comment" class="block text-sm font-medium leading-6 text-gray-900">Agrega un comentario</label>
+          <div class="mt-2">
+            <textarea rows="4" name="comment" id="comment"
+              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+          </div>
+        </div>
         <!-- Modal footer -->
         <div v-if="props.request.docStatus == 1"
           class="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
@@ -158,6 +165,7 @@ import { formateDate } from '@/utils/formateDate';
 import Swal from 'sweetalert2';
 import { useRouter } from 'vue-router';
 import Departments from '@/views/Departments/Departments.vue';
+import { comment } from 'postcss';
 // import money from '@/components/icons/money.vue'
 
 const router = useRouter();
@@ -271,10 +279,10 @@ const toOrderPurchase = async (request) => {
       });
     }
     const docStatus = 6
-      const response2 = await axios.put(`/requestPurchases/${props.request.id}`, { docStatus }, {
+    const response2 = await axios.put(`/requestPurchases/${props.request.id}`, { docStatus }, {
       Authorization: `Bearer ${token}`,
     });
-    if(response2){
+    if (response2) {
       console.log('solicitud modificada')
     }
   } catch (error) {

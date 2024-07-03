@@ -2,7 +2,7 @@
     <div>
         <h2 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">{{ returnTitle() }}</h2>
         <ul role="list" class="divide-y divide-gray-200" v-if="hasData">
-            <li v-for="req in request" :key="req.id" v-if="request.length > 0" class="px-4 py-4 sm:px-0">
+            <li v-for="req in request" :key="req.id"  class="px-4 py-4 sm:px-0">
                 <div class="flex justify-between items-center">
                     <div class="ml-4 mr-4">
                         <button @click="toggleItems(req.id)" class="text-blue-500 hover:underline">
