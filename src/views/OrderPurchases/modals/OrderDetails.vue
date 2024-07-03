@@ -118,7 +118,7 @@
             <img src="../../../assets/logo.png" width="150" alt="Logo" class="logo">
         </div>
         <div id="encabezado">
-            <h1>SOLICITUD DE COMPRA: {{data.id}}</h1>
+            <h1>ORDEN DE COMPRA: {{data.id}}</h1>
             <h2>DESTILADORA AGAVE AZUL</h2>
         </div>
 
@@ -179,11 +179,11 @@
                 <!-- <p>Nombre:</p>
                 <p>Fecha:</p> -->
             </div>
-            <!-- <div class="firma">
+            <div class="firma">
                 <p><strong>FIRMA DE PROVEEDOR</strong></p>
-                <p>Nombre:</p>
-                <p>Fecha:</p>
-            </div> -->
+                <!-- <p>Nombre:</p>
+                <p>Fecha:</p> -->
+            </div>
         </div>
     </div>
 </template>
@@ -236,7 +236,7 @@ const pdfDownload = () => {
                 const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
                 pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-                pdf.save(`Solicitud_Compra_${props.data.id}.pdf`);
+                pdf.save(`Orden_Compra_${props.data.id}.pdf`);
             }).catch((error) => {
                 console.error("Error generando el PDF:", error);
             });

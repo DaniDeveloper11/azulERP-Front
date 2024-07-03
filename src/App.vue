@@ -256,7 +256,7 @@ const navigation = [
     children:
       [
         { name: 'Crear orden de compra', href: '/orderPurchase' },
-        { name: 'Mis órdenes de compra', href: '#' },
+        { name: 'Mis órdenes de compra', href: '/listOrders' },
       ]
   },
   { name: 'Reportes', to: '/reports', icon: ChartPieIcon, current: false },
