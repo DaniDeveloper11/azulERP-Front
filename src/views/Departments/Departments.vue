@@ -20,6 +20,8 @@
       </div>
     </div>
 
+    <hr class="bg-indigo-600" style="height:3px; margin: .7rem">
+
     <div v-if="showModal" class="fixed inset-0 overflow-y-auto flex items-center justify-center z-50">
       <div class="fixed inset-0 bg-gray-900 bg-opacity-70"></div>
 

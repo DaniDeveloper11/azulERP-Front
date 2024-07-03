@@ -21,7 +21,7 @@
           </RouterLink>
         </div>
       </div>
-      <hr class="bg-indigo-600" style="height:3px;">
+      <hr class="bg-indigo-600" style="height:3px; margin: .7rem">
       <div class="flex mx-auto py-4 sm:py-10">
         <div class="flex w-full mx-10 rounded bg-white">
           <input v-model="searchQuery"

@@ -15,6 +15,9 @@
                 </div>
             </div>
         </div>
+
+        <hr class="bg-indigo-600" style="height:3px; margin: .7rem">
+        
         <ul role="list" class="divide-y divide-gray-200" v-if="hasData">
             <li v-for="req in request" :key="req.id" class="px-4 py-4 sm:px-0">
                 <div class="flex justify-between items-center" v-if="request.length > 0">

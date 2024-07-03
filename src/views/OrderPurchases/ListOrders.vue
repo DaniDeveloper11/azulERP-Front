@@ -15,9 +15,12 @@
                 </div>
             </div>
         </div>
+
+        <hr class="bg-indigo-600" style="height:3px; margin: .7rem">
+
         <ul role="list" class="divide-y divide-gray-200" v-if="hasData">
-            <li v-for="req in request" :key="req.id" v-if="request.length > 0" class="px-4 py-4 sm:px-0">
-                <div class="flex justify-between items-center">
+            <li v-for="req in request" :key="req.id" class="px-4 py-4 sm:px-0">
+                <div class="flex justify-between items-center" v-if="request.length > 0">
                     <div class="ml-4 mr-4">
                         <button @click="showModal(req)" class="text-blue-500 hover:underline">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
