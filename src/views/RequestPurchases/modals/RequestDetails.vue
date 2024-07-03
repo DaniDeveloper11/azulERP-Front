@@ -36,8 +36,7 @@
                                         </dd>
                                     </div>
                                     <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                        <dt class="text-sm font-medium leading-6 text-gray-900">Total
-                                        </dt>
+                                        <dt class="text-sm font-medium leading-6 text-gray-900">Total</dt>
                                         <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                                             {{ moneyFormatter(data.docTotal) }}
                                         </dd>
@@ -50,7 +49,6 @@
                                     </div>
                                 </dl>
                             </div>
-
                             <!-- Botones para cerrar el modal -->
                             <div class="flow-root">
                                 <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -114,11 +112,84 @@
             </div>
         </Dialog>
     </TransitionRoot>
+
+    <div id="orden-compra"  ref="pdfContent">
+        <div class="text-center">
+            <img src="../../../assets/logo.png" width="150" alt="Logo" class="logo">
+        </div>
+        <div id="encabezado">
+            <h1>ORDEN DE COMPRA: {{data.id}}</h1>
+            <h2>DESTILADORA AGAVE AZUL</h2>
+        </div>
+
+        <div id="informacion-orden">
+            <div class="item" id="informacion-cliente">
+                <p><strong>PERSONA QUE SOLICITA EL MATERIAL: {{data.beneficiary}}</strong></p>
+            </div>
+
+            <!-- <div class="item" id="informacion-proveedor">
+                <p><strong>PROVEEDOR:</strong></p>
+                <p>Nombre:</p>
+                <p>Dirección:</p>
+                <p>Teléfono:</p>
+            </div> -->
+        </div>
+
+        <table id="tabla-productos">
+            <thead>
+                <tr>
+                    <!-- <th>FECHA</th> -->
+                    <th>CANTIDAD</th>
+                    <th>CONCEPTO</th>
+                    <th>P. UNIT.</th>
+                    <th>P. TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in data.items">
+                    <!-- <td>2024-07-02</td> -->
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.article }}</td>
+                    <td>{{ moneyFormatter(item.price / item.quantity) }}</td>
+                    <td>{{ moneyFormatter(item.price) }}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3">Sub-Total</td>
+                    <td id="subtotal"></td>
+                </tr>
+                <tr>
+                    <td colspan="3">I.V.A. (16%)</td>
+                    <td id="iva"></td>
+                </tr>
+                <tr>
+                    <td colspan="3">Total</td>
+                    <td id="total">{{ moneyFormatter(data.docTotal) }}</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div id="firmas">
+            <div class="firma">
+                <p><strong>FIRMA DE RECIBIDO DE QUIEN SOLICITA EL MATERIAL</strong></p>
+                <!-- <p>Nombre:</p>
+                <p>Fecha:</p> -->
+            </div>
+            <div class="firma">
+                <p><strong>FIRMA DE PROVEEDOR</strong></p>
+                <!-- <p>Nombre:</p>
+                <p>Fecha:</p> -->
+            </div>
+        </div>
+    </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, nextTick } from 'vue'
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 const open = ref(true)
 const props = defineProps({
@@ -135,10 +206,40 @@ const closeModal = () => {
     emit('closeModal', 'Datos desde el hijo')
 }
 
+const pdfContent = ref(null);
+
 const pdfDownload = () => {
-    open.value = false
-    emit('downloadPDF', 'Datos desde el hijo')
+    nextTick(() => {
+        if (!pdfContent.value) {
+            console.error("No se encontró el contenido del PDF.");
+            return;
+        }
+
+        setTimeout(() => {
+            html2canvas(pdfContent.value, {
+                scale: 2, // Aumenta la escala para mejorar la calidad de la imagen
+                useCORS: true, // Habilita CORS para evitar problemas con imágenes de diferentes dominios
+            }).then((canvas) => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF({
+                    orientation: 'portrait', // Usa 'portrait' para asegurar una visualización vertical
+                    unit: 'mm', // Cambia la unidad a milímetros
+                    format: 'a4' // Usa el formato A4
+                });
+
+                const imgProps = pdf.getImageProperties(imgData);
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                pdf.save('Orden_Compra.pdf');
+            }).catch((error) => {
+                console.error("Error generando el PDF:", error);
+            });
+        }, 500); // retraso para asegurar que el contenido esté completamente renderizado
+    });
 }
+
 
 const moneyFormatter = new Intl.NumberFormat('es-mx', {
     style: 'currency',
@@ -146,3 +247,55 @@ const moneyFormatter = new Intl.NumberFormat('es-mx', {
     minimumFractionDigits: 0,
 }).format
 </script>
+
+<style >
+    
+#orden-compra {
+    max-width: 800px;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    padding: 20px;
+}
+
+#informacion-orden {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+}
+
+#tabla-productos {
+    margin-top: 10px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#tabla-productos th,
+#tabla-productos td {
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+#tabla-productos th {
+    text-align: left;
+}
+
+#total {
+    font-weight: bold;
+}
+
+#firmas {
+    display: flex;
+    justify-content: space-between;
+}
+
+.firma {
+    width: 32%;
+    text-align: center;
+    margin-bottom: 30px
+}
+</style>

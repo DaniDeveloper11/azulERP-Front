@@ -65,100 +65,17 @@
             <p class="mt-6 text-xl leading-8 text-gray-700">No hay resultados</p>
         </div>
 
-        <RequestDetails v-if="showDetails" :data="itemSelected" @closeModal="handleClose" @downloadPDF="getPDF">
+        <RequestDetails v-if="showDetails" :data="itemSelected" @closeModal="handleClose">
         </RequestDetails>
 
-        <div v-if="false" ref="pdfContent" class="pdf-content">
-            <div class="text-center">
-                <a href="/"><img src="../../assets/logo.png" width="150" alt="Logo" class="logo"></a>
-            </div>
-            <div class="border-t border-gray-100">
-                <dl class="divide-y divide-gray-100">
-                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt class="text-sm font-medium leading-6 text-gray-900">Departamento</dt>
-                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                            {{ itemSelected.department }}
-                        </dd>
-                    </div>
-                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt class="text-sm font-medium leading-6 text-gray-900">Concepto</dt>
-                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                            {{ itemSelected.concept }}
-                        </dd>
-                    </div>
-                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt class="text-sm font-medium leading-6 text-gray-900">Beneficiario</dt>
-                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                            {{ itemSelected.beneficiary }}
-                        </dd>
-                    </div>
-                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt class="text-sm font-medium leading-6 text-gray-900">Total</dt>
-                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                            {{ moneyFormatter(itemSelected.docTotal) }}
-                        </dd>
-                    </div>
-                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt class="text-sm font-medium leading-6 text-gray-900">Comentarios</dt>
-                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                            {{ itemSelected.comments }}
-                        </dd>
-                    </div>
-                </dl>
-            </div>
-            <div class="flow-root">
-                <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                        <table class="min-w-full divide-y divide-gray-300">
-                            <thead>
-                                <tr>
-                                    <th scope="col"
-                                        class="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
-                                    </th>
-                                    <th scope="col"
-                                        class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                        Articulo
-                                    </th>
-                                    <th scope="col"
-                                        class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                        Descripcion
-                                    </th>
-                                    <th scope="col"
-                                        class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                        Precio
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-200 bg-white">
-                                <tr v-for="item in itemSelected.items" :key="item.id">
-                                    <td
-                                        class="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0 text-center align-middle">
-                                        {{ "x" + item.quantity }}
-                                    </td>
-                                    <td class="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">
-                                        {{ item.article }}
-                                    </td>
-                                    <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
-                                        {{ item.description }}
-                                    </td>
-                                    <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
-                                        {{ moneyFormatter(item.price) }}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
 </template>
 <script>
 import axios from '../../utils/axios.js';
 import Swal from 'sweetalert2';
 import RequestDetails from './modals/RequestDetails.vue';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+
 
 export default {
     components: {
@@ -248,40 +165,12 @@ export default {
                     icon: 'warning',
                 });
             }
-
         },
         handleClose() {
             this.showDetails = false;
             this.itemSelected = null;
         },
-        getPDF() {
-            this.showDetails = false; // Mostrar el contenido para PDF
-            this.$nextTick(() => {
-                const pdfContent = this.$refs.pdfContent;
-                console.log('pdfContent:', pdfContent);
 
-                if (!pdfContent) {
-                    console.error("No se encontró el contenido del PDF.");
-                    return;
-                }
-
-                setTimeout(() => {
-                    html2canvas(pdfContent).then((canvas) => {
-                        const imgData = canvas.toDataURL('image/png');
-                        const pdf = new jsPDF({
-                            orientation: 'landscape',
-                            unit: 'px',
-                            format: [canvas.width, canvas.height]
-                        });
-                        pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-                        pdf.save('Orden_Compra.pdf'); // Ocultar el contenido del PDF después de generar el PDF
-                    }).catch((error) => {
-                        console.error("Error generando el PDF:", error); // Asegurarse de ocultar el contenido en caso de error
-                    });
-                }, 500); // retraso para asegurar que el contenido esté completamente renderizado
-            });
-            this.itemSelected = null;
-        }
     }
 }
 </script>
