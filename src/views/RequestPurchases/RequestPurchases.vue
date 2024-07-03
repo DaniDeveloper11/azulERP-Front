@@ -5,6 +5,8 @@
         <h2 class="text-base font-semibold leading-7 text-gray-900">Solicitud de compra</h2>
         <p class="mt-1 text-sm leading-6 text-gray-600">Formulario para solicitudes de compra de insumos o mercancía.</p>
 
+        <hr class="bg-indigo-600" style="height:3px; margin: .7rem">
+
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div class="sm:col-span-2 sm:col-start-1">
             <label for="department" class="block text-sm font-medium leading-6 text-gray-900">Departamento</label>

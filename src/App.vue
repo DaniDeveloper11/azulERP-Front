@@ -234,7 +234,7 @@ const logout = () => {
 }
 
 const navigation = [
-  { name: 'Aprobación de solicitudes', to: '/aprobeRequest', icon: CheckBadgeIcon, current: false },
+  { name: 'Aprobación de solicitudes', to: '/approveRequest', icon: CheckBadgeIcon, current: false },
   { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
   { name: 'Usuarios', to: '/users', icon: UserIcon, current: false, },
   { name: 'Departamentos', to: '/departments', icon: HomeModernIcon, current: false, },
@@ -247,6 +247,7 @@ const navigation = [
       [
         { name: 'Crear solicitud de compra', href: '/requestPurchase' },
         { name: 'Mis solicitudes de compra', href: '/listRequest' },
+        { name: 'Aprobar Solicitud', href: '/approveRequest' },
       ]
   },
   {

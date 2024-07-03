@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Login from '../views/Users/Login.vue'
+import Login from '../views/Login.vue'
 import HomeView from '../views/HomeView.vue'
 import Settings from '@/views/SettingsView.vue'
 
@@ -36,13 +36,13 @@ const router = createRouter({
     {
       path: '/users',
       name: 'users',
-      component: () => import('../views/UsersView.vue'),
+      component: () => import('../views/Users/UsersView.vue'),
       meta: { requiresAuth: true } 
     },
     {
       path: '/adduser',
       name: 'adduser',
-      component: () => import('../views/AddUserView.vue'),
+      component: () => import('../views/Users/AddUserView.vue'),
       meta: { requiresAuth: true } 
     },
     {
@@ -91,6 +91,12 @@ const router = createRouter({
       path: '/addproveedors',
       name: 'addproveedors',
       component: () => import('../views/Proveedors/AddProveedors.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/OrderComponent',
+      name: 'OrderComponent',
+      component: () => import('../views/ApproveRequest/Ordenes/PreviewOrder.vue'),
       meta: { requiresAuth: true }
     },
     {
