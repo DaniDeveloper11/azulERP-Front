@@ -8,7 +8,7 @@
                         <p class="mt-1 text-sm leading-6 text-gray-600">Modulo de reportes para análisis de datos y/o aclaraciones.</p>
                     </div>
                     <div class="sm:col-span-1">
-                        <button type="button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Buscar</button>
+                        <button v-if="okBtn" type="button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Buscar</button>
                     </div>
                 </div>
 
@@ -129,58 +129,93 @@
     </form>
 </template>
 
-<script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import useAuthStore from '../../store/auth';
-import Swal from 'sweetalert2';
-import axios from '../../utils/axios';
-
-const types = ref([
-    { nombre: "Solicitudes de compra", value: 1 },
-    { nombre: "Ordenes de compra", value: 2 }
-])
-const type = ref('');
-const filters = ref([
-    { nombre: "Fecha", value: 1 },
-    { nombre: "Departamento", value: 2 },
-    { nombre: "Subdepartamento", value: 3 },
-    { nombre: "Condiciones de pago", value: 4 },
-    { nombre: "Forma de pago", value: 5 },
-    { nombre: "Estatus", value: 6 },
-    { nombre: "Solicitante", value: 7 },
-    { nombre: "Fecha de pago", value: 8 },
-    { nombre: "Beneficiario", value: 9 },
-    { nombre: "Todos", value: 10 }
-])
-const filter = ref('');
-const initDate = ref('');
-const closeDate = ref('');
-const department = ref('');
-const subdepartment = ref('');
-const conditionsPays = ref([
-    { nombre: 'Contado', value: 1 },
-    { nombre: 'Credito', value: 2 }
-])
-const conditionsPay = ref('');
-const paymethods = ref([
-    { nombre: 'Efectivo', value: 1 },
-    { nombre: 'Tarjeta de Credito', value: 2 },
-    { nombre: 'Transferencia', value: 3 }
-])
-const payMethod = ref('');
-const estatusArray = ref([
-    { nombre: "Pendiente", value: 1 },
-    { nombre: "Aprobado", value: 2 },
-    { nombre: "Rechazado", value: 3 },
-    { nombre: "Cancelado", value: 4 },
-    { nombre: "Impreso", value: 5 },
-    { nombre: "Cerrado", value: 6 },
-    { nombre: "Todos", value: 7 }
-])
-const status = ref('');
-const request = ref('');
-const payDate = ref('');
-const benefy = ref('');
-
+<script>
+export default {
+    data(){
+        return{
+            types: [
+                { nombre: "Solicitudes de compra", value: 1 },
+                { nombre: "Ordenes de compra", value: 2 }
+            ],
+            type: '',
+            filters: [
+                { nombre: "Fecha", value: 1 },
+                { nombre: "Departamento", value: 2 },
+                { nombre: "Subdepartamento", value: 3 },
+                { nombre: "Condiciones de pago", value: 4 },
+                { nombre: "Forma de pago", value: 5 },
+                { nombre: "Estatus", value: 6 },
+                { nombre: "Solicitante", value: 7 },
+                { nombre: "Fecha de pago", value: 8 },
+                { nombre: "Beneficiario", value: 9 },
+                { nombre: "Todos", value: 10 }
+            ],
+            filter: '',
+            initDate: '',
+            closeDate: '',
+            department: '',
+            subdepartment: '',
+            conditionsPays: [
+                { nombre: 'Contado', value: 1 },
+                { nombre: 'Credito', value: 2 }
+            ],
+            conditionsPay: '',
+            paymethods: [
+                { nombre: 'Efectivo', value: 1 },
+                { nombre: 'Tarjeta de Credito', value: 2 },
+                { nombre: 'Transferencia', value: 3 }
+            ],
+            payMethod: '',
+            estatusArray: [
+                { nombre: "Pendiente", value: 1 },
+                { nombre: "Aprobado", value: 2 },
+                { nombre: "Rechazado", value: 3 },
+                { nombre: "Cancelado", value: 4 },
+                { nombre: "Impreso", value: 5 },
+                { nombre: "Cerrado", value: 6 },
+                { nombre: "Todos", value: 7 }
+            ],
+            status: '',
+            request: '',
+            payDate: '',
+            benefy: ''
+        }
+    },
+    computed: {
+        okBtn(){
+            let tmp = true;
+            if(this.filter == ''){
+                tmp = false;
+            }
+            if(this.filter == 1 && (this.initDate == '' || this.closeDate == '')){
+                tmp = false;
+            }
+            if(this.filter == 2 && this.department == ''){
+                tmp = false;
+            }
+            if(this.filter == 3 && this.subdepartment == ''){
+                tmp = false;
+            }
+            if(this.filter == 4 && this.conditionsPay == ''){
+                tmp = false;
+            }
+            if(this.filter == 5 && this.payMethod == ''){
+                tmp = false;
+            }
+            if(this.filter == 6 && this.status == ''){
+                tmp = false;
+            }
+            if(this.filter == 7 && this.request == ''){
+                tmp = false;
+            }
+            if(this.filter == 8 && this.payDate == ''){
+                tmp = false;
+            }
+            if(this.filter == 9 && this.benefy == ''){
+                tmp = false;
+            }
+            return tmp;
+        }
+    }
+}
 </script>
