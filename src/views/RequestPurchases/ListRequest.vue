@@ -65,11 +65,12 @@
             <p class="mt-6 text-xl leading-8 text-gray-700">No hay resultados</p>
         </div>
 
-        <RequestDetails v-if="showDetails" :data="itemSelected" @closeModal="handleClose" @downloadPDF="getPDF">
+        <RequestDetails v-if="showDetails" :data="itemSelected" @closeModal="handleClose">
+            
         </RequestDetails>
 
-        <div v-if="false" ref="pdfContent" class="pdf-content">
-            <div class="text-center">
+        <div v-if="showPdfContent" ref="pdfContent" class="pdf-content">
+            <!-- <div class="text-center">
                 <a href="/"><img src="../../assets/logo.png" width="150" alt="Logo" class="logo"></a>
             </div>
             <div class="border-t border-gray-100">
@@ -149,12 +150,13 @@
                         </table>
                     </div>
                 </div>
-            </div>
+            </div> -->
+            <div><h1>SE IMPRIME</h1></div>
         </div>
     </div>
 </template>
 <script>
-import axios from '../../utils/axios.js';
+import axios from '@/utils/axios';
 import Swal from 'sweetalert2';
 import RequestDetails from './modals/RequestDetails.vue';
 import html2canvas from 'html2canvas';
@@ -191,6 +193,10 @@ export default {
     methods: {
         returnTitle() {
             return this.user.user_position == 'Miembro' ? "Mis solicitudes de compra" : "Solicitudes de compras"
+        },
+        print(){
+         setTimeout(this.getPDF, 500);
+
         },
         async getRequest() {
             try {
@@ -255,7 +261,7 @@ export default {
             this.itemSelected = null;
         },
         getPDF() {
-            this.showDetails = false; // Mostrar el contenido para PDF
+            this.showPdfContent = true; 
             this.$nextTick(() => {
                 const pdfContent = this.$refs.pdfContent;
                 console.log('pdfContent:', pdfContent);
@@ -275,8 +281,11 @@ export default {
                         });
                         pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
                         pdf.save('Orden_Compra.pdf'); // Ocultar el contenido del PDF después de generar el PDF
+                          this.showPdfContent = false; 
                     }).catch((error) => {
                         console.error("Error generando el PDF:", error); // Asegurarse de ocultar el contenido en caso de error
+
+                          this.showPdfContent = false; 
                     });
                 }, 500); // retraso para asegurar que el contenido esté completamente renderizado
             });
