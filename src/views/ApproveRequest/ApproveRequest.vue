@@ -10,7 +10,7 @@
           class="flex flex-1 items-center justify-between truncate rounded-r-md border-b border-r border-t border-gray-200 bg-white">
           <div @click="project.value != showtable ? showtable = project.value: showtable = showtable " class="flex-1 truncate px-4 py-2 text-sm cursor-pointer">
             <a  class="font-medium text-gray-900 hover:text-gray-600">{{ project.name }}</a>
-            <p class="text-gray-500">{{ project.members }} Members</p>
+            <p class="text-gray-500">{{project.value == 1 ?  countRequests : project.value== 2 ? countOrders : '' }} Registros</p>
           </div>
           <div class="flex-shrink-0 pr-2">
             <Menu as="div" class="relative flex-none">
@@ -43,7 +43,9 @@
       </li>
     </ul>
     <!-- <tables v-bind:requests="requests"></tables> -->
+    <!-- <tableRequests v-if="showtable === 1" v-bind:requests="requests"></tableRequests> -->
     <tableRequests v-if="showtable === 1" v-bind:requests="requests"></tableRequests>
+    <tableOrders v-if="showtable === 2" v-bind:orders="orders"></tableOrders>
   </div>
 </template>
 
@@ -55,11 +57,14 @@ import axios from '../../utils/axios';
 import { onMounted, ref, reactive, provide } from 'vue'
 import { request } from 'utilities';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import tableOrders from '@/components/tableOrders.vue'
 
 const showtable = ref(1) //1 tabla solicitudes de compra 2 tabla ordenes de compra
 
 const requests = ref([]);
-const countRequests = ref('')
+const orders = ref([])
+const countRequests = ref(0)
+const countOrders = ref(0)
 const projects = [
   { name: 'Solicitud de compra', initials: 'SC', href: '#', members: 16, bgColor: 'bg-pink-600',value:1 },
   { name: 'Orden de Compra', initials: 'OC', href: '#', members: 12, bgColor: 'bg-purple-600', value:2 },
@@ -67,6 +72,7 @@ const projects = [
 
 onMounted(() => {
   getRequests();
+  getOrders();
 })
 
 const getRequests = async () => {
@@ -94,17 +100,21 @@ const getRequests = async () => {
 
 provide('getRequests',getRequests);
 
-const getUser = async (userRequest) => {
+const getOrders = async () => {
   const token = localStorage.getItem('token');
-  try {
-    const response = await axios.get(`/users/${userRequest}`, {
+  try{
+    const response = await axios.get('/orderPurchases', {
       Authorization: `Bearer ${token}`
     });
+    orders.value = response.data
+    countOrders.value = orders.value.length
+  }catch(error){
+    console.error(error)
+  }finally{
 
-    // agrega el nombre del usuario al objeto en turno 
-
-  } catch (error) {
-    console.log('Error al obtener datos del usuario')
   }
 }
+
+
+
 </script>
