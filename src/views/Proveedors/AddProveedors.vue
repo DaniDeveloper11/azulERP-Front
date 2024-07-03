@@ -129,7 +129,8 @@ const submitForm = async () => {
   };
 
   try {
-    const response = await axios.post('/proveedors', formData, {
+    const response = await fetch('http://localhost:3000/Proveedors', {
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',

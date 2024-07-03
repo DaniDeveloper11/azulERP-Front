@@ -93,16 +93,15 @@
         </div>
         <div v-if="props.request.docStatus == 2"
           class="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-          <button type="button"
-            class="flex gap-1 text-white bg-green-500 hover:bg-green-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            Generar Orden de compra
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-              <path fill-rule="evenodd"
-                d="M12.97 3.97a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 1 1-1.06-1.06l6.22-6.22H3a.75.75 0 0 1 0-1.5h16.19l-6.22-6.22a.75.75 0 0 1 0-1.06Z"
-                clip-rule="evenodd" />
-            </svg>
-
-          </button>
+         <button type="button" @click="handleGenerateOrder"
+      class="flex gap-1 text-white bg-green-500 hover:bg-green-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+      Generar Orden de compra
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+        <path fill-rule="evenodd"
+          d="M12.97 3.97a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 1 1-1.06-1.06l6.22-6.22H3a.75.75 0 0 1 0-1.5h16.19l-6.22-6.22a.75.75 0 0 1 0-1.06Z"
+          clip-rule="evenodd" />
+      </svg>
+    </button>
 
         </div>
       </div>
@@ -134,6 +133,10 @@ let props = defineProps({
 const closeModal = () => {
   emit('update-value', false)
 }
+const handleGenerateOrder = () => {
+  localStorage.setItem('orderData', JSON.stringify(props.request))
+  router.push({ name: 'OrderComponent' })
+}
 
 onMounted(() => {
   // date.value = formatDate(props.request.payDate)
@@ -149,7 +152,7 @@ const approveRequest = async () => {
   const token = localStorage.getItem('token');
   const docStatus = 2;
   try {
-    const response = await axios.put(`http://localhost:3000/requestPurchases/${props.request.id}`, { docStatus }, {
+    const response = await axios.put(`/requestPurchases/${props.request.id}`, { docStatus }, {
       Authorization: `Bearer ${token}`,
     });
     if (response) {
@@ -177,7 +180,7 @@ const declineRequest = async () => {
   const token = localStorage.getItem('token');
   const docStatus = 3;
   try {
-    const response = await axios.put(`http://localhost:3000/requestPurchases/${props.request.id}`, { docStatus }, {
+    const response = await axios.put(`/requestPurchases/${props.request.id}`, { docStatus }, {
       Authorization: `Bearer ${token}`,
     })
     if (response) {
@@ -199,6 +202,7 @@ const declineRequest = async () => {
     closeModal()
   }
 }
+
 
 // const formateDate = (dateString) => {
 //   const date = new Date(dateString);

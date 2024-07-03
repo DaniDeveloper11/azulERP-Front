@@ -94,6 +94,12 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
+      path: '/OrderComponent',
+      name: 'OrderComponent',
+      component: () => import('../views/ApproveRequest/Ordenes/PreviewOrder.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
       path: '/approveRequest',
       name: 'approveRequest',
       component: () => import('../views/ApproveRequest/ApproveRequest.vue'),

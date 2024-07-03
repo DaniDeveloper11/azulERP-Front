@@ -72,13 +72,13 @@ onMounted(() => {
 const getRequests = async () => {
   const token = localStorage.getItem('token');
   try {
-    const response = await axios.get('http://localhost:3000/requestPurchases', {
+    const response = await axios.get('/requestPurchases', {
       Authorization: `Bearer ${token}`
     });
     requests.value = response.data;
     countRequests.value = requests.value.length
     for (const element of requests.value) {
-      const response2 = await axios.get(`http://localhost:3000/users/${element.userRequest}`, {
+      const response2 = await axios.get(`/users/${element.userRequest}`, {
         headers: { // Corregir el uso de headers
           Authorization: `Bearer ${token}`
         }
@@ -97,7 +97,7 @@ provide('getRequests',getRequests);
 const getUser = async (userRequest) => {
   const token = localStorage.getItem('token');
   try {
-    const response = await axios.get(`http://localhost:3000/users/${userRequest}`, {
+    const response = await axios.get(`/users/${userRequest}`, {
       Authorization: `Bearer ${token}`
     });
 
