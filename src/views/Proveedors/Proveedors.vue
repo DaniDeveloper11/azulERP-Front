@@ -21,7 +21,7 @@
           </RouterLink>
         </div>
       </div>
-        <hr class="bg-indigo-600" style="height:3px;">
+      <hr class="bg-indigo-600" style="height:3px;">
       <div class="flex mx-auto py-4 sm:py-10">
         <div class="flex w-full mx-10 rounded bg-white">
           <input v-model="searchQuery"
@@ -43,7 +43,7 @@
           </button>
         </div>
       </div>
-          
+      
       <div class="mt-1 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <div v-for="proveedor in filteredProveedors" :key="proveedor.id" class="overflow-hidden rounded-lg bg-white shadow">
           <div class="p-6">
@@ -77,29 +77,36 @@
                 Eliminar<span class="sr-only">, {{ proveedor.name }}</span>
               </button>
               <button 
-                v-on:click="editOpen = true; emptyPerson = proveedor;"
+                v-on:click="editProveedor(proveedor)"
                 class="rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 inline-block">
                 Editar<span class="sr-only">, {{ proveedor.name }}</span>
+              </button>
+              <button 
+                v-on:click="ConfirmAvailable(proveedor.id)" v-if="proveedor.active == 0"
+                class="rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 inline-block">
+                Habilitar<span class="sr-only">, {{ proveedor.name }}</span>
               </button>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <modal :open="editOpen" :proveedor="selectedProveedor" @close="editOpen = false"></modal>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed,provide } from 'vue';
 import axios from '@/utils/axios';
 import loader from '../../components/LoaderCss.vue';
 import defaultImage from '../../assets/provideer.png';
 import Swal from 'sweetalert2';
+import modal from './modal/modalProveedors.vue';
 
 const showLoader = ref(true);
 const proveedors = ref([]);
 const editOpen = ref(false);
-const emptyPerson = ref({});
+const selectedProveedor = ref(null); 
 const searchQuery = ref('');
 const statusFilter = ref('1');
 
@@ -134,6 +141,44 @@ const confirmDelete = (id) => {
   });
 };
 
+const ConfirmAvailable = (id) => {
+  Swal.fire({
+    title: '¿Estás seguro?',
+    text: "No podrás revertir esto!",
+    icon: 'done',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Sí, Habilitarlo!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Available(id);
+    }
+  });
+};
+
+const Available = async (id) => {
+  try {
+    await axios.put(`/proveedors/${id}`, {
+      active: 1
+    });
+    proveedors.value = proveedors.value.filter(proveedor => proveedor.id !== id);
+    Swal.fire(
+      'Habilitado!',
+      'El proveedor ha sido habilitado.',
+      'success'
+    );
+    fetchProveedors();
+  } catch (error) {
+    console.error('Error available proveedor:', error);
+    Swal.fire(
+      'Error!',
+      'Hubo un problema habilitando el proveedor.',
+      'error'
+    );
+  }
+};
+provide('fetchProveedors',fetchProveedors);
 const deleteProveedor = async (id) => {
   try {
     await axios.put(`/proveedors/${id}`, {
@@ -145,6 +190,7 @@ const deleteProveedor = async (id) => {
       'El proveedor ha sido eliminado.',
       'success'
     );
+     fetchProveedors();
   } catch (error) {
     console.error('Error deleting proveedor:', error);
     Swal.fire(
@@ -154,6 +200,13 @@ const deleteProveedor = async (id) => {
     );
   }
 };
+
+const editProveedor = (proveedor) => {
+  selectedProveedor.value = proveedor;
+  editOpen.value = true;
+};
+
+
 
 const filteredProveedors = computed(() => {
   return proveedors.value.filter(proveedor => {
