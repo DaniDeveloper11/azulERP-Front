@@ -166,6 +166,3 @@ const reset = () => {
 }
 
 </script>
-
-<style scoped>
-</style>

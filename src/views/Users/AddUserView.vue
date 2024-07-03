@@ -234,7 +234,7 @@ import ListBox from '@/components/ListBox.vue'
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import axios from '@/utils/axios'
 import Swal from 'sweetalert2';
-import loader from '../components/LoaderCss.vue'
+import loader from '../../components/LoaderCss.vue'
 
 const showloader = ref(false);
 const user_name = ref('');

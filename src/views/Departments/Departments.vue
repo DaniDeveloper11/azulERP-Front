@@ -346,7 +346,7 @@ export default {
     this.getSubDepartments();
     this.getUsers();
     this.getDepartments();
-  },
+  }
 };
 </script>
 

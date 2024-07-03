@@ -100,10 +100,10 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import EditUserModal from '../components/EditUser.vue'
+import EditUserModal from '../../components/EditUser.vue'
 
 import loader from '@/components/LoaderCss.vue'
-import axios from '../utils/axios';
+import axios from '../../utils/axios';
 import { useRouter } from 'vue-router';
 const showloader = ref(false)
 
