@@ -70,6 +70,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import useAuthStore from '../../store/auth';
 import Swal from 'sweetalert2';
+import axios from '../../utils/axios';
 
 const name = ref('');
 const rfc = ref('');
@@ -128,16 +129,14 @@ const submitForm = async () => {
   };
 
   try {
-    const response = await fetch('http://localhost:3000/Proveedors', {
-      method: 'POST',
+    const response = await axios.post('/proveedors', formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
+      }
     });
 
-    if (response.ok) {
+    if (response.data) {
       Swal.fire({
         title: 'Correcto',
         text: 'Proveedor creado correctamente',
@@ -167,6 +166,3 @@ const reset = () => {
 }
 
 </script>
-
-<style scoped>
-</style>

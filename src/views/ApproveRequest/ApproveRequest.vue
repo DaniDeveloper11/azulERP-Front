@@ -44,9 +44,9 @@
     </ul>
     <!-- <tables v-bind:requests="requests"></tables> -->
     <!-- <tableRequests v-if="showtable === 1" v-bind:requests="requests"></tableRequests> -->
+    <tableRequests v-if="showtable === 1" v-bind:requests="requests"></tableRequests>
+    <tableOrders v-if="showtable === 2" v-bind:orders="orders"></tableOrders>
   </div>
-  <tableRequests v-if="showtable === 1" v-bind:requests="requests"></tableRequests>
-  <tableOrders v-if="showtable === 2" v-bind:orders="orders"></tableOrders>
 </template>
 
 <script setup>

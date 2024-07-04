@@ -17,7 +17,7 @@
         </div>
 
         <hr class="bg-indigo-600" style="height:3px; margin: .7rem">
-        
+
         <ul role="list" class="divide-y divide-gray-200" v-if="hasData">
             <li v-for="req in request" :key="req.id" class="px-4 py-4 sm:px-0">
                 <div class="flex justify-between items-center" v-if="request.length > 0">
@@ -67,22 +67,22 @@
         <div class="noHasData" v-if="!hasData">
             <p class="mt-6 text-xl leading-8 text-gray-700">No hay resultados</p>
         </div>
-
-        <RequestDetails v-if="showDetails" :data="itemSelected" @closeModal="handleClose">
-        </RequestDetails>
-
-
+  
+        <OrderDetails v-if="showDetails" :data="itemSelected" @closeModal="handleClose">
+        </OrderDetails>
+  
+  
     </div>
-</template>
-<script>
-import axios from '../../utils/axios.js';
-import Swal from 'sweetalert2';
-import RequestDetails from './modals/RequestDetails.vue';
-
-
-export default {
+  </template>
+  <script>
+  import axios from '../../utils/axios.js';
+  import Swal from 'sweetalert2';
+  import OrderDetails from './modals/OrderDetails.vue';
+  
+  
+  export default {
     components: {
-        RequestDetails,
+      OrderDetails,
     },
     data() {
         return {
@@ -116,20 +116,20 @@ export default {
             try {
                 let response
                 if (this.user.user_position == "Gerente") {
-                    response = await axios.get(`/requestPurchases`, {
+                    response = await axios.get(`/orderPurchases`, {
                         headers: {
                             Authorization: `Bearer ${this.token}`,
                         },
                     });
                 } else if (this.user.user_position == "Miembro") {
-
-                    response = await axios.get(`/requestPurchases/forDepartment/${this.user.user_id}`, {
+  
+                    response = await axios.get(`/orderPurchases/forDepartment/${this.user.user_id}`, {
                         headers: {
                             Authorization: `Bearer ${this.token}`,
                         },
                     });
                 } else {
-                    response = await axios.get(`/requestPurchases`, {
+                    response = await axios.get(`/orderPurchases`, {
                         headers: {
                             Authorization: `Bearer ${this.token}`,
                         },
@@ -149,7 +149,7 @@ export default {
                 });
                 this.hasData = false;
             }
-
+  
         },
         // toggleItems(id) {
         //     const req = this.request.find(r => r.id === id);
@@ -165,7 +165,7 @@ export default {
                         Authorization: `Bearer ${this.token}`,
                     },
                 });
-
+  
                 const response2 = await axios.get(`/departments/${item.department}`, {
                     headers: {
                         Authorization: `Bearer ${this.token}`,
@@ -183,7 +183,7 @@ export default {
                         icon: 'error',
                     });
                 }
-
+  
             } else {
                 Swal.fire({
                     title: 'Error',
@@ -196,8 +196,8 @@ export default {
             this.showDetails = false;
             this.itemSelected = null;
         },
-
+  
     }
-}
-</script>
-<style></style>
+  }
+  </script>
+  <style></style>

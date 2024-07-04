@@ -234,7 +234,7 @@ import ListBox from '@/components/ListBox.vue'
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import axios from '@/utils/axios'
 import Swal from 'sweetalert2';
-import loader from '../components/LoaderCss.vue'
+import loader from '../../components/LoaderCss.vue'
 
 const showloader = ref(false);
 const user_name = ref('');
@@ -260,7 +260,7 @@ const showMessage = ref(false);
 const register = async () => {
   showloader.value = true; // Mostrar loader al iniciar la consulta
   try {
-    const response = await axios.post('http://localhost:3000/auth/register', {
+    const response = await axios.post('/auth/register', {
       user_name: user_name.value,
       user_lastname: user_lastname.value,
       user_nickname: user_nickname.value,
@@ -375,7 +375,7 @@ const departments = ref([])
 const getDepartments = async () => {
   const token = localStorage.getItem('token');
   try {
-    const response = await axios.get('http://localhost:3000/departments', {
+    const response = await axios.get('/departments', {
       headers: {
         Authorization: `Bearer ${token}`
       }

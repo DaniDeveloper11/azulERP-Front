@@ -24,6 +24,8 @@
       </div>
     </div>
 
+    <hr class="bg-indigo-600" style="height:3px; margin: .7rem">
+
     <div class="mt-8 flow-root">
       <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -100,10 +102,10 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import EditUserModal from '../components/EditUser.vue'
+import EditUserModal from '../../components/EditUser.vue'
 
 import loader from '@/components/LoaderCss.vue'
-import axios from '../utils/axios';
+import axios from '../../utils/axios';
 import { useRouter } from 'vue-router';
 const showloader = ref(false)
 
