@@ -56,14 +56,18 @@
                     <div class="sm:col-span-3" v-if="filter == 2">
                         <label for="department">Departamento</label>
                         <div class="mt-2">
-                            <input v-model="department" id="department" name="department" type="text" autocomplete="department" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            <select v-model="department" @change="fetchSubdepartmentsAndUsers" id="department" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                <option v-for="dept in departments" :key="dept.id" :value="dept.id">{{ dept.name }}</option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="sm:col-span-3" v-if="filter == 3">
                         <label for="subdepartment">Subdepartamento</label>
                         <div class="mt-2">
-                            <input v-model="subdepartment" id="subdepartment" name="subdepartment" type="text" autocomplete="subdepartment" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            <select v-model="subdepartment" id="subdepartment" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                <option v-for="subdept in subdepartments" :key="subdept.id" :value="subdept.id">{{ subdept.name }}</option>
+                            </select>
                         </div>
                     </div>
 
@@ -106,7 +110,9 @@
                    <div class="sm:col-span-3" v-if="filter == 7">
                         <label for="request">Solicitante</label>
                         <div class="mt-2">
-                            <input v-model="request" id="request" name="request" type="text" autocomplete="request" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            <select v-model="request" id="userRequest" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                <option v-for="user in users" :key="user.user_id" :value="user.user_id">{{ user.user_name }} {{user.user_lastname}}</option>
+                            </select>
                         </div>
                     </div>
 
@@ -132,6 +138,9 @@
 </template>
 
 <script>
+import useAuthStore from '../../store/auth.js';
+import axios from '../../utils/axios.js';
+import Swal from 'sweetalert2';
 export default {
     data(){
         return{
@@ -155,7 +164,9 @@ export default {
             filter: '',
             initDate: '',
             closeDate: '',
+            departments: [],
             department: '',
+            subdepartments: [],
             subdepartment: '',
             conditionsPays: [
                 { nombre: 'Contado', value: 1 },
@@ -178,11 +189,15 @@ export default {
                 { nombre: "Todos", value: 7 }
             ],
             status: '',
+            users: [],
             request: '',
             payDate: '',
-            benefy: ''
+            benefy: '',
         }
     },
+    created(){
+        this.getDepartments();
+    },  
     computed: {
         okBtn(){
             let tmp = true;
@@ -217,6 +232,105 @@ export default {
                 tmp = false;
             }
             return tmp;
+        }
+    },
+    methods: {
+        async getDepartments() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Token no encontrado',
+                    icon: 'error'
+                });
+                return;
+            }
+            try {
+                const response = await axios.get('/departments', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                if (response && response.status === 200) {
+                    this.departments = response.data;
+                } 
+                else {
+                    throw new Error('Respuesta inesperada del servidor');
+                }
+            } 
+            catch (error) {
+                console.error('Error al obtener los departamentos:', error);
+                Swal.fire({
+                    title: 'Error',
+                    text: 'No se pudo obtener la lista de departamentos',
+                    icon: 'error'
+                });
+            }
+        },
+        async getDepartments() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Token no encontrado',
+                    icon: 'error'
+                });
+                return;
+            }
+            try {
+                const response = await axios.get('/subdepartments', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                if (response && response.status === 200) {
+                    this.subdepartments = response.data;
+                } 
+                else {
+                    throw new Error('Respuesta inesperada del servidor');
+                }
+            } 
+            catch (error) {
+                console.error('Error al obtener los subdepartamentos:', error);
+                Swal.fire({
+                    title: 'Error',
+                    text: 'No se pudo obtener la lista de subdepartamentos',
+                    icon: 'error'
+                });
+            }
+        },
+        async getDepartments() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Token no encontrado',
+                    icon: 'error'
+                });
+                return;
+            }
+            try {
+                const response = await axios.get('/users', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                if (response && response.status === 200) {
+                    this.users = response.data;
+                    console.log(this.users)
+                } 
+                else {
+                    throw new Error('Respuesta inesperada del servidor');
+                }
+            } 
+            catch (error) {
+                console.error('Error al obtener los usuarios:', error);
+                Swal.fire({
+                    title: 'Error',
+                    text: 'No se pudo obtener la lista de usuarios',
+                    icon: 'error'
+                });
+            }
         }
     }
 }
