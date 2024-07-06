@@ -29,9 +29,11 @@
               }}</div>
           </div>
           <div class="grid gap-2 items-center justify-between p-4">
-            <h3>{{request.nameDepartment}}</h3>
+            <h3>{{departmentName}}</h3>
+            <p>{{ subdepaName  }}</p>
             <p>Nombre del Solicitante: <span>{{ request.userRequest_name }}</span></p>
             <p>Fecha: <span>{{ formateDate(props.request.date) }}</span></p>
+
           </div>
         </div>
 
@@ -78,19 +80,37 @@
                       d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>
 
-                  Precio:{{ item.price }}
+                  Precio:{{ formatMoneyInMXN(item.price) }}
                 </p>
               </div>
             </div>
           </article>
         </div>
+
+        <div class="flex justify-end items-start px-10">
+          <div class="bg-gray-300 py-2 px-4 rounded-lg">
+            <h2 class="text-3xl font-bold">Total: {{ formatMoneyInMXN(request.docTotal) }}</h2>
+          </div>
+        </div>
+
+        <!-- Comentario solo si es una solicitud sin aprobar -->
         <div v-if="props.request.docStatus == 1" class="md:w-3/5 p-4 md:p-6">
           <label for="comment" class="block text-sm font-medium leading-6 text-gray-900">Agrega un comentario</label>
           <div class="mt-2">
-            <textarea rows="4" name="comment" id="comment"
+            <textarea v-model="comment" rows="4" name="comment" id="comment"
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
           </div>
         </div>
+        <article v-if="props.request.docStatus == 2" class="text-wrap md:w-3/5 p-4 md:p-6">
+          <h3 class="block text-sm font-medium leading-6 text-gray-900">Comentario:</h3>
+          <div class="mt-2">
+            <p class="text-justify">{{ request.comments }}</p>
+          </div>
+        </article>
+
+        
+
+
         <!-- Modal footer -->
         <div v-if="props.request.docStatus == 1"
           class="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
@@ -120,19 +140,21 @@
 
 
 <script setup>
-import { ref, defineEmits, onMounted } from 'vue'
+import { ref, defineEmits, onMounted,onUpdated } from 'vue'
 import axios from '@/utils/axios'
 
 import { formateDate } from '@/utils/formateDate';
 import Swal from 'sweetalert2';
 import { useRouter } from 'vue-router';
 import Departments from '@/views/Departments/Departments.vue';
-import { comment } from 'postcss';
+// import { comment } from 'postcss';
 // import money from '@/components/icons/money.vue'
 
 const router = useRouter();
 const emit = defineEmits(['update-value']);
-
+const comment = ref('');
+const departmentName = ref('');
+const subdepaName = ref('');
 let props = defineProps({
   open: Boolean,
   request: {},
@@ -149,20 +171,37 @@ const handleGenerateOrder = () => {
 }
 
 onMounted(() => {
-  // date.value = formatDate(props.request.payDate)
-
-
-  // console.log(props.request.payDate)
 })
 
+onUpdated(() => {
+  getDepartment()
+})
+
+const getDepartment = async () =>{
+  const token = localStorage.getItem('token');
+  try{
+    const response = await axios.get(`/departments/${props.request.department}`,{
+      Authorization: `Bearer ${token}`,
+    });
+    if(response){
+      departmentName.value = response.data.name
+      const response2 = await axios.get(`/subdepartments/group/${props.request.department}`,{
+      Authorization: `Bearer ${token}`,
+    });
+    subdepaName.value = response2.data.name 
+    }
+  }catch(error){
+    console.error(error)
+  }finally{}
+}
 
 
 const approveRequest = async () => {
-  // props.request.docStatus.value = 2;
   const token = localStorage.getItem('token');
   const docStatus = 2;
+  const comments = comment.value
   try {
-    const response = await axios.put(`/requestPurchases/${props.request.id}`, { docStatus }, {
+    const response = await axios.put(`/requestPurchases/${props.request.id}`, { docStatus,comments }, {
       Authorization: `Bearer ${token}`,
     });
     if (response) {
@@ -183,6 +222,7 @@ const approveRequest = async () => {
 
   } finally {
     closeModal()
+    comment.value ='';
   }
 }
 
@@ -213,18 +253,12 @@ const declineRequest = async () => {
   }
 }
 
-
-// const formateDate = (dateString) => {
-//   const date = new Date(dateString);
-
-//   const day = date.getUTCDate().toString().padStart(2, '0');
-//   const month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // Los meses empiezan en 0
-//   const year = date.getUTCFullYear();
-
-//   const formattedDate = `${day}/${month}/${year}`;
-// return formattedDate
-// }
-
+function formatMoneyInMXN(amount) {
+    return amount.toLocaleString('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
+    });
+}
 
 
 </script>

@@ -111,12 +111,10 @@ const filterOrders = computed(() => {
     const queries = searchQuery.value.toLowerCase().split(',').map(q => q.trim())
     return props.orders.filter(order => {
         const statusText = getStatusText(order.docStatus).toLowerCase()
-        const nameDepartment = order.nameDepartment.toLowerCase()
         return queries.every(query =>
             order.concept.toLowerCase().includes(query) ||
             order.userRequest_name.toLowerCase().includes(query) ||
-            statusText.includes(query)||
-            nameDepartment.includes(query)
+            statusText.includes(query)
         )
     })
 })

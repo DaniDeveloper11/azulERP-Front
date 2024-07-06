@@ -108,12 +108,12 @@ const getRequests = async () => {
           Authorization: `Bearer ${token}`
         }
       });
-      const response3 = await axios.get(`/departments/${element.department}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-      element.nameDepartment = response3.data.name
+     // const response3 = await axios.get(`/departments/${element.department}`, {
+                   // headers: {
+                    //    Authorization: `Bearer ${token}`,
+                    //},
+                //});
+     // element.nameDepartment = response3.data.name
       element.userRequest_name = (response2.data.user_name + " " + response2.data.user_lastname).toUpperCase(); // Asignar el nombre obtenido de la respuesta
     }
   } catch (error) {
@@ -139,12 +139,12 @@ const getOrders = async () => {
           Authorization: `Bearer ${token}`
         }
       });
-      const response3 = await axios.get(`/departments/${element.department}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-      element.nameDepartment = response3.data.name
+  //const response3 = await axios.get(`/departments/${element.department}`, {
+                //headers: {
+                //    Authorization: `Bearer ${token}`,
+              //  },
+          //  });
+     // element.nameDepartment = response3.data.name
       element.userRequest_name = (response2.data.user_name + " " + response2.data.user_lastname).toUpperCase(); // Asignar el nombre obtenido de la respuesta
     }
   }catch(error){

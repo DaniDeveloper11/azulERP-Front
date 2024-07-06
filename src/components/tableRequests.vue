@@ -30,7 +30,7 @@
                         {{ request.docStatus == 1 ? 'Pendiente' : request.docStatus == 2 ? 'Aprobado' : request.docStatus == 3 ? 'Rechazado' : 'Cerrado' }}
                     </div>
                 </div>
-                <p class="text-sm font-semibold leading-6 text-gray-500">{{ request.nameDepartment }}</p>
+                <!-- <p class="text-sm font-semibold leading-6 text-gray-500">{{ request.nameDepartment }}</p> -->
 
                 <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
                     <p class="whitespace-nowrap">
@@ -106,12 +106,11 @@ const filteredRequests = computed(() => {
     const queries = searchQuery.value.toLowerCase().split(',').map(q => q.trim())
     return props.requests.filter(request => {
         const statusText = getStatusText(request.docStatus).toLowerCase()
-        const nameDepartment = request.nameDepartment.toLowerCase()
         return queries.every(query =>
             request.concept.toLowerCase().includes(query) ||
             request.userRequest_name.toLowerCase().includes(query) ||
-            statusText.includes(query)||
-            nameDepartment.includes(query)
+            statusText.includes(query)
+     
         )
     })
 })
