@@ -29,8 +29,9 @@
               }}</div>
           </div>
           <div class="grid gap-2 items-center justify-between p-4">
+            <h3>{{request.nameDepartment}}</h3>
             <p>Nombre del Solicitante: <span>{{ request.userRequest_name }}</span></p>
-            <p>Fecha: <span>{{ formateDate(props.request.payDate) }}</span></p>
+            <p>Fecha: <span>{{ formateDate(props.request.date) }}</span></p>
           </div>
         </div>
 

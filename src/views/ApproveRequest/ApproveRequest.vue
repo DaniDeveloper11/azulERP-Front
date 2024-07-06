@@ -1,6 +1,25 @@
 <template>
   <div>
-    <h2 class="text-sm font-medium text-gray-500">Aprobar o Cancelar </h2>
+    <div v-if="showtable === 1"  class="sm:flex sm:items-center">
+      <div class="sm:flex-auto">
+        <h1 class="text-base font-semibold leading-6 text-gray-900">Solicitudes de compra</h1>
+        <p class="mt-2 text-sm text-gray-700">
+        Aprueba o Rechaza las solicitudes de compra, Genera una Orden de compra desde una Solicitud de compra y revisa
+        el estatus de cada una de estas.
+        </p>
+      </div>
+    </div>
+    <div v-if="showtable === 2"  class="sm:flex sm:items-center">
+      <div class="sm:flex-auto">
+        <h1 class="text-base font-semibold leading-6 text-gray-900">Ordenes de compra</h1>
+        <p class="mt-2 text-sm text-gray-700">
+        Revisa el estado de las Solicitudes de compra, descargala en formato PDF
+        </p>
+      </div>
+    </div>
+    <hr class="bg-indigo-600" style="height:3px; margin: .7rem">
+
+
     <ul role="list" class="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
       <li v-for="project in projects" :key="project.name" class="col-span-1 flex rounded-md shadow-sm">
         <div
@@ -89,6 +108,12 @@ const getRequests = async () => {
           Authorization: `Bearer ${token}`
         }
       });
+      const response3 = await axios.get(`/departments/${element.department}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+      element.nameDepartment = response3.data.name
       element.userRequest_name = (response2.data.user_name + " " + response2.data.user_lastname).toUpperCase(); // Asignar el nombre obtenido de la respuesta
     }
   } catch (error) {
@@ -108,6 +133,20 @@ const getOrders = async () => {
     });
     orders.value = response.data
     countOrders.value = orders.value.length
+    for (const element of orders.value) {
+      const response2 = await axios.get(`/users/${element.userRequest}`, {
+        headers: { // Corregir el uso de headers
+          Authorization: `Bearer ${token}`
+        }
+      });
+      const response3 = await axios.get(`/departments/${element.department}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+      element.nameDepartment = response3.data.name
+      element.userRequest_name = (response2.data.user_name + " " + response2.data.user_lastname).toUpperCase(); // Asignar el nombre obtenido de la respuesta
+    }
   }catch(error){
     console.error(error)
   }finally{
