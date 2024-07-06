@@ -8,7 +8,7 @@
                         <p class="mt-1 text-sm leading-6 text-gray-600">Modulo de reportes para análisis de datos y/o aclaraciones.</p>
                     </div>
                     <div class="sm:col-span-1">
-                        <button v-if="okBtn" type="button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Buscar</button>
+                        <button @click="getData" v-if="okBtn" type="button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Buscar</button>
                     </div>
                 </div>
 
@@ -130,7 +130,6 @@
                         </div>
                     </div>
 
-
                 </div>
             </div>
         </div>
@@ -193,10 +192,13 @@ export default {
             request: '',
             payDate: '',
             benefy: '',
+            data: []
         }
     },
     created(){
         this.getDepartments();
+        this.getSubdepartments();
+        this.getUsers();
     },  
     computed: {
         okBtn(){
@@ -267,7 +269,7 @@ export default {
                 });
             }
         },
-        async getDepartments() {
+        async getSubdepartments() {
             const token = localStorage.getItem('token');
             if (!token) {
                 Swal.fire({
@@ -299,7 +301,7 @@ export default {
                 });
             }
         },
-        async getDepartments() {
+        async getUsers() {
             const token = localStorage.getItem('token');
             if (!token) {
                 Swal.fire({
@@ -317,7 +319,6 @@ export default {
                 });
                 if (response && response.status === 200) {
                     this.users = response.data;
-                    console.log(this.users)
                 } 
                 else {
                     throw new Error('Respuesta inesperada del servidor');
@@ -328,6 +329,90 @@ export default {
                 Swal.fire({
                     title: 'Error',
                     text: 'No se pudo obtener la lista de usuarios',
+                    icon: 'error'
+                });
+            }
+        },
+        async getData() {
+            let tmp;
+            if(this.type == 1){
+                tmp = "requestPurchases";
+            }
+            else{
+                tmp = "orderPurchases";
+            }
+            let tmp2;
+            if(this.filter == 1){
+                tmp2 = "betweenDates";
+            }
+            else if(this.filter == 2){
+                tmp2 = `/forDepartment/${this.department}`;
+            }
+            else if(this.filter == 3){
+                tmp2 = `/forSubdepartment/${this.subdepartment}`;
+            }
+            else if(this.filter == 4){
+                tmp2 = `/forPayConditions/${this.conditionsPay}`;
+            }
+            else if(this.filter == 5){
+                tmp2 = `/forPayMethods/${this.payMethod}`;
+            }
+            else if(this.filter == 6){
+                tmp2 = `/forStatus/${this.status}`;
+            }
+            else if(this.filter == 7){
+                tmp2 = `/forUserRequest/${this.request}`;
+            }
+            else if(this.filter == 8){
+                tmp2 = `/forPayDate/${this.payDate}`;
+            }
+            else if(this.filter == 9){
+                tmp2 = `/forPayBeneficiary/${this.benefy}`;
+            }
+            else if(this.filter == 10){
+                tmp2 = ""
+            }
+            const token = localStorage.getItem('token');
+            if (!token) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Token no encontrado',
+                    icon: 'error'
+                });
+                return;
+            }
+            try {
+                let response;
+                if(this.filter == 1){
+                    response = await axios.get(`/${tmp}/forDates/${tmp2}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                        params: {
+                            initDate: this.initDate,
+                            closeDate: this.closeDate
+                        }
+                    });
+                }
+                else{
+                    response = await axios.get(`/${tmp}${tmp2}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        }
+                    });
+                }
+                if (response && response.status === 200) {
+                    this.data = response.data;
+                } 
+                else {
+                    throw new Error('Respuesta inesperada del servidor');
+                }
+            } 
+            catch (error) {
+                console.error('Error al obtener las requisiciones:', error);
+                Swal.fire({
+                    title: 'Error',
+                    text: 'No se pudo obtener la lista de requisiciones',
                     icon: 'error'
                 });
             }
