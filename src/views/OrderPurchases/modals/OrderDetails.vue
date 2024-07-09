@@ -149,7 +149,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="item in data.items">
+                <tr v-for="item in data.items" :key="item.id">
                     <!-- <td>2024-07-02</td> -->
                     <td>{{ item.quantity }}</td>
                     <td>{{ item.article }}</td>
