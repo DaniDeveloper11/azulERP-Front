@@ -30,6 +30,7 @@
     "tw-elements": "^2.0.0",
     "utilities": "^1.0.6",
     "vue": "^3.4.21",
+    "vue-excel-xlsx": "^1.2.2",
     "vue-router": "^4.3.0",
     "vue3-html2pdf": "^1.1.2"
   },

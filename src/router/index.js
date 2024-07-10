@@ -104,6 +104,12 @@ const router = createRouter({
       name: 'approveRequest',
       component: () => import('../views/ApproveRequest/ApproveRequest.vue'),
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/charts',
+      name: 'charts',
+      component: () => import('../views/Charts/Charts.vue'),
+      meta: { requiresAuth: true }
     }
   ]
 })

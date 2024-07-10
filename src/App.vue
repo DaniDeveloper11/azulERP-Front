@@ -239,6 +239,8 @@ const navigation = [
   { name: 'Usuarios', to: '/users', icon: UserIcon, current: false, },
   { name: 'Departamentos', to: '/departments', icon: HomeModernIcon, current: false, },
   { name: 'Proveedores', to: '/proveedors', icon: UserGroupIcon, current: false, },
+  { name: 'Graficas', to: '/charts', icon: UserGroupIcon, current: false, },
+
   {
     name: 'Solicitud de compra',
     icon: FolderIcon,
