@@ -162,14 +162,14 @@
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ formateDate(row.date) }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.department }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.subdepartment }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.type }}</td>
+                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.type == 1 ? 'Normal' : row.type == 2 ? 'Caja chica' : 'Caja chica Guadalajara' }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.concept }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">$ {{ row.docTotal }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.beneficiary }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.payConditions }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.payMethod }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.docStatus }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.userRequest }}</td>
+                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.payConditions == 1 ? 'Contado' : 'Crédito' }}</td>
+                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.payMethod == 1 ? 'Efectivo' : row.payMethod == 2 ? 'Tarjeta de crédito' : 'Transferencia' }}</td>
+                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ estatusArray[row.docStatus - 1].nombre }}</td>
+                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.userName + " " + row.userLastname }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider" v-if="row.payDate !=  null">{{ formateDate(row.payDate) }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider" v-if="row.payDate ==  null"></td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.invoice }}</td>
