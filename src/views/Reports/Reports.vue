@@ -7,16 +7,10 @@
                     <p class="mt-1 text-sm leading-6 text-gray-600">Modulo de reportes para análisis de datos y/o aclaraciones.</p>
                 </div>
                 <div class="sm:col-span-1">
-                    <vue-excel-xlsx :data="data" :columns="columns" :file-name="'Reporte egresos'" :file-type="'xlsx'" :sheetname="'sheetname'">
-                        <button @click="getData" v-if="okBtn" type="button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Buscar</button>
-                    </vue-excel-xlsx>
+                    <button @click="getData" v-if="okBtn" type="button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Buscar</button>
                 </div>
                 <div class="sm:col-span-1" v-if="data.length > 0">
-                    <v-btn type="button" class="rounded-md bg-lime-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-lime-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                        <vue-excel-xlsx :data="data" :columns="columns" :file-name="'Reporte egresos'" :file-type="'xlsx'" :sheetname="'sheetname'">
-                            Descargar
-                        </vue-excel-xlsx>
-                    </v-btn>
+                    <button @click="exportToExcel" type="button" class="rounded-md bg-lime-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-lime-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime-600">Descargar</button>
                 </div>
             </div>
 
@@ -193,6 +187,7 @@ import { columns } from 'fontawesome';
 import useAuthStore from '../../store/auth.js';
 import axios from '../../utils/axios.js';
 import Swal from 'sweetalert2'; 
+import * as XLSX from 'xlsx';
 
  export default {
     data(){
@@ -499,7 +494,20 @@ import Swal from 'sweetalert2';
 
             const formattedDate = `${day}/${month}/${year}`;
             return formattedDate
-        }
+        },
+        exportToExcel() {
+            /* Convert JSON data to worksheet */
+            const worksheet = XLSX.utils.json_to_sheet(this.data);
+
+            /* Create a new workbook */
+            const workbook = XLSX.utils.book_new();
+
+            /* Append the worksheet to the workbook */
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+            /* Generate Excel file and trigger download */
+            XLSX.writeFile(workbook, 'Reporte de egresos.xlsx');
+        },
     }
 }
 </script>
