@@ -134,6 +134,11 @@
 
             </div>
         </div>
+
+        <div class="w-4/6 mx-auto" v-if="data.length > 0">
+            <Bar :data="data2" :options="options" />
+        </div>
+
         <div class="border-b border-gray-900/10 pb-12 overflow-x-auto" v-if="data.length > 0">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
@@ -160,8 +165,8 @@
                     <tr v-for="row, index in data" :key="index">
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.id }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ formateDate(row.date) }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.department }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.subdepartment }}</td>
+                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.departmentName }}</td>
+                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.subdepartmentName }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.type == 1 ? 'Normal' : row.type == 2 ? 'Caja chica' : 'Caja chica Guadalajara' }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.concept }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">$ {{ row.docTotal }}</td>
@@ -188,6 +193,18 @@ import useAuthStore from '../../store/auth.js';
 import axios from '../../utils/axios.js';
 import Swal from 'sweetalert2'; 
 import * as XLSX from 'xlsx';
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale
+} from 'chart.js'
+import { Bar } from 'vue-chartjs'
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
  export default {
     data(){
@@ -245,8 +262,8 @@ import * as XLSX from 'xlsx';
             columns: [
                 { label: "Folio", field: "id" },
                 { label: "Fecha", field: "date" },
-                { label: "Departamento", field: "department" },
-                { label: "Auxiliar", field: "subdepartment" },
+                { label: "Departamento", field: "departmentName" },
+                { label: "Auxiliar", field: "subdepartmentName" },
                 { label: "Subauxiliar", field: "type" },
                 { label: "Concepto", field: "concept" },
                 { label: "Total", field: "docTotal" },
@@ -254,14 +271,21 @@ import * as XLSX from 'xlsx';
                 { label: "Condiciones de pago", field: "payConditions" },
                 { label: "Forma de pago", field: "payMethod" },
                 { label: "Estatus", field: "docStatus" },
-                { label: "Solicitante", field: "userRequest" },
+                { label: "Solicitante", field: "userName" },
                 { label: "Fecha de pago", field: "payDate" },
                 { label: "Factura", field: "invoice" },
                 { label: "Tipo", field: "typeFiscal" },
                 { label: "Banco", field: "bank" }
-            ]
+            ],
+            data2: [],
+            options: {
+                responsive: true
+            }
         }
     },
+    components:{
+        Bar
+    },  
     created(){
         this.getDepartments();
         this.getSubdepartments();
@@ -470,7 +494,8 @@ import * as XLSX from 'xlsx';
                 }
                 if (response && response.status === 200) {
                     this.data = response.data;
-                    console.log(this.data);
+                    this.data2 = this.obtenerDatosGrafica(this.data)
+                    this.reset();
                 } 
                 else {
                     throw new Error('Respuesta inesperada del servidor');
@@ -489,25 +514,69 @@ import * as XLSX from 'xlsx';
             const date = new Date(dateString);
 
             const day = date.getUTCDate().toString().padStart(2, '0');
-            const month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // Los meses empiezan en 0
+            const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
             const year = date.getUTCFullYear();
 
             const formattedDate = `${day}/${month}/${year}`;
             return formattedDate
         },
         exportToExcel() {
-            /* Convert JSON data to worksheet */
             const worksheet = XLSX.utils.json_to_sheet(this.data);
 
-            /* Create a new workbook */
             const workbook = XLSX.utils.book_new();
 
-            /* Append the worksheet to the workbook */
             XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
 
-            /* Generate Excel file and trigger download */
             XLSX.writeFile(workbook, 'Reporte de egresos.xlsx');
         },
+        reset(){
+            this.type = '',
+            this.filter = '',
+            this.initDate = '',
+            this.closeDate = '',
+            this.department = '',
+            this.subdepartment = '',
+            this.conditionsPay = '',
+            this.payMethod = ''
+            this.status = '',
+            this.request = '',
+            this.payDate = '',
+            this.benefy = ''
+        },
+        obtenerDatosGrafica(data) {
+            let data2 = {
+                labels: [],
+                datasets: [{
+                data: [],
+                    backgroundColor: [
+                        'rgb(165 180 252)'
+                    ],
+                    borderColor: [
+                        'rgb(49 46 129)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+
+            let sumatorias = {};
+
+            data.forEach(item => {
+                if (!sumatorias[item.department]) {
+                sumatorias[item.department] = {
+                    label: item.departmentName,
+                    sum: 0
+                };
+                }
+                sumatorias[item.department].sum += item.docTotal;
+            });
+
+            for (let key in sumatorias) {
+                data2.labels.push(sumatorias[key].label);
+                data2.datasets[0].data.push(sumatorias[key].sum);
+            }
+
+            return data2;
+        }
     }
 }
 </script>
