@@ -30,9 +30,11 @@
                         {{ request.docStatus == 1 ? 'Pendiente' : request.docStatus == 2 ? 'Aprobado' : request.docStatus == 3 ? 'Rechazado' : 'Cerrado' }}
                     </div>
                 </div>
+                <!-- <p class="text-sm font-semibold leading-6 text-gray-500">{{ request.nameDepartment }}</p> -->
+
                 <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
                     <p class="whitespace-nowrap">
-                        Creado en <time :datetime="request.date">{{ request.date }}</time>
+                        Creado en <time :datetime="request.date">{{ formateDate(request.date) }}</time>
                     </p>
                     <svg viewBox="0 0 2 2" class="h-0.5 w-0.5 fill-current">
                         <circle cx="1" cy="1" r="1" />
@@ -67,7 +69,7 @@ import { EllipsisVerticalIcon } from '@heroicons/vue/20/solid'
 import { initFlowbite, initDropdowns, initModals, initDials } from 'flowbite'
 import axios from '@/utils/axios'
 import modal1 from '@/components/ModalRequest.vue'
-// import { formatDate } from '@/utils/formateDate';
+import { formateDate } from '@/utils/formateDate';
 import Swal from 'sweetalert2';
 
 const getRequests =inject('getRequests')
@@ -108,6 +110,7 @@ const filteredRequests = computed(() => {
             request.concept.toLowerCase().includes(query) ||
             request.userRequest_name.toLowerCase().includes(query) ||
             statusText.includes(query)
+     
         )
     })
 })
