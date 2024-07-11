@@ -7,16 +7,10 @@
                     <p class="mt-1 text-sm leading-6 text-gray-600">Modulo de reportes para análisis de datos y/o aclaraciones.</p>
                 </div>
                 <div class="sm:col-span-1">
-                    <vue-excel-xlsx :data="data" :columns="columns" :file-name="'Reporte egresos'" :file-type="'xlsx'" :sheetname="'sheetname'">
-                        <button @click="getData" v-if="okBtn" type="button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Buscar</button>
-                    </vue-excel-xlsx>
+                    <button @click="getData" v-if="okBtn" type="button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Buscar</button>
                 </div>
                 <div class="sm:col-span-1" v-if="data.length > 0">
-                    <v-btn type="button" class="rounded-md bg-lime-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-lime-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                        <vue-excel-xlsx :data="data" :columns="columns" :file-name="'Reporte egresos'" :file-type="'xlsx'" :sheetname="'sheetname'">
-                            Descargar
-                        </vue-excel-xlsx>
-                    </v-btn>
+                    <button @click="exportToExcel" type="button" class="rounded-md bg-lime-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-lime-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime-600">Descargar</button>
                 </div>
             </div>
 
@@ -168,14 +162,14 @@
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ formateDate(row.date) }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.department }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.subdepartment }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.type }}</td>
+                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.type == 1 ? 'Normal' : row.type == 2 ? 'Caja chica' : 'Caja chica Guadalajara' }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.concept }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">$ {{ row.docTotal }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.beneficiary }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.payConditions }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.payMethod }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.docStatus }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.userRequest }}</td>
+                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.payConditions == 1 ? 'Contado' : 'Crédito' }}</td>
+                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.payMethod == 1 ? 'Efectivo' : row.payMethod == 2 ? 'Tarjeta de crédito' : 'Transferencia' }}</td>
+                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ estatusArray[row.docStatus - 1].nombre }}</td>
+                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.userName + " " + row.userLastname }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider" v-if="row.payDate !=  null">{{ formateDate(row.payDate) }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider" v-if="row.payDate ==  null"></td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.invoice }}</td>
@@ -193,6 +187,7 @@ import { columns } from 'fontawesome';
 import useAuthStore from '../../store/auth.js';
 import axios from '../../utils/axios.js';
 import Swal from 'sweetalert2'; 
+import * as XLSX from 'xlsx';
 
  export default {
     data(){
@@ -499,7 +494,20 @@ import Swal from 'sweetalert2';
 
             const formattedDate = `${day}/${month}/${year}`;
             return formattedDate
-        }
+        },
+        exportToExcel() {
+            /* Convert JSON data to worksheet */
+            const worksheet = XLSX.utils.json_to_sheet(this.data);
+
+            /* Create a new workbook */
+            const workbook = XLSX.utils.book_new();
+
+            /* Append the worksheet to the workbook */
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+            /* Generate Excel file and trigger download */
+            XLSX.writeFile(workbook, 'Reporte de egresos.xlsx');
+        },
     }
 }
 </script>
