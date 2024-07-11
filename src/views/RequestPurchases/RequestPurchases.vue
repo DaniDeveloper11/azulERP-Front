@@ -123,16 +123,16 @@
             <tbody>
               <tr v-for="(item, index) in items" :key="index">
                 <td class="py-2 px-4 border">
-                  <input v-model="item.article" type="text" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"/>
+                  <input v-model="item.article" type="text" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6" validate/>
                 </td>
                 <td class="py-2 px-4 border">
-                  <input v-model="item.description" type="text" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"/>
+                  <input v-model="item.description" type="text" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6" validate/>
                 </td>
                 <td class="py-2 px-4 border">
-                  <input v-model="item.quantity" type="number" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"/>
+                  <input v-model="item.quantity" type="number" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6" validate/>
                 </td>
                 <td class="py-2 px-4 border">
-                  <input v-model="item.price" type="number" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"/>
+                  <input v-model="item.price" type="number" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6" validate/>
                 </td>
                 <td class="py-2 px-4 border">
                   <button @click="removeItem(index)" class="bg-red-500 text-white px-2 py-1 rounded-md flex items-center justify-center">
@@ -245,6 +245,14 @@ export default {
       };
       
       try {
+         if (!this.validaritems()) {
+        Swal.fire({
+          title: 'Error',
+          text: 'Debe haber al menos un artículo completado',
+          icon: 'error',
+        });
+        return;
+      }else{
         const response = await axios.post('/requestPurchases', requestPurchase, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -265,6 +273,7 @@ export default {
         } else {
           throw new Error('Error al crear la solicitud');
         }
+      }
       } catch (error) {
         console.error('Error:', error);
         Swal.fire({
@@ -273,6 +282,11 @@ export default {
           icon: 'error',
         });
       }
+    },
+        validaritems() {
+      return this.items.some(item => 
+        item.article && item.description && item.quantity > 0 && item.price > 0
+      );
     },
     async submitItems(docEntry) {
       const token = localStorage.getItem('token');
