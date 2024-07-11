@@ -137,8 +137,7 @@
                     <span class="sr-only">Open user menu</span>
                     <img class="h-8 w-8 rounded-full bg-gray-50" src="./assets/user.svg" alt="" />
                     <span class="hidden lg:flex lg:items-center">
-                      <span class="ml-4 text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">Miguel
-                        Briseño</span>
+                      <span class="ml-4 text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">{{ user ? `${user.user_name} ${user.user_lastname}` : '' }}</span>
                       <ChevronDownIcon class="ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
                     </span>
                   </MenuButton>
@@ -205,7 +204,8 @@ import {
   HomeModernIcon,
   ChevronDownIcon,
   MagnifyingGlassIcon,
-  UserGroupIcon
+  UserGroupIcon,
+  CheckBadgeIcon
 } from '@heroicons/vue/24/outline'
 import Profile from './components/ProfileModal.vue'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
@@ -213,14 +213,19 @@ import { ChevronRightIcon } from '@heroicons/vue/20/solid'
 const router = useRouter();
 
 const token = localStorage.getItem("token")
+const user = ref(null);
+
 const sidebarOpen = ref(false)
 const profileOpen = ref(false)
-// const isToken = ref(useAuthStore().isLoggedIn)
-const store = useAuthStore(); // Accede al store
-const isToken = computed(() => store.isLoggedIn); // Define una computada que refleje el valor de isLoggedIn
-onMounted(() => {
 
-})
+const store = useAuthStore(); 
+const isToken = computed(() => store.isLoggedIn); 
+onMounted(() => {
+  const userData = localStorage.getItem('user');
+  if (userData) {
+    user.value = JSON.parse(userData);
+  }
+});
 
 const logout = () => {
   store.logout();
@@ -229,6 +234,7 @@ const logout = () => {
 }
 
 const navigation = [
+  { name: 'Aprobación de solicitudes', to: '/approveRequest', icon: CheckBadgeIcon, current: false },
   { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
   { name: 'Usuarios', to: '/users', icon: UserIcon, current: false, },
   { name: 'Departamentos', to: '/departments', icon: HomeModernIcon, current: false, },
@@ -241,6 +247,7 @@ const navigation = [
       [
         { name: 'Crear solicitud de compra', href: '/requestPurchase' },
         { name: 'Mis solicitudes de compra', href: '/listRequest' },
+        { name: 'Aprobar Solicitud', href: '/approveRequest' },
       ]
   },
   {
@@ -250,7 +257,7 @@ const navigation = [
     children:
       [
         { name: 'Crear orden de compra', href: '/orderPurchase' },
-        { name: 'Mis órdenes de compra', href: '#' },
+        { name: 'Mis órdenes de compra', href: '/listOrders' },
       ]
   },
   { name: 'Reportes', to: '/reports', icon: ChartPieIcon, current: false },

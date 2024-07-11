@@ -7,11 +7,11 @@
           <div class="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
             <div class="w-full sm:flex">
               <div class="w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
-                <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Azul ERP.</h1>
+                <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Azul ERP</h1>
                 <p class="relative mt-6 text-lg leading-8 text-gray-600 sm:max-w-md lg:max-w-none">
-                  Es una solución integral específica para la industria tequilera, proporcionando una plataforma 
-                  unificada para gestionar todos los aspectos operativos, desde el control de gastos hasta la
-                  generación de órdenes de venta y reportes detallados. Está diseñado para mejorar la eficiencia, precisión y toma de decisiones estratégicas, asegurando la sincronización en cada etapa de la producción y distribución del tequila.
+                  Es una solución integral específica para la industria tequilera, proporcionando una plataforma unificada para gestionar todos los aspectos operativos, desde el 
+                  control de gastos hasta la generación de órdenes de venta y reportes detallados. Está diseñado para mejorar la eficiencia, precisión y toma de decisiones 
+                  estratégicas, asegurando la sincronización en cada etapa de la producción y distribución del tequila.
                 </p>
               </div>
               <div class="flex-1 mt-14 flex justify-end gap-8 sm:-mt-44 sm:justify-start sm:pl-20 lg:mt-0 lg:pl-0">

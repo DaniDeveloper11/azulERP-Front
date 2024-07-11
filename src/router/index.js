@@ -1,9 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Login from '../views/Users/Login.vue'
+import Login from '../views/Login.vue'
 import HomeView from '../views/HomeView.vue'
 import Settings from '@/views/SettingsView.vue'
 
-// Función para verificar si el usuario está autenticado
 function isAuthenticated() {
   return !!localStorage.getItem('token'); 
 }
@@ -37,13 +36,13 @@ const router = createRouter({
     {
       path: '/users',
       name: 'users',
-      component: () => import('../views/UsersView.vue'),
+      component: () => import('../views/Users/UsersView.vue'),
       meta: { requiresAuth: true } 
     },
     {
       path: '/adduser',
       name: 'adduser',
-      component: () => import('../views/AddUserView.vue'),
+      component: () => import('../views/Users/AddUserView.vue'),
       meta: { requiresAuth: true } 
     },
     {
@@ -77,6 +76,12 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
+      path: '/listOrders',
+      name: 'listOrders',
+      component: () => import('../views/OrderPurchases/ListOrders.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
       path: '/proveedors',
       name: 'proveedors',
       component: () => import('../views/Proveedors/Proveedors.vue'),
@@ -89,9 +94,15 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/apruveRequest',
-      name: 'apruveRequest',
-      component: () => import('../views/ApruveRequest/ApruveRequest.vue'),
+      path: '/OrderComponent',
+      name: 'OrderComponent',
+      component: () => import('../views/ApproveRequest/Ordenes/PreviewOrder.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/approveRequest',
+      name: 'approveRequest',
+      component: () => import('../views/ApproveRequest/ApproveRequest.vue'),
       meta: { requiresAuth: true }
     }
   ]

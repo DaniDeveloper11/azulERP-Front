@@ -1,6 +1,25 @@
 <template>
   <div>
-    <h2 class="text-sm font-medium text-gray-500">Aprobar o Cancelar </h2>
+    <div v-if="showtable === 1"  class="sm:flex sm:items-center">
+      <div class="sm:flex-auto">
+        <h1 class="text-base font-semibold leading-6 text-gray-900">Solicitudes de compra</h1>
+        <p class="mt-2 text-sm text-gray-700">
+        Aprueba o Rechaza las solicitudes de compra, Genera una Orden de compra desde una Solicitud de compra y revisa
+        el estatus de cada una de estas.
+        </p>
+      </div>
+    </div>
+    <div v-if="showtable === 2"  class="sm:flex sm:items-center">
+      <div class="sm:flex-auto">
+        <h1 class="text-base font-semibold leading-6 text-gray-900">Ordenes de compra</h1>
+        <p class="mt-2 text-sm text-gray-700">
+        Revisa el estado de las Solicitudes de compra, descargala en formato PDF
+        </p>
+      </div>
+    </div>
+    <hr class="bg-indigo-600" style="height:3px; margin: .7rem">
+
+
     <ul role="list" class="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
       <li v-for="project in projects" :key="project.name" class="col-span-1 flex rounded-md shadow-sm">
         <div
@@ -10,7 +29,7 @@
           class="flex flex-1 items-center justify-between truncate rounded-r-md border-b border-r border-t border-gray-200 bg-white">
           <div @click="project.value != showtable ? showtable = project.value: showtable = showtable " class="flex-1 truncate px-4 py-2 text-sm cursor-pointer">
             <a  class="font-medium text-gray-900 hover:text-gray-600">{{ project.name }}</a>
-            <p class="text-gray-500">{{ project.members }} Members</p>
+            <p class="text-gray-500">{{project.value == 1 ?  countRequests : project.value== 2 ? countOrders : '' }} Registros</p>
           </div>
           <div class="flex-shrink-0 pr-2">
             <Menu as="div" class="relative flex-none">
@@ -42,8 +61,11 @@
         </div>
       </li>
     </ul>
+    <!-- <tables v-bind:requests="requests"></tables> -->
+    <!-- <tableRequests v-if="showtable === 1" v-bind:requests="requests"></tableRequests> -->
+    <tableRequests v-if="showtable === 1" v-bind:requests="requests"></tableRequests>
+    <tableOrders v-if="showtable === 2" v-bind:orders="orders"></tableOrders>
   </div>
-  <tableRequests v-if="showtable === 1" v-bind:requests="requests"></tableRequests>
 </template>
 
 <script setup>
@@ -51,14 +73,17 @@ import { initFlowbite, initDropdowns } from 'flowbite'
 import { EllipsisVerticalIcon } from '@heroicons/vue/20/solid'
 import tableRequests from '../../components/tableRequests.vue'
 import axios from '../../utils/axios';
-import { onMounted, ref, reactive } from 'vue'
+import { onMounted, ref, reactive, provide } from 'vue'
 import { request } from 'utilities';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import tableOrders from '@/components/tableOrders.vue'
 
 const showtable = ref(1) //1 tabla solicitudes de compra 2 tabla ordenes de compra
 
 const requests = ref([]);
-const countRequests = ref('')
+const orders = ref([])
+const countRequests = ref(0)
+const countOrders = ref(0)
 const projects = [
   { name: 'Solicitud de compra', initials: 'SC', href: '#', members: 16, bgColor: 'bg-pink-600',value:1 },
   { name: 'Orden de Compra', initials: 'OC', href: '#', members: 12, bgColor: 'bg-purple-600', value:2 },
@@ -66,22 +91,29 @@ const projects = [
 
 onMounted(() => {
   getRequests();
+  getOrders();
 })
 
 const getRequests = async () => {
   const token = localStorage.getItem('token');
   try {
-    const response = await axios.get('http://localhost:3000/requestPurchases', {
+    const response = await axios.get('/requestPurchases', {
       Authorization: `Bearer ${token}`
     });
     requests.value = response.data;
     countRequests.value = requests.value.length
     for (const element of requests.value) {
-      const response2 = await axios.get(`http://localhost:3000/users/${element.userRequest}`, {
+      const response2 = await axios.get(`/users/${element.userRequest}`, {
         headers: { // Corregir el uso de headers
           Authorization: `Bearer ${token}`
         }
       });
+     // const response3 = await axios.get(`/departments/${element.department}`, {
+                   // headers: {
+                    //    Authorization: `Bearer ${token}`,
+                    //},
+                //});
+     // element.nameDepartment = response3.data.name
       element.userRequest_name = (response2.data.user_name + " " + response2.data.user_lastname).toUpperCase(); // Asignar el nombre obtenido de la respuesta
     }
   } catch (error) {
@@ -91,17 +123,37 @@ const getRequests = async () => {
   }
 }
 
-const getUser = async (userRequest) => {
+provide('getRequests',getRequests);
+
+const getOrders = async () => {
   const token = localStorage.getItem('token');
-  try {
-    const response = await axios.get(`http://localhost:3000/users/${userRequest}`, {
+  try{
+    const response = await axios.get('/orderPurchases', {
       Authorization: `Bearer ${token}`
     });
+    orders.value = response.data
+    countOrders.value = orders.value.length
+    for (const element of orders.value) {
+      const response2 = await axios.get(`/users/${element.userRequest}`, {
+        headers: { // Corregir el uso de headers
+          Authorization: `Bearer ${token}`
+        }
+      });
+  //const response3 = await axios.get(`/departments/${element.department}`, {
+                //headers: {
+                //    Authorization: `Bearer ${token}`,
+              //  },
+          //  });
+     // element.nameDepartment = response3.data.name
+      element.userRequest_name = (response2.data.user_name + " " + response2.data.user_lastname).toUpperCase(); // Asignar el nombre obtenido de la respuesta
+    }
+  }catch(error){
+    console.error(error)
+  }finally{
 
-    // agrega el nombre del usuario al objeto en turno 
-
-  } catch (error) {
-    console.log('Error al obtener datos del usuario')
   }
 }
+
+
+
 </script>
