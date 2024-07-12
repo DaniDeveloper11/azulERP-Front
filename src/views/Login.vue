@@ -48,16 +48,12 @@ const login = async () => {
       user_password: userPassword.value,
     });
 
-    // Guardar el token y la información del usuario en el localStorage
-    // localStorage.setItem('token', response.data.access_token);
-    // localStorage.setItem('user', JSON.stringify(response.data.user));
-    
-    // Llamar a la acción login del store de autenticación
     authStore.login(response.data);
 
     // Redireccionar al dashboard
     router.push('/');
-  } catch (error) {
+  } 
+  catch (error) {
     proxy.$swal.fire({
       title: 'Error',
       text: 'Nombre de usuario o contraseña incorrectos',
