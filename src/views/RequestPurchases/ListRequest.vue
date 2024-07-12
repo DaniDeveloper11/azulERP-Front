@@ -4,7 +4,7 @@
         <div class="px-4 sm:px-6 lg:px-8 mb-8">
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
-                    <h1 class="text-base font-semibold leading-6 text-gray-900">{{ returnTitle() }}</h1>
+                    <h1 class="text-base font-semibold leading-6 text-gray-900">Solicitudes de compra</h1>
                     <p class="mt-2 text-sm text-gray-700">
                         Este módulo permite a los usuarios gestionar y realizar un seguimiento de las solicitudes de
                         compra dentro de la organización.
@@ -136,31 +136,29 @@ export default {
         }
     },
     methods: {
-        returnTitle() {
-            return this.user.user_position == 'Miembro' ? "Mis solicitudes de compra" : "Solicitudes de compras"
-        },
         async getRequest() {
             try {
                 let response
-                if (this.user.user_position == "Gerente") {
-                    response = await axios.get(`/requestPurchases`, {
+                if (this.user.user_level == 3) {
+                    response = await axios.get(`/requestPurchases/forUserRequest/${this.user.user_id}`, {
                         headers: {
                             Authorization: `Bearer ${this.token}`,
                         },
                     });
-                } else if (this.user.user_position == "Miembro") {
+                } 
+                else if (this.user.user_level == 1 && this.user.user_id == 7) {
 
+                    response = await axios.get(`/requestPurchases`, {
+                        headers: {
+                            Authorization: `Bearer ${this.token}`,
+                        },
+                    })
+                } else {
                     response = await axios.get(`/requestPurchases/forDepartment/${this.user.user_id}`, {
                         headers: {
                             Authorization: `Bearer ${this.token}`,
                         },
-                    });
-                } else {
-                    response = await axios.get(`/requestPurchases`, {
-                        headers: {
-                            Authorization: `Bearer ${this.token}`,
-                        },
-                    });
+                    })
                 }
                 if (response.data.length > 0) {
                     this.request = response.data

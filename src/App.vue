@@ -235,8 +235,7 @@ onMounted(() => {
           children:
             [
               { name: 'Crear solicitud de compra', href: '/requestPurchase' },
-              { name: 'Mis solicitudes de compra', href: '/listRequest' },
-              { name: 'Aprobar Solicitud', href: '/approveRequest' },
+              { name: 'Mis solicitudes de compra', href: '/listRequest' }
             ]
         }
       ]
