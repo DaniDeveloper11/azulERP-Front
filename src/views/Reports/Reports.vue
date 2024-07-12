@@ -180,7 +180,7 @@
             </aside>
         </div>
 
-        <div class="border-b border-gray-900/10 pb-12 overflow-x-auto">
+        <div class="border-b border-gray-900/10 pb-12 overflow-x-auto" v-if="data.length > 0">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
@@ -273,9 +273,6 @@
                 </tbody>
             </table>
         </div>
-
-
-
 
     </div>
 </template>
