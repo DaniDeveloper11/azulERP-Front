@@ -279,7 +279,13 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
             ],
             data2: [],
             options: {
-                responsive: true
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Gráfica de gastos por departamento del año en curso'
+                    }
+                }
             }
         }
     },
@@ -547,7 +553,8 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
             let data2 = {
                 labels: [],
                 datasets: [{
-                data: [],
+                    label: '$ pesos mexicanos',
+                    data: [],
                     backgroundColor: [
                         'rgb(165 180 252)'
                     ],

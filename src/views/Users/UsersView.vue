@@ -88,9 +88,6 @@
       </div>
     </div>
 
-    <!-- Modal para editar usuario selecionado -->
-    <!-- props = emptyuser: objeto con datos del usuario -->
-    <!-- editOpen: bandera para abrir o cerrar el modal -->
     <EditUserModal 
       @update-value="handleUpdate" 
       v-bind:open="editOpen" 
@@ -111,7 +108,6 @@ const showloader = ref(false)
 
 const router = useRouter();
 const key = ref(0)
-// Funcion para cambiar valor del loader
 const setLoader = () => {
   setTimeout(() => {
     showloader.value = false
@@ -119,15 +115,10 @@ const setLoader = () => {
 }
 
 onMounted(async () => {
-  // setLoader();
   getUsers();
 })
 
 const handleUpdate = (value) => {
-  // showMessage.value = value;
-  // setTimeout(() => {
-  //   showMessage.value = false
-  // }, 3000)
   editOpen.value = value;
 
 };
@@ -139,18 +130,13 @@ const editOpen = ref(false)
 const getUsers = async () => {
   const token = localStorage.getItem('token');
   try {
-    const response = await axios.get('http://localhost:3000/users', {
+    const response = await axios.get('http://localhost:3000/users/usersActive', {
       Authorization: `Bearer ${token}`
     });
     users.value = response.data;
-    console.log(response.data) // Suponiendo que la API devuelve un array de socios
-  } catch (error) {
+  } 
+  catch (error) {
     console.log('algo salio mal')
-    // proxy.$swal.fire({
-    //   title: 'Error',
-    //   text: 'Nombre de usuario o contraseña incorrectos',
-    //   icon: 'error'
-    // });
   }
 };
 </script>

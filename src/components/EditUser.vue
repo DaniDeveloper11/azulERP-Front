@@ -28,8 +28,7 @@
                 <div class="space-y-12">
                   <div class="border-b border-gray-900/10 pb-12">
                     <h2 class="text-base font-semibold leading-7 text-gray-900">Perfil</h2>
-                    <p class="mt-1 text-sm leading-6 text-gray-600">Esta informacion sera vista por Directivos y
-                      Administrativos.
+                    <p class="mt-1 text-sm leading-6 text-gray-600">Esta informacion sera vista por directivos y administrativos.
                     </p>
 
                     <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -303,10 +302,7 @@ const publishingOptions = ref([
 function inputImage(event) {
   const file = event.target.files[0];
   if (file) {
-    // user_image.value = file,
     fileName.value = file.name;
-    // user_image.value = fileName.value;
-
     const reader = new FileReader();
     reader.onload = (e) => {
       fileUrl.value = e.target.result;
@@ -315,14 +311,12 @@ function inputImage(event) {
   }
 }
 
-// Watch for changes in User and update fileName
 watchEffect(() => {
   if (props.User && props.User.user_image) {
     fileName.value = props.User.user_image;
   }
 });
 
-//funtion that change the boolean value in switch element to bit value witch means true = 1 & false = 0
 const userActiveBoolean = computed({
   get() {
     return props.User.user_active === 1;
@@ -332,11 +326,13 @@ const userActiveBoolean = computed({
   }
 });
 
-//resquest https to server
 const Delete = async () => {
   showloader.value = true;
+  let data = {
+    user_active: 0
+  }
   try {
-    const response = await axios.delete(`http://localhost:3000/users/${props.User.user_id}`);
+    const response = await axios.put(`http://localhost:3000/users/${props.User.user_id}`, data);
     if (response) {
       Swal.fire({
         title: 'Correcto',
