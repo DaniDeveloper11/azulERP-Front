@@ -114,7 +114,7 @@ const setLoader = () => {
   }, 3000)
 }
 
-onMounted(async () => {
+onMounted(() => {
   getUsers();
 })
 
@@ -130,7 +130,7 @@ const editOpen = ref(false)
 const getUsers = async () => {
   const token = localStorage.getItem('token');
   try {
-    const response = await axios.get('http://localhost:3000/users/usersActive', {
+    const response = await axios.get('/users', {
       Authorization: `Bearer ${token}`
     });
     users.value = response.data;
