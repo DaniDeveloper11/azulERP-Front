@@ -176,7 +176,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch, computed } from 'vue'
+import { onMounted, ref, watch, computed, onUpdated } from 'vue'
 import useAuthStore from './store/auth' // Importa el store de autenticación
 import { useRouter } from 'vue-router';
 
@@ -221,10 +221,13 @@ const profileOpen = ref(false)
 
 const store = useAuthStore(); 
 const isToken = computed(() => store.isLoggedIn); 
+
+onUpdated(() =>{  user.value = store.user}) 
+
 onMounted(() => {
-  const userData = localStorage.getItem('user');
+  const userData = store.user;
   if (userData) {
-    user.value = JSON.parse(userData);
+    user.value = userData;
     if(user.value.user_level == 3){
       navigation.value = [
         { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
