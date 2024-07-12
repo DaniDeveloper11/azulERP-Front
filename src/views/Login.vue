@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import { ref, getCurrentInstance, onMounted } from 'vue';
+import { ref, getCurrentInstance, onMounted, resolveComponent } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from '@/utils/axios';
 import useAuthStore from '@/store/auth';
@@ -48,10 +48,21 @@ const login = async () => {
       user_password: userPassword.value,
     });
 
-    authStore.login(response.data);
+    if(response.data.user.user_active == 0){
+      proxy.$swal.fire({
+        title: 'Error',
+        text: 'Usuario desactivado',
+        icon: 'error',
+      });
+      userNickname.value = '';
+      userPassword.value = '';
+    }
+    else{
+      authStore.login(response.data);
 
-    // Redireccionar al dashboard
-    router.push('/');
+      // Redireccionar al dashboard
+      router.push('/');
+    }
   } 
   catch (error) {
     proxy.$swal.fire({
