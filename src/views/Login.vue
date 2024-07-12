@@ -49,8 +49,8 @@ const login = async () => {
     });
 
     // Guardar el token y la información del usuario en el localStorage
-    localStorage.setItem('token', response.data.access_token);
-    localStorage.setItem('user', JSON.stringify(response.data.user));
+    // localStorage.setItem('token', response.data.access_token);
+    // localStorage.setItem('user', JSON.stringify(response.data.user));
     
     // Llamar a la acción login del store de autenticación
     authStore.login(response.data);
