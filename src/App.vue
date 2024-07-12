@@ -210,6 +210,7 @@ import {
 import Profile from './components/ProfileModal.vue'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { ChevronRightIcon } from '@heroicons/vue/20/solid'
+import { controllers } from 'chart.js';
 const router = useRouter();
 
 const token = localStorage.getItem("token")
@@ -224,6 +225,52 @@ onMounted(() => {
   const userData = localStorage.getItem('user');
   if (userData) {
     user.value = JSON.parse(userData);
+    if(user.value.user_level == 3){
+      navigation.value = [
+        { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
+        {
+          name: 'Solicitud de compra',
+          icon: FolderIcon,
+          current: false,
+          children:
+            [
+              { name: 'Crear solicitud de compra', href: '/requestPurchase' },
+              { name: 'Mis solicitudes de compra', href: '/listRequest' },
+              { name: 'Aprobar Solicitud', href: '/approveRequest' },
+            ]
+        }
+      ]
+    }
+    else{
+      navigation.value = [
+        { name: 'Aprobación de solicitudes', to: '/approveRequest', icon: CheckBadgeIcon, current: false },
+        { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
+        { name: 'Usuarios', to: '/users', icon: UserIcon, current: false, },
+        { name: 'Departamentos', to: '/departments', icon: HomeModernIcon, current: false, },
+        { name: 'Proveedores', to: '/proveedors', icon: UserGroupIcon, current: false, },
+        {
+          name: 'Solicitud de compra',
+          icon: FolderIcon,
+          current: false,
+          children:
+            [
+              { name: 'Crear solicitud de compra', href: '/requestPurchase' },
+              { name: 'Mis solicitudes de compra', href: '/listRequest' }
+            ]
+        },
+        {
+          name: 'Orden de Compra',
+          icon: FolderIcon,
+          current: false,
+          children:
+            [
+              { name: 'Crear orden de compra', href: '/orderPurchase' },
+              { name: 'Mis órdenes de compra', href: '/listOrders' },
+            ]
+        },
+        { name: 'Reportes', to: '/reports', icon: ChartPieIcon, current: false }
+      ]
+    }
   }
 });
 
@@ -233,35 +280,8 @@ const logout = () => {
   localStorage.clear();
 }
 
-const navigation = [
-  { name: 'Aprobación de solicitudes', to: '/approveRequest', icon: CheckBadgeIcon, current: false },
-  { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
-  { name: 'Usuarios', to: '/users', icon: UserIcon, current: false, },
-  { name: 'Departamentos', to: '/departments', icon: HomeModernIcon, current: false, },
-  { name: 'Proveedores', to: '/proveedors', icon: UserGroupIcon, current: false, },
-  {
-    name: 'Solicitud de compra',
-    icon: FolderIcon,
-    current: false,
-    children:
-      [
-        { name: 'Crear solicitud de compra', href: '/requestPurchase' },
-        { name: 'Mis solicitudes de compra', href: '/listRequest' },
-        { name: 'Aprobar Solicitud', href: '/approveRequest' },
-      ]
-  },
-  {
-    name: 'Orden de Compra',
-    icon: FolderIcon,
-    current: false,
-    children:
-      [
-        { name: 'Crear orden de compra', href: '/orderPurchase' },
-        { name: 'Mis órdenes de compra', href: '/listOrders' },
-      ]
-  },
-  { name: 'Reportes', to: '/reports', icon: ChartPieIcon, current: false },
-]
+const navigation = ref('');
+
 </script>
 
 <style scoped>
