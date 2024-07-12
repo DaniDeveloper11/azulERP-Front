@@ -361,6 +361,7 @@ const Delete = async () => {
 const Update = async () => {
   const dataUser = {
       user_id: props.User.user_id,
+<<<<<<< HEAD
       user_name: props.User.user_name,
       user_lastname: props.User.user_lastname,
       user_image: fileUrl.value,
@@ -368,6 +369,13 @@ const Update = async () => {
       user_address:props.User.user_address,
       user_city:props.User.user_city,
       user_state:props.User.user_state,
+=======
+      user_image: fileUrl.value,
+      user_role: props.User.user_role,
+      user_document: props.User.user_document,
+      user_lastname: props.User.user_last,
+      user_name: props.User.user_name,
+>>>>>>> miguel
       user_email: props.User.user_email,
       user_phone: props.User.user_phone,
       user_position: props.User.user_position,

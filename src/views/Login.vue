@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import { ref, getCurrentInstance, onMounted } from 'vue';
+import { ref, getCurrentInstance, onMounted, resolveComponent } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from '@/utils/axios';
 import useAuthStore from '@/store/auth';
@@ -48,16 +48,23 @@ const login = async () => {
       user_password: userPassword.value,
     });
 
-    // Guardar el token y la información del usuario en el localStorage
-    // localStorage.setItem('token', response.data.access_token);
-    // localStorage.setItem('user', JSON.stringify(response.data.user));
-    
-    // Llamar a la acción login del store de autenticación
-    authStore.login(response.data);
+    if(response.data.user.user_active == 0){
+      proxy.$swal.fire({
+        title: 'Error',
+        text: 'Usuario desactivado',
+        icon: 'error',
+      });
+      userNickname.value = '';
+      userPassword.value = '';
+    }
+    else{
+      authStore.login(response.data);
 
-    // Redireccionar al dashboard
-    router.push('/');
-  } catch (error) {
+      // Redireccionar al dashboard
+      router.push('/');
+    }
+  } 
+  catch (error) {
     proxy.$swal.fire({
       title: 'Error',
       text: 'Nombre de usuario o contraseña incorrectos',
