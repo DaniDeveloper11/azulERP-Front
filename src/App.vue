@@ -222,7 +222,57 @@ const profileOpen = ref(false)
 const store = useAuthStore(); 
 const isToken = computed(() => store.isLoggedIn); 
 
-onUpdated(() =>{  user.value = store.user}) 
+onUpdated(() =>{  
+  const userData = store.user;
+  if (userData) {
+    user.value = userData;
+    if(user.value.user_level == 3){
+      navigation.value = [
+        { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
+        {
+          name: 'Solicitud de compra',
+          icon: FolderIcon,
+          current: false,
+          children:
+            [
+              { name: 'Crear solicitud de compra', href: '/requestPurchase' },
+              { name: 'Mis solicitudes de compra', href: '/listRequest' }
+            ]
+        }
+      ]
+    }
+    else{
+      navigation.value = [
+        { name: 'Aprobación de solicitudes', to: '/approveRequest', icon: CheckBadgeIcon, current: false },
+        { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
+        { name: 'Usuarios', to: '/users', icon: UserIcon, current: false, },
+        { name: 'Departamentos', to: '/departments', icon: HomeModernIcon, current: false, },
+        { name: 'Proveedores', to: '/proveedors', icon: UserGroupIcon, current: false, },
+        {
+          name: 'Solicitud de compra',
+          icon: FolderIcon,
+          current: false,
+          children:
+            [
+              { name: 'Crear solicitud de compra', href: '/requestPurchase' },
+              { name: 'Mis solicitudes de compra', href: '/listRequest' }
+            ]
+        },
+        {
+          name: 'Orden de Compra',
+          icon: FolderIcon,
+          current: false,
+          children:
+            [
+              { name: 'Crear orden de compra', href: '/orderPurchase' },
+              { name: 'Mis órdenes de compra', href: '/listOrders' },
+            ]
+        },
+        { name: 'Reportes', to: '/reports', icon: ChartPieIcon, current: false }
+      ]
+    }
+  }
+}) 
 
 onMounted(() => {
   const userData = store.user;
