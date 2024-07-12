@@ -7,16 +7,10 @@
                     <p class="mt-1 text-sm leading-6 text-gray-600">Modulo de reportes para análisis de datos y/o aclaraciones.</p>
                 </div>
                 <div class="sm:col-span-1">
-                    <vue-excel-xlsx :data="data" :columns="columns" :file-name="'Reporte egresos'" :file-type="'xlsx'" :sheetname="'sheetname'">
-                        <button @click="getData" v-if="okBtn" type="button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Buscar</button>
-                    </vue-excel-xlsx>
+                    <button @click="getData" v-if="okBtn" type="button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Buscar</button>
                 </div>
                 <div class="sm:col-span-1" v-if="data.length > 0">
-                    <v-btn type="button" class="rounded-md bg-lime-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-lime-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                        <vue-excel-xlsx :data="data" :columns="columns" :file-name="'Reporte egresos'" :file-type="'xlsx'" :sheetname="'sheetname'">
-                            Descargar
-                        </vue-excel-xlsx>
-                    </v-btn>
+                    <button @click="exportToExcel" type="button" class="rounded-md bg-lime-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-lime-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime-600">Descargar</button>
                 </div>
             </div>
 
@@ -140,6 +134,11 @@
 
             </div>
         </div>
+
+        <div class="w-4/6 mx-auto" v-if="data.length > 0">
+            <Bar :data="data2" :options="options" />
+        </div>
+
         <div class="border-b border-gray-900/10 pb-12 overflow-x-auto" v-if="data.length > 0">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
@@ -166,16 +165,16 @@
                     <tr v-for="row, index in data" :key="index">
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.id }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ formateDate(row.date) }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.department }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.subdepartment }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.type }}</td>
+                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.departmentName }}</td>
+                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.subdepartmentName }}</td>
+                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.type == 1 ? 'Normal' : row.type == 2 ? 'Caja chica' : 'Caja chica Guadalajara' }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.concept }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">$ {{ row.docTotal }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.beneficiary }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.payConditions }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.payMethod }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.docStatus }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.userRequest }}</td>
+                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.payConditions == 1 ? 'Contado' : 'Crédito' }}</td>
+                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.payMethod == 1 ? 'Efectivo' : row.payMethod == 2 ? 'Tarjeta de crédito' : 'Transferencia' }}</td>
+                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ estatusArray[row.docStatus - 1].nombre }}</td>
+                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.userName + " " + row.userLastname }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider" v-if="row.payDate !=  null">{{ formateDate(row.payDate) }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider" v-if="row.payDate ==  null"></td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ row.invoice }}</td>
@@ -193,6 +192,19 @@ import { columns } from 'fontawesome';
 import useAuthStore from '../../store/auth.js';
 import axios from '../../utils/axios.js';
 import Swal from 'sweetalert2'; 
+import * as XLSX from 'xlsx';
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale
+} from 'chart.js'
+import { Bar } from 'vue-chartjs'
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
  export default {
     data(){
@@ -250,8 +262,8 @@ import Swal from 'sweetalert2';
             columns: [
                 { label: "Folio", field: "id" },
                 { label: "Fecha", field: "date" },
-                { label: "Departamento", field: "department" },
-                { label: "Auxiliar", field: "subdepartment" },
+                { label: "Departamento", field: "departmentName" },
+                { label: "Auxiliar", field: "subdepartmentName" },
                 { label: "Subauxiliar", field: "type" },
                 { label: "Concepto", field: "concept" },
                 { label: "Total", field: "docTotal" },
@@ -259,14 +271,27 @@ import Swal from 'sweetalert2';
                 { label: "Condiciones de pago", field: "payConditions" },
                 { label: "Forma de pago", field: "payMethod" },
                 { label: "Estatus", field: "docStatus" },
-                { label: "Solicitante", field: "userRequest" },
+                { label: "Solicitante", field: "userName" },
                 { label: "Fecha de pago", field: "payDate" },
                 { label: "Factura", field: "invoice" },
                 { label: "Tipo", field: "typeFiscal" },
                 { label: "Banco", field: "bank" }
-            ]
+            ],
+            data2: [],
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Gráfica de gastos por departamento del año en curso'
+                    }
+                }
+            }
         }
     },
+    components:{
+        Bar
+    },  
     created(){
         this.getDepartments();
         this.getSubdepartments();
@@ -475,7 +500,8 @@ import Swal from 'sweetalert2';
                 }
                 if (response && response.status === 200) {
                     this.data = response.data;
-                    console.log(this.data);
+                    this.data2 = this.obtenerDatosGrafica(this.data)
+                    this.reset();
                 } 
                 else {
                     throw new Error('Respuesta inesperada del servidor');
@@ -494,11 +520,69 @@ import Swal from 'sweetalert2';
             const date = new Date(dateString);
 
             const day = date.getUTCDate().toString().padStart(2, '0');
-            const month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // Los meses empiezan en 0
+            const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
             const year = date.getUTCFullYear();
 
             const formattedDate = `${day}/${month}/${year}`;
             return formattedDate
+        },
+        exportToExcel() {
+            const worksheet = XLSX.utils.json_to_sheet(this.data);
+
+            const workbook = XLSX.utils.book_new();
+
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+            XLSX.writeFile(workbook, 'Reporte de egresos.xlsx');
+        },
+        reset(){
+            this.type = '',
+            this.filter = '',
+            this.initDate = '',
+            this.closeDate = '',
+            this.department = '',
+            this.subdepartment = '',
+            this.conditionsPay = '',
+            this.payMethod = ''
+            this.status = '',
+            this.request = '',
+            this.payDate = '',
+            this.benefy = ''
+        },
+        obtenerDatosGrafica(data) {
+            let data2 = {
+                labels: [],
+                datasets: [{
+                    label: '$ pesos mexicanos',
+                    data: [],
+                    backgroundColor: [
+                        'rgb(165 180 252)'
+                    ],
+                    borderColor: [
+                        'rgb(49 46 129)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+
+            let sumatorias = {};
+
+            data.forEach(item => {
+                if (!sumatorias[item.department]) {
+                sumatorias[item.department] = {
+                    label: item.departmentName,
+                    sum: 0
+                };
+                }
+                sumatorias[item.department].sum += item.docTotal;
+            });
+
+            for (let key in sumatorias) {
+                data2.labels.push(sumatorias[key].label);
+                data2.datasets[0].data.push(sumatorias[key].sum);
+            }
+
+            return data2;
         }
     }
 }

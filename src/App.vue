@@ -137,7 +137,8 @@
                     <span class="sr-only">Open user menu</span>
                     <img class="h-8 w-8 rounded-full bg-gray-50" src="./assets/user.svg" alt="" />
                     <span class="hidden lg:flex lg:items-center">
-                      <span class="ml-4 text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">{{ user ? `${user.user_name} ${user.user_lastname}` : '' }}</span>
+                      <span class="ml-4 text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">{{ user ?
+                        `${user.user_name} ${user.user_lastname}` : '' }}</span>
                       <ChevronDownIcon class="ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
                     </span>
                   </MenuButton>
@@ -176,7 +177,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch, computed } from 'vue'
+import { onMounted, ref, watch, computed, onUpdated } from 'vue'
 import useAuthStore from './store/auth' // Importa el store de autenticación
 import { useRouter } from 'vue-router';
 
@@ -210,61 +211,93 @@ import {
 import Profile from './components/ProfileModal.vue'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { ChevronRightIcon } from '@heroicons/vue/20/solid'
+import { controllers } from 'chart.js';
 const router = useRouter();
 
 const token = localStorage.getItem("token")
-const user = ref(null);
 
 const sidebarOpen = ref(false)
 const profileOpen = ref(false)
 
-const store = useAuthStore(); 
-const isToken = computed(() => store.isLoggedIn); 
+const store = useAuthStore();
+const isToken = computed(() => store.isLoggedIn);
+const user = computed(() => store.user);
+
+//Perfiles de Navegacion
+//3:miembro 1:administrativo
+const navigationProfiles = () =>{
+  switch (user.value.user_level) {
+    case 3:
+      navigation.value = [
+        { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
+        {
+          name: 'Solicitud de compra',
+          icon: FolderIcon,
+          current: false,
+          children:
+            [
+              { name: 'Crear solicitud de compra', href: '/requestPurchase' },
+              { name: 'Mis solicitudes de compra', href: '/listRequest' }
+            ]
+        }
+      ]
+      break;
+    case 1:
+      navigation.value = [
+        { name: 'Aprobación de solicitudes', to: '/approveRequest', icon: CheckBadgeIcon, current: false },
+        { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
+        { name: 'Usuarios', to: '/users', icon: UserIcon, current: false, },
+        { name: 'Departamentos', to: '/departments', icon: HomeModernIcon, current: false, },
+        { name: 'Proveedores', to: '/proveedors', icon: UserGroupIcon, current: false, },
+        {
+          name: 'Solicitud de compra',
+          icon: FolderIcon,
+          current: false,
+          children:
+            [
+              { name: 'Crear solicitud de compra', href: '/requestPurchase' },
+              { name: 'Mis solicitudes de compra', href: '/listRequest' }
+            ]
+        },
+        {
+          name: 'Orden de Compra',
+          icon: FolderIcon,
+          current: false,
+          children:
+            [
+              { name: 'Crear orden de compra', href: '/orderPurchase' },
+              { name: 'Mis órdenes de compra', href: '/listOrders' },
+            ]
+        },
+        { name: 'Reportes', to: '/reports', icon: ChartPieIcon, current: false }
+      ]
+      break;
+  }
+}
+
+watch(user, (newValue) => {
+  if (newValue) {
+    navigationProfiles();
+  }
+});
+
 onMounted(() => {
-  const userData = localStorage.getItem('user');
-  if (userData) {
-    user.value = JSON.parse(userData);
+  if(isToken.value){
+    navigationProfiles();
   }
 });
 
 const logout = () => {
   store.logout();
-  router.push('/login');
   localStorage.clear();
+  sidebarOpen.value = false; 
+
+  router.push('/login');
 }
 
-const navigation = [
-  { name: 'Aprobación de solicitudes', to: '/approveRequest', icon: CheckBadgeIcon, current: false },
-  { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
-  { name: 'Usuarios', to: '/users', icon: UserIcon, current: false, },
-  { name: 'Departamentos', to: '/departments', icon: HomeModernIcon, current: false, },
-  { name: 'Proveedores', to: '/proveedors', icon: UserGroupIcon, current: false, },
+const navigation = ref('');
 
-  {
-    name: 'Solicitud de compra',
-    icon: FolderIcon,
-    current: false,
-    children:
-      [
-        { name: 'Crear solicitud de compra', href: '/requestPurchase' },
-        { name: 'Mis solicitudes de compra', href: '/listRequest' },
-        { name: 'Aprobar Solicitud', href: '/approveRequest' },
-      ]
-  },
-  {
-    name: 'Orden de Compra',
-    icon: FolderIcon,
-    current: false,
-    children:
-      [
-        { name: 'Crear orden de compra', href: '/orderPurchase' },
-        { name: 'Mis órdenes de compra', href: '/listOrders' },
-      ]
-  },
-  { name: 'Reportes', to: '/reports', icon: ChartPieIcon, current: false },
-]
+
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
