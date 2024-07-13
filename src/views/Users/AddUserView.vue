@@ -91,6 +91,7 @@
                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX.
                   800x400px).</p>
               </div>
+              <p v-if="errorMessage" class="mt-1 text-sm text-red-600 dark:text-red-500">{{ errorMessage }}</p>
             </div>
           </div>
 
@@ -256,6 +257,7 @@ const user_status = ref(true);
 const fileName = ref(''); 
 const fileUrl = ref(''); 
 const showMessage = ref(false); 
+const errorMessage = ref('');
 
 const register = async () => {
   showloader.value = true; // Mostrar loader al iniciar la consulta
@@ -349,20 +351,25 @@ function handleSelectedUpdate(selectedOption) {
 
 
 // Funsion para agregar imagen desde el evento del input tipo file
-function inputImage(event) {
+const inputImage = (event) => {
   const file = event.target.files[0];
   if (file) {
-    // user_image.value = file,
+    const validExtensions = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif']; // Extensiones válidas
+    if (validExtensions.includes(file.type)) {
       fileName.value = file.name;
       user_image.value = fileName.value;
+      errorMessage.value = ''; // Clear the error message if file is valid
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      fileUrl.value = e.target.result;
-    };
-    reader.readAsDataURL(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        fileUrl.value = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      errorMessage.value = 'Por favor, seleccione un archivo de imagen válido (jpg, jpeg, png, gif).';
+    }
   }
-}
+};
 
 // Funsion para quitrar el mensaje de success despoues de 3 segundos
 const dismissMessage = () => {
@@ -410,6 +417,7 @@ const resetForm = () => {
   confirm_password.value = '';
   fileName.value = ''; 
   fileUrl.value = ''; 
+  errorMessage.value = '';
 };
 
 </script>
