@@ -12,7 +12,7 @@
             <label for="department" class="block text-sm font-medium leading-6 text-gray-900">Departamento</label>
             <div class="mt-2 sm:max-w-md">
               <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <select v-model="department" @change="fetchSubdepartmentsAndUsers" id="department" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <select v-model="department" @change="fetchSubdepartmentsAndUsers" id="department" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
                   <option v-for="dept in departments" :key="dept.id" :value="dept.id">{{ dept.name }}</option>
                 </select>
               </div>
@@ -23,7 +23,7 @@
             <label for="subdepartment" class="block text-sm font-medium leading-6 text-gray-900">Subdepartamento</label>
             <div class="mt-2 sm:max-w-md">
               <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <select v-model="subdepartment" id="subdepartment" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <select v-model="subdepartment" id="subdepartment" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
                   <option v-for="subdept in subdepartments" :key="subdept.id" :value="subdept.id">{{ subdept.name }}</option>
                 </select>
               </div>
@@ -34,7 +34,7 @@
             <label for="userRequest" class="block text-sm font-medium leading-6 text-gray-900">Solicitante</label>
             <div class="mt-2 sm:max-w-md">
               <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <select v-model="userRequest" id="userRequest" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <select v-model="userRequest" id="userRequest" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
                   <option v-for="user in users" :key="user.user_id" :value="user.user_id">{{ user.user_name }} {{user.user_lastname}}</option>
                 </select>
               </div>
@@ -45,7 +45,7 @@
             <label for="beneficiary" class="block text-sm font-medium leading-6 text-gray-900">Beneficiario</label>
             <div class="mt-2 sm:max-w-md">
               <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <input type="text" name="beneficiary" id="beneficiary" v-model="beneficiary" class="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="Nombre del beneficiario"/>
+                <input type="text" name="beneficiary" id="beneficiary" v-model="beneficiary" class="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="Nombre del beneficiario" required/>
               </div>
             </div>
           </div>
@@ -54,7 +54,7 @@
             <label for="type" class="block text-sm font-medium leading-6 text-gray-900">Tipo de caja</label>
             <div class="mt-2 sm:max-w-md">
               <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <select v-model="type" id="type" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <select v-model="type" id="type" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
                   <option v-for="typ in typocaja" :key="typ.id" :value="typ.id">{{ typ.value }}</option>
                 </select>
               </div>
@@ -65,7 +65,7 @@
             <label for="subType" class="block text-sm font-medium leading-6 text-gray-900">Tipo de gasto</label>
             <div class="mt-2 sm:max-w-md">
               <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <select v-model="subType" id="subType" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <select v-model="subType" id="subType" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
                   <option v-for="typ in typogastos" :key="typ.id" :value="typ.id">{{ typ.value }}</option>
                 </select>
               </div>
@@ -76,7 +76,7 @@
             <label for="concept" class="block text-sm font-medium leading-6 text-gray-900">Concepto</label>
             <div class="mt-2 sm:max-w-md">
               <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <input type="text" name="concept" id="concept" v-model="concept" class="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="Descripción de la compra"/>
+                <input type="text" name="concept" id="concept" v-model="concept" class="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="Descripción de la compra" required/>
               </div>
             </div>
           </div>
@@ -85,7 +85,7 @@
             <label for="payConditions" class="block text-sm font-medium leading-6 text-gray-900">Condiciones de pago</label>
             <div class="mt-2 sm:max-w-md">
               <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <select v-model="payConditions" id="payConditions" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <select v-model="payConditions" id="payConditions" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
                   <option v-for="pay in conditionsPay" :key="pay.id" :value="pay.id">{{ pay.value }}</option>
                 </select>
               </div>
@@ -96,7 +96,7 @@
             <label for="payMethod" class="block text-sm font-medium leading-6 text-gray-900">Método de pago</label>
             <div class="mt-2 sm:max-w-md">
               <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <select v-model="payMethod" id="payMethod" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <select v-model="payMethod" id="payMethod" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
                   <option v-for="pay in paymethods" :key="pay.id" :value="pay.id">{{ pay.value }}</option>
                 </select>
               </div>
@@ -283,7 +283,7 @@ export default {
         });
       }
     },
-        validaritems() {
+    validaritems() {
       return this.items.some(item => 
         item.article && item.description && item.quantity > 0 && item.price > 0
       );
@@ -294,7 +294,6 @@ export default {
         ...item,
         docEntry 
       }));
-      console.log(items);
       try {
         const response = await  axios.post(`/requestPurchases/${docEntry}/items`, items, {
           headers: {

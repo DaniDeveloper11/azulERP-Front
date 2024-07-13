@@ -35,7 +35,7 @@
   </template>
   
   <script setup>
-  import { ref, watch } from 'vue';
+  import { ref, watch, onMounted } from 'vue';
   import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue';
   import { CheckIcon, ChevronDownIcon } from '@heroicons/vue/20/solid';
   
@@ -52,4 +52,8 @@
   watch(selected, (newValue) => {
     emit('update:selected', newValue);
   });
+
+  onMounted(() => {
+  emit('update:selected', selected.value);
+});
   </script>
