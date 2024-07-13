@@ -154,7 +154,7 @@ export default {
                         },
                     })
                 } else {
-                    response = await axios.get(`/requestPurchases/forDepartment/${this.user.user_id}`, {
+                    response = await axios.get(`/requestPurchases/forDepartment/${this.user.user_department}`, {
                         headers: {
                             Authorization: `Bearer ${this.token}`,
                         },
