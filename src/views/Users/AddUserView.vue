@@ -124,9 +124,9 @@
           <div class="sm:col-span-2">
             <label for="phone" class="block mb-2 text-sm font-medium text-gray-900">Numero de
               Telefono</label>
-            <input v-model="user_phone" type="tel" id="phone"
+            <input v-model="user_phone" type="number" id="phone"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="123-45-678" />
+              placeholder="123-45-678" required />
           </div>
 
           <div class="sm:col-span-4">
@@ -194,7 +194,7 @@
         <div class="mt-2">
           <input v-model="user_position" type="text" name="puesto" id="puesto"
             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            placeholder="Credito y Cobranza" />
+            placeholder="Credito y Cobranza" required />
         </div>
         <p class="mt-2 text-sm text-gray-500" id="email-description">Ingrese el puesto que desempeña el usuario dentro
           de la empresa.</p>
