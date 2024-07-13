@@ -373,9 +373,3 @@ export default {
 </script>
 
 <style scoped></style>
-
-/**
-* ? Se pueden editar los departamentos y subdepartamentos
-* Todo: Validar campos 
-* Todo: Actualizar el menu despues de la creacion de departamento y subdepartamentos 
-**/
