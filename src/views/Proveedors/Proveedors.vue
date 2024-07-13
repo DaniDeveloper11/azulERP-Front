@@ -89,7 +89,12 @@
             </div>
           </div>
         </div>
+       
+          
       </div>
+       <div v-if="filteredProveedors.length == 0" class="flex justify-center w-full">
+      <p class="mt-1 text-lg text-red-800 w-full bg-gray-300" >No se encontraron resultados con la busqueda</p>
+        </div>
     </div>
     <modal :open="editOpen" :proveedor="selectedProveedor" @close="editOpen = false"></modal>
   </div>
@@ -221,8 +226,3 @@ onMounted(() => {
   fetchProveedors();
 });
 </script>
-
-/**
-* ? Al momento de no tener resultados de busqueda, no hay texto o notificacion al usuario de resultados de busqueda vacios
-* TODO: realizar retroalimentacion al usuario de campos vacios
-**/
