@@ -12,9 +12,9 @@
         </div>
         <hr class="bg-indigo-600" style="height:3px; margin: .7rem">
 
-        <div class="flex">
+        <div class=" grid sm:flex">
 
-            <main class=" w-4/6">
+            <main class="w-full sm:w-4/6">
     
                     <div class="px-4 py-10 sm:px-6 lg:px-8 lg:py-6">
                         <h2 class="font-semibold text-center">Grafica</h2>
@@ -24,7 +24,7 @@
                 </div>
             </main>
 
-            <aside class="w-2/6  overflow-y-auto border-l border-gray-200 px-4 py-6 sm:px-6 lg:px-8 xl:block">
+            <aside class="w-full sm:w-2/6  overflow-y-auto border-l border-gray-200 px-4 py-6 sm:px-6 lg:px-8 xl:block">
 
                 <div class="mt-10 grid gap-4 w-full ">
                     <div>
