@@ -301,3 +301,8 @@ const navigation = ref('');
 </script>
 
 <style scoped></style>
+
+/**
+* !Al momento de mmoverse al apartado, el icono no se cambia de color (no cambia de color de estar seleccionado)
+* TODO: al momento de mmoverse de apartado en el menu debe de cambiar el color del apartado seleccionado
+**/

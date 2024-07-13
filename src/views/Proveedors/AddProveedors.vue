@@ -166,3 +166,9 @@ const reset = () => {
 }
 
 </script>
+
+/**
+* ? Esta permitido precionar el boton de guardar con el form vacio?
+* ! Permite subir el formulario en blanco
+* ! No existen validaciones de los campos del formulario
+**/

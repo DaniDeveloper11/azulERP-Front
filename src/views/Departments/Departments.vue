@@ -353,3 +353,12 @@ export default {
 </script>
 
 <style scoped></style>
+
+/**
+* !No actualiza el menu de subdepartamento cuando se crea uno nuevo
+* ? Existe longitud minima para los nombres de departamentos o validaciones de caracteres especiales (/*$...etc) ej: Yakult@ 
+* ? es un nombre valido para un departamento, y tambien subdepartamento
+* ? Se pueden editar los departamentos y subdepartamentos
+* Todo: Validar campos 
+* Todo: Actualizar el menu despues de la creacion de departamento y subdepartamentos 
+**/

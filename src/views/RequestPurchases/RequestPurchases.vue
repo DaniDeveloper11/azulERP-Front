@@ -468,3 +468,8 @@ export default {
 
 <style scoped>
 </style>
+
+/**
+* ! No existe retroalimentaciones visuales al momento de dejar los campos vacios
+* TODO: realizar retroalimentacion al usuario de campos vacios
+**/

@@ -677,3 +677,8 @@ export default {
     }
 }
 </script>
+
+/**
+* ? Si no se encuentran resultados no manda mensaje de retroalimentacion al usuario
+* TODO: realizar retroalimentacion al usuario
+**/

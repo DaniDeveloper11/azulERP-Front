@@ -90,3 +90,8 @@ onMounted(() => {
   background-position: center;
 }
 </style>
+
+/**
+* !Usuarios inhabilitdos pueden iniciar sesion
+* Todo: inicio de sesion de usuarios no permitidos
+**/

@@ -221,3 +221,8 @@ onMounted(() => {
   fetchProveedors();
 });
 </script>
+
+/**
+* ? Al momento de no tener resultados de busqueda, no hay texto o notificacion al usuario de resultados de busqueda vacios
+* TODO: realizar retroalimentacion al usuario de campos vacios
+**/

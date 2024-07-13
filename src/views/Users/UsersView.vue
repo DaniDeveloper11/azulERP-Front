@@ -140,3 +140,6 @@ const getUsers = async () => {
   }
 };
 </script>
+/**
+* !Al momento de recuperar los usuarios tambien aparece el mismo usuario que hace la consulta
+**/
