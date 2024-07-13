@@ -283,7 +283,7 @@ export default {
         });
       }
     },
-        validaritems() {
+    validaritems() {
       return this.items.some(item => 
         item.article && item.description && item.quantity > 0 && item.price > 0
       );
@@ -294,7 +294,6 @@ export default {
         ...item,
         docEntry 
       }));
-      console.log(items);
       try {
         const response = await  axios.post(`/requestPurchases/${docEntry}/items`, items, {
           headers: {
