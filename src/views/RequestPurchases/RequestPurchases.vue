@@ -45,7 +45,10 @@
             <label for="beneficiary" class="block text-sm font-medium leading-6 text-gray-900">Beneficiario</label>
             <div class="mt-2 sm:max-w-md">
               <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <input type="text" name="beneficiary" id="beneficiary" v-model="beneficiary" class="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="Nombre del beneficiario" required/>
+                <select v-model="beneficiary" id="beneficiary" required
+                  class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                  <option v-for="typ in provedors" :key="typ.id" :value="typ.id">{{ typ.name }}</option>
+                </select>
               </div>
             </div>
           </div>
@@ -163,9 +166,6 @@ import useAuthStore from '../../store/auth.js';
 import axios from '../../utils/axios.js';
 import Swal from 'sweetalert2';
 import '@fortawesome/fontawesome-free/css/all.css';
-import { ref } from 'vue'
-import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 
 export default {
   data() {
@@ -186,6 +186,7 @@ export default {
       subdepartments: [],
       users: [],
       usersG: [],
+      provedors: [],
       typogastos: [
         { id: 1, value: 'Fiscal' },
         { id: 2, value: 'No Fiscal' }
@@ -208,6 +209,7 @@ export default {
   },
   created() {
     this.addItem();
+    this.getProvedors();
   },
   computed: {
     calculateTotal() {
@@ -243,7 +245,6 @@ export default {
         userRequest: user_id,
         docTotal: this.docTotal,
       };
-      
       try {
          if (!this.validaritems()) {
         Swal.fire({
@@ -399,7 +400,36 @@ export default {
         });
       }
     },
-
+    async getProvedors() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        Swal.fire({
+          title: 'Error',
+          text: 'Token no encontrado',
+          icon: 'error',
+        });
+        return;
+      }
+      try {
+        const response = await axios.get(`/proveedors/`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response && response.status === 200) {
+          this.provedors = response.data;
+        } else {
+          throw new Error('Error en back');
+        }
+      } catch (error) {
+        console.error('Error al obtener los proveedores:', error);
+        Swal.fire({
+          title: 'Error',
+          text: 'No se pudo obtener la lista de proveedores',
+          icon: 'error',
+        });
+      }
+    },
     async getUsersByDepartment(departmentId) {
       const token = localStorage.getItem('token');
       if (!token) {
@@ -467,8 +497,3 @@ export default {
 
 <style scoped>
 </style>
-
-/**
-* ! No existe retroalimentaciones visuales al momento de dejar los campos vacios
-* TODO: realizar retroalimentacion al usuario de campos vacios
-**/
