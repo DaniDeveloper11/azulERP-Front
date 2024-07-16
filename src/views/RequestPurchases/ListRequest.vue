@@ -177,12 +177,6 @@ export default {
             }
 
         },
-        // toggleItems(id) {
-        //     const req = this.request.find(r => r.id === id);
-        //     if (req) {
-        //         req.showItems = !req.showItems;
-        //     }
-        // }
         async showModal(item) {
             if (item?.items?.length > 0) {
                 this.itemSelected = { ...item }
