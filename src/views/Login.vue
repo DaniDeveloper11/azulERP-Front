@@ -60,7 +60,6 @@ const login = async () => {
     else{
       authStore.login(response.data);
 
-      // Redireccionar al dashboard
       router.push('/');
     }
   } 
@@ -90,8 +89,3 @@ onMounted(() => {
   background-position: center;
 }
 </style>
-
-/**
-* !Usuarios inhabilitdos pueden iniciar sesion
-* Todo: inicio de sesion de usuarios no permitidos
-**/

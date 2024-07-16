@@ -167,12 +167,12 @@
                         <div class="sm:col-span-1">
                             <button @click="getData" type="button"
                                 :class="[okBtn  ? 'bg-indigo-600 text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600': 'bg-gray-300 text-black cursor-not-allowed']"
-                                class="rounded-md  px-3 py-2 text-sm font-semibold  shadow-sm  ">Buscar</button>
+                                class="rounded-md  px-3 py-2 text-sm font-semibold  shadow-sm">Buscar</button>
                         </div>
                         <div class="sm:col-span-1">
                             <button @click="exportToExcel" type="button"
                                 :class="[data.length>0 ? 'bg-lime-600 text-white hover:bg-lime-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime-600':'bg-gray-300 text-black cursor-not-allowed']"
-                                class="rounded-md  px-3 py-2 text-sm font-semibold  shadow-sm ">Descargar</button>
+                                class="rounded-md  px-3 py-2 text-sm font-semibold  shadow-sm">Descargar</button>
                         </div>
                     </div>
 
@@ -521,87 +521,106 @@ export default {
             }
         },
         async getData() {
-            let tmp;
-            if (this.type == 1) {
-                tmp = "requestPurchases";
-            }
-            else {
-                tmp = "orderPurchases";
-            }
-            let tmp2;
-            if (this.filter == 1) {
-                tmp2 = "betweenDates";
-            }
-            else if (this.filter == 2) {
-                tmp2 = `/forDepartment/${this.department}`;
-            }
-            else if (this.filter == 3) {
-                tmp2 = `/forSubdepartment/${this.subdepartment}`;
-            }
-            else if (this.filter == 4) {
-                tmp2 = `/forPayConditions/${this.conditionsPay}`;
-            }
-            else if (this.filter == 5) {
-                tmp2 = `/forPayMethods/${this.payMethod}`;
-            }
-            else if (this.filter == 6) {
-                tmp2 = `/forStatus/${this.status}`;
-            }
-            else if (this.filter == 7) {
-                tmp2 = `/forUserRequest/${this.request}`;
-            }
-            else if (this.filter == 8) {
-                tmp2 = `/forPayDate/${this.payDate}`;
-            }
-            else if (this.filter == 9) {
-                tmp2 = `/forPayBeneficiary/${this.benefy}`;
-            }
-            else if (this.filter == 10) {
-                tmp2 = ""
-            }
-            const token = localStorage.getItem('token');
-            if (!token) {
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Token no encontrado',
-                    icon: 'error'
-                });
-                return;
-            }
-            try {
-                let response;
+            if(this.okBtn){
+                let tmp;
+                if (this.type == 1) {
+                    tmp = "requestPurchases";
+                }
+                else {
+                    tmp = "orderPurchases";
+                }
+                let tmp2;
                 if (this.filter == 1) {
-                    response = await axios.get(`/${tmp}/forDates/${tmp2}`, {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                        params: {
-                            initDate: this.initDate,
-                            closeDate: this.closeDate
-                        }
+                    tmp2 = "betweenDates";
+                }
+                else if (this.filter == 2) {
+                    tmp2 = `/forDepartment/${this.department}`;
+                }
+                else if (this.filter == 3) {
+                    tmp2 = `/forSubdepartment/${this.subdepartment}`;
+                }
+                else if (this.filter == 4) {
+                    tmp2 = `/forPayConditions/${this.conditionsPay}`;
+                }
+                else if (this.filter == 5) {
+                    tmp2 = `/forPayMethods/${this.payMethod}`;
+                }
+                else if (this.filter == 6) {
+                    tmp2 = `/forStatus/${this.status}`;
+                }
+                else if (this.filter == 7) {
+                    tmp2 = `/forUserRequest/${this.request}`;
+                }
+                else if (this.filter == 8) {
+                    tmp2 = `/forPayDate/${this.payDate}`;
+                }
+                else if (this.filter == 9) {
+                    tmp2 = `/forPayBeneficiary/${this.benefy}`;
+                }
+                else if (this.filter == 10) {
+                    tmp2 = ""
+                }
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Token no encontrado',
+                        icon: 'error'
                     });
+                    return;
                 }
-                else {
-                    response = await axios.get(`/${tmp}${tmp2}`, {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
+                try {
+                    let response;
+                    if (this.filter == 1) {
+                        response = await axios.get(`/${tmp}/forDates/${tmp2}`, {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                            params: {
+                                initDate: this.initDate,
+                                closeDate: this.closeDate
+                            }
+                        });
+                    }
+                    else {
+                        response = await axios.get(`/${tmp}${tmp2}`, {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            }
+                        });
+                    }
+                    if (response && response.status === 200) {
+                        this.data = response.data;
+                        if(this.data.length == 0){
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'No se encontraron registros',
+                                icon: 'error'
+                            });
+                            this.reset();
                         }
+                        else{
+                            this.data2 = this.obtenerDatosGrafica(this.data)
+                            this.reset();
+                        }
+                    }
+                    else {
+                        throw new Error('Respuesta inesperada del servidor');
+                    }
+                }
+                catch (error) {
+                    console.error('Error al obtener las requisiciones:', error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'No se pudo obtener la lista de requisiciones',
+                        icon: 'error'
                     });
-                }
-                if (response && response.status === 200) {
-                    this.data = response.data;
-                    this.data2 = this.obtenerDatosGrafica(this.data)
-                    this.reset();
-                }
-                else {
-                    throw new Error('Respuesta inesperada del servidor');
                 }
             }
-            catch (error) {
-                console.error('Error al obtener las requisiciones:', error);
+            else{
                 Swal.fire({
                     title: 'Error',
-                    text: 'No se pudo obtener la lista de requisiciones',
+                    text: 'No se puede realizar la busqueda sin filtros',
                     icon: 'error'
                 });
             }
@@ -617,27 +636,36 @@ export default {
             return formattedDate
         },
         exportToExcel() {
-            const worksheet = XLSX.utils.json_to_sheet(this.data);
+            if(this.data.length > 0){
+                const worksheet = XLSX.utils.json_to_sheet(this.data);
 
-            const workbook = XLSX.utils.book_new();
+                const workbook = XLSX.utils.book_new();
 
-            XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+                XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
 
-            XLSX.writeFile(workbook, 'Reporte de egresos.xlsx');
+                XLSX.writeFile(workbook, 'Reporte de egresos.xlsx');
+            }
+            else{
+                Swal.fire({
+                    title: 'Error',
+                    text: 'No se puede descargar el archivo de excel sin registros',
+                    icon: 'error'
+                });
+            }
         },
         reset() {
             this.type = '',
-                this.filter = '',
-                this.initDate = '',
-                this.closeDate = '',
-                this.department = '',
-                this.subdepartment = '',
-                this.conditionsPay = '',
-                this.payMethod = ''
+            this.filter = '',
+            this.initDate = '',
+            this.closeDate = '',
+            this.department = '',
+            this.subdepartment = '',
+            this.conditionsPay = '',
+            this.payMethod = ''
             this.status = '',
-                this.request = '',
-                this.payDate = '',
-                this.benefy = ''
+            this.request = '',
+            this.payDate = '',
+            this.benefy = ''
         },
         obtenerDatosGrafica(data) {
             let data2 = {
@@ -677,8 +705,3 @@ export default {
     }
 }
 </script>
-
-/**
-* ? Si no se encuentran resultados no manda mensaje de retroalimentacion al usuario
-* TODO: realizar retroalimentacion al usuario
-**/
