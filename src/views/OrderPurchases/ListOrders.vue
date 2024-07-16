@@ -57,7 +57,9 @@
                         </button>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-lg font-medium text-gray-900">{{ req.concept }}</h3>
+                        <h3 class="text-lg font-medium text-gray-900">{{ req.userRequest.name + " " +
+                            req.userRequest.lastname }}</h3>
+                        <h3 class="text-md font-medium text-gray-900">{{ req.department.name }}</h3>
                         <p class="text-sm text-gray-500">{{ req.beneficiary }}</p>
                         <p class="text-sm text-gray-500">{{ moneyFormatter(req.docTotal) }}</p>
                     </div>
@@ -93,22 +95,22 @@
         <div class="noHasData" v-if="!hasData">
             <p class="mt-6 text-xl leading-8 text-gray-700">No hay resultados</p>
         </div>
-  
+
         <OrderDetails v-if="showDetails" :data="itemSelected" @closeModal="handleClose">
         </OrderDetails>
-  
-  
+
+
     </div>
-  </template>
-  <script>
-  import axios from '../../utils/axios.js';
-  import Swal from 'sweetalert2';
-  import OrderDetails from './modals/OrderDetails.vue';
-  
-  
-  export default {
+</template>
+<script>
+import axios from '../../utils/axios.js';
+import Swal from 'sweetalert2';
+import OrderDetails from './modals/OrderDetails.vue';
+
+
+export default {
     components: {
-      OrderDetails,
+        OrderDetails,
     },
     data() {
         return {
@@ -151,7 +153,7 @@
                         },
                     });
                 } else if (this.user.user_position == "Miembro") {
-  
+
                     response = await axios.get(`/orderPurchases/forDepartment/${this.user.user_id}`, {
                         headers: {
                             Authorization: `Bearer ${this.token}`,
@@ -179,7 +181,7 @@
                 });
                 this.hasData = false;
             }
-  
+
         },
         // toggleItems(id) {
         //     const req = this.request.find(r => r.id === id);
@@ -190,20 +192,20 @@
         async showModal(item) {
             if (item?.items?.length > 0) {
                 this.itemSelected = { ...item }
-                const response = await axios.get(`/users/${item.userRequest}`, {
+                const response = await axios.get(`/users/${item.userRequest.id}`, {
                     headers: {
                         Authorization: `Bearer ${this.token}`,
                     },
                 });
-  
-                const response2 = await axios.get(`/departments/${item.department}`, {
+
+                const response2 = await axios.get(`/departments/${item.department.id}`, {
                     headers: {
                         Authorization: `Bearer ${this.token}`,
                     },
                 });
-                
-                if(response && response2){
-                    this.itemSelected.userRequest = response.data.user_name + " " +response.data.user_lastname
+
+                if (response && response2) {
+                    this.itemSelected.userRequest = response.data.user_name + " " + response.data.user_lastname
                     this.itemSelected.department = response2.data.name
                     this.showDetails = true;
                 } else {
@@ -213,7 +215,7 @@
                         icon: 'error',
                     });
                 }
-  
+
             } else {
                 Swal.fire({
                     title: 'Error',
@@ -228,11 +230,11 @@
         },
         search() {
             if (this.statusFilter) {
-                if (this.searchQuery != "" && this.searchQuery != null ) {
+                if (this.searchQuery != "" && this.searchQuery != null) {
                     this.requestFilter = this.request.filter(
                         req =>
                             (req.concept.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                                req.beneficiary.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                                req.userRequest.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                                 req.docTotal.toString().includes(this.searchQuery)) &&
                             req.docStatus == this.statusFilter
                     )
@@ -244,7 +246,7 @@
                 this.requestFilter = this.request.filter(
                     req =>
                         req.concept.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                        req.beneficiary.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                        req.userRequest.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                         req.docTotal.toString().includes(this.searchQuery)
                 )
             }
@@ -253,6 +255,6 @@
             }
         }
     }
-  }
-  </script>
-  <style></style>
+}
+</script>
+<style></style>

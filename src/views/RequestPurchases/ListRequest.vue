@@ -56,7 +56,9 @@
                         </button>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-lg font-medium text-gray-900">{{ req.concept }}</h3>
+                        <h3 class="text-lg font-medium text-gray-900">{{ req.userRequest.name + " " +
+                            req.userRequest.lastname }}</h3>
+                        <h3 class="text-md font-medium text-gray-900">{{ req.department.name }}</h3>
                         <p class="text-sm text-gray-500">{{ req.beneficiary }}</p>
                         <p class="text-sm text-gray-500">{{ moneyFormatter(req.docTotal) }}</p>
                     </div>
@@ -145,7 +147,7 @@ export default {
                             Authorization: `Bearer ${this.token}`,
                         },
                     });
-                } 
+                }
                 else if (this.user.user_level == 1 && this.user.user_id == 7) {
 
                     response = await axios.get(`/requestPurchases`, {
@@ -186,13 +188,13 @@ export default {
         async showModal(item) {
             if (item?.items?.length > 0) {
                 this.itemSelected = { ...item }
-                const response = await axios.get(`/users/${item.userRequest}`, {
+                const response = await axios.get(`/users/${item.userRequest.id}`, {
                     headers: {
                         Authorization: `Bearer ${this.token}`,
                     },
                 });
 
-                const response2 = await axios.get(`/departments/${item.department}`, {
+                const response2 = await axios.get(`/departments/${item.department.id}`, {
                     headers: {
                         Authorization: `Bearer ${this.token}`,
                     },
@@ -224,11 +226,11 @@ export default {
         },
         search() {
             if (this.statusFilter) {
-                if (this.searchQuery != "" && this.searchQuery != null ) {
+                if (this.searchQuery != "" && this.searchQuery != null) {
                     this.requestFilter = this.request.filter(
                         req =>
                             (req.concept.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                                req.beneficiary.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                                req.userRequest.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                                 req.docTotal.toString().includes(this.searchQuery)) &&
                             req.docStatus == this.statusFilter
                     )
@@ -240,7 +242,7 @@ export default {
                 this.requestFilter = this.request.filter(
                     req =>
                         req.concept.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                        req.beneficiary.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                        req.userRequest.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                         req.docTotal.toString().includes(this.searchQuery)
                 )
             }
