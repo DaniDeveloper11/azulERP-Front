@@ -72,7 +72,7 @@
 
                   Cantidad:
                   <span class="absolute inset-0" />
-                  {{ item.quantity }}
+                  {{ item.items_quantity}}
 
                 </p>
                 <p class="flex gap-1 text-gray-600">
@@ -82,7 +82,7 @@
                       d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>
 
-                  Precio:{{ item.price }}
+                  Precio:{{ item.items_price }}
                 </p>
               </div>
             </div>
@@ -151,8 +151,8 @@
         </div>
 
 
-
-        <div v-if="props.request.docStatus == 2"
+          <!--status =  aprobado  and  Pago en efectivo -->
+        <div v-if="props.request.docStatus == 2 && props.request.payMethod == 1"
           class="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
           <button type="button" @click="handleGenerateOrder"
             class="flex gap-1 text-white bg-green-500 hover:bg-green-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -165,6 +165,18 @@
           </button>
         </div>
 
+        <div v-if="props.request.docStatus == 2 && props.request.payMethod >= 2"
+          class="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+          <button type="button" @click="handleGenerateOrder"
+            class="flex gap-1 text-white bg-blue-500 hover:bg-blue-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            Solicitar Autorizacion
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+              <path fill-rule="evenodd"
+                d="M12.97 3.97a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 1 1-1.06-1.06l6.22-6.22H3a.75.75 0 0 1 0-1.5h16.19l-6.22-6.22a.75.75 0 0 1 0-1.06Z"
+                clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
 
 
       </div>
