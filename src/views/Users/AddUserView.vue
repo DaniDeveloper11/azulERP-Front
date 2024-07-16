@@ -91,6 +91,7 @@
                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX.
                   800x400px).</p>
               </div>
+              <p v-if="errorMessage" class="mt-1 text-sm text-red-600 dark:text-red-500">{{ errorMessage }}</p>
             </div>
           </div>
 
@@ -124,9 +125,9 @@
           <div class="sm:col-span-2">
             <label for="phone" class="block mb-2 text-sm font-medium text-gray-900">Numero de
               Telefono</label>
-            <input v-model="user_phone" type="tel" id="phone"
+            <input v-model="user_phone" type="number" id="phone"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="123-45-678" />
+              placeholder="123-45-678" required />
           </div>
 
           <div class="sm:col-span-4">
@@ -142,7 +143,7 @@
           <div class="sm:col-span-2">
             <label for="region" class="block text-sm font-medium leading-6 text-gray-900">Estado</label>
             <div class="mt-2">
-              <select v-model="user_state" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+              <select v-model="user_state" required class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                 <option value="" disabled selected>Seleccione un estado</option>
                 <option v-for="estado in estados" :key="estado.abreviatura" :value="estado.abreviatura">
                   {{ estado.nombre }}
@@ -205,7 +206,7 @@
         <div class="mt-2">
           <input v-model="user_position" type="text" name="puesto" id="puesto"
             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            placeholder="Credito y Cobranza" />
+            placeholder="Credito y Cobranza" required />
         </div>
         <p class="mt-2 text-sm text-gray-500" id="email-description">Ingrese el puesto que desempeña el usuario dentro
           de la empresa.</p>
@@ -263,9 +264,10 @@ const user_email = ref('');
 const user_level = ref('');
 const user_position = ref('');
 const user_status = ref(true);
-const fileName = ref('');
-const fileUrl = ref('');
-const showMessage = ref(false);
+const fileName = ref(''); 
+const fileUrl = ref(''); 
+const showMessage = ref(false); 
+const errorMessage = ref('');
 
 const register = async () => {
   showloader.value = true; // Mostrar loader al iniciar la consulta
@@ -353,19 +355,27 @@ function handleSelectedUpdate(selectedOption) {
   user_level.value = selectedOption;
 }
 
-function inputImage(event) {
+
+// Funsion para agregar imagen desde el evento del input tipo file
+const inputImage = (event) => {
   const file = event.target.files[0];
   if (file) {
-    fileName.value = file.name;
-    user_image.value = fileName.value;
+    const validExtensions = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif']; // Extensiones válidas
+    if (validExtensions.includes(file.type)) {
+      fileName.value = file.name;
+      user_image.value = fileName.value;
+      errorMessage.value = ''; // Clear the error message if file is valid
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      fileUrl.value = e.target.result;
-    };
-    reader.readAsDataURL(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        fileUrl.value = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      errorMessage.value = 'Por favor, seleccione un archivo de imagen válido (jpg, jpeg, png, gif).';
+    }
   }
-}
+};
 
 const dismissMessage = () => {
   setTimeout(() => {
@@ -425,8 +435,9 @@ const resetForm = () => {
   user_position.value = '';
   user_status.value = true;
   confirm_password.value = '';
-  fileName.value = '';
-  fileUrl.value = '';
+  fileName.value = ''; 
+  fileUrl.value = ''; 
+  errorMessage.value = '';
 };
 </script>
 
