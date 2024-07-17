@@ -77,17 +77,17 @@
                                                 <tr v-for="item in data.items" :key="item.id">
                                                     <td
                                                         class="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0 text-center align-middle">
-                                                        {{ "x" + item.quantity }}
+                                                        {{ "x" + item.items_quantity }}
                                                     </td>
                                                     <td
                                                         class="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">
-                                                        {{ item.article }}
+                                                        {{ item.items_article }}
                                                     </td>
                                                     <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
-                                                        {{ item.description }}
+                                                        {{ item.items_description }}
                                                     </td>
                                                     <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
-                                                        {{ moneyFormatter(item.price) }}
+                                                        {{ moneyFormatter(item.items_price) }}
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -151,10 +151,10 @@
             <tbody>
                 <tr v-for="item in data.items" :key="item.id">
                     <!-- <td>2024-07-02</td> -->
-                    <td>{{ item.quantity }}</td>
-                    <td>{{ item.article }}</td>
-                    <td>{{ moneyFormatter(item.price / item.quantity) }}</td>
-                    <td>{{ moneyFormatter(item.price) }}</td>
+                    <td>{{ item.items_quantity }}</td>
+                    <td>{{ item.items_article }}</td>
+                    <td>{{ moneyFormatter(item.items_price / item.items_quantity) }}</td>
+                    <td>{{ moneyFormatter(item.items_price) }}</td>
                 </tr>
             </tbody>
             <tfoot>
