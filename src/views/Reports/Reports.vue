@@ -227,10 +227,10 @@
                                 formateDate(row.date) }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
                             {{
-                                row.departmentName }}</td>
+                                row.department.name }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
                             {{
-                                row.subdepartmentName }}</td>
+                                row.subdepartment.name }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
                             {{ row.type == 1
                                 ? 'Normal' : row.type == 2 ? 'Caja chica' : 'Caja chica Guadalajara' }}</td>
@@ -242,7 +242,7 @@
                             }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
                             {{
-                                row.beneficiary }}</td>
+                                row.beneficiary.name }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
                             {{
                                 row.payConditions == 1 ? 'Contado' : 'Crédito' }}</td>
@@ -254,8 +254,8 @@
                             {{
                                 estatusArray[row.docStatus - 1].nombre }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
-                            {{ row.userName +
-                                " " + row.userLastname }}</td>
+                            {{ row.userRequest.name +
+                                " " + row.userRequest.lastname }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider"
                             v-if="row.payDate != null">{{ formateDate(row.payDate) }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider"
