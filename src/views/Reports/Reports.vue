@@ -242,7 +242,7 @@
                             }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
                             {{
-                                row.beneficiary }}</td>
+                                row.beneficiary.name }}</td>
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
                             {{
                                 row.payConditions == 1 ? 'Contado' : 'Crédito' }}</td>
