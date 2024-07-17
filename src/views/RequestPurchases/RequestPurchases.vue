@@ -9,39 +9,34 @@
 
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div class="sm:col-span-2 sm:col-start-1">
-            <label for="department" class="block text-sm font-medium leading-6 text-gray-900">Departamento</label>
+            <label for="department" class="block text-sm font-medium leading-6 text-gray-900" >Departamento</label>
             <div class="mt-2 sm:max-w-md">
-              <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <select v-model="department" @change="fetchSubdepartmentsAndUsers" id="department" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
-                  <option v-for="dept in departments" :key="dept.id" :value="dept.id">{{ dept.name }}</option>
-                </select>
-              </div>
+              <select v-model="department" @change="fetchSubdepartmentsAndUsers" id="department" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6" :disabled="userLevel != 1" required>
+                <option v-for="dept in departments" :key="dept.id" :value="dept.id" >{{ dept.name }} </option>
+              </select>
             </div>
           </div>
-
           <div class="sm:col-span-2">
             <label for="subdepartment" class="block text-sm font-medium leading-6 text-gray-900">Subdepartamento</label>
             <div class="mt-2 sm:max-w-md">
-              <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <select v-model="subdepartment" id="subdepartment" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
-                  <option v-for="subdept in subdepartments" :key="subdept.id" :value="subdept.id">{{ subdept.name }}</option>
-                </select>
-              </div>
+              <select v-model="subdepartment" id="subdepartment" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6" :disabled="userLevel != 1" required>
+                <option v-for="subdept in subdepartments" :key="subdept.id" :value="subdept.id">{{ subdept.name }}</option>
+              </select>
             </div>
           </div>
+
 
           <div class="sm:col-span-2">
             <label for="userRequest" class="block text-sm font-medium leading-6 text-gray-900">Solicitante</label>
             <div class="mt-2 sm:max-w-md">
-              <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <select v-model="userRequest" id="userRequest" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
-                  <option v-for="user in users" :key="user.user_id" :value="user.user_id">{{ user.user_name }} {{user.user_lastname}}</option>
-                </select>
-              </div>
+              <select v-model="userRequest" id="userRequest" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6" :disabled="userLevel != 1" required>
+                <option v-for="user in users" :key="user.user_id" :value="user.user_id">{{ user.user_name }} {{user.user_lastname}}</option>
+              </select>
             </div>
           </div>
 
-          <div class="sm:col-span-2">
+
+          <div v-if="userLevel == 1" class="sm:col-span-2">
             <label for="beneficiary" class="block text-sm font-medium leading-6 text-gray-900">Beneficiario</label>
             <div class="mt-2 sm:max-w-md">
               <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
@@ -53,67 +48,56 @@
             </div>
           </div>
 
-          <div class="sm:col-span-2">
+          <div v-if="userLevel == 1" class="sm:col-span-2">
             <label for="type" class="block text-sm font-medium leading-6 text-gray-900">Tipo de caja</label>
             <div class="mt-2 sm:max-w-md">
-              <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <select v-model="type" id="type" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
-                  <option v-for="typ in typocaja" :key="typ.id" :value="typ.id">{{ typ.value }}</option>
-                </select>
-              </div>
+              <select v-model="type" id="type" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <option v-for="typ in typocaja" :key="typ.id" :value="typ.id">{{ typ.value }}</option>
+              </select>
             </div>
           </div>
 
-          <div class="sm:col-span-2">
+          <div v-if="userLevel == 1" class="sm:col-span-2">
             <label for="subType" class="block text-sm font-medium leading-6 text-gray-900">Tipo de gasto</label>
             <div class="mt-2 sm:max-w-md">
-              <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <select v-model="subType" id="subType" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
-                  <option v-for="typ in typogastos" :key="typ.id" :value="typ.id">{{ typ.value }}</option>
-                </select>
-              </div>
+              <select v-model="subType" id="subType" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <option v-for="typ in typogastos" :key="typ.id" :value="typ.id">{{ typ.value }}</option>
+              </select>
             </div>
           </div>
 
-          <div class="sm:col-span-2">
+          <div v-if="userLevel == 1" class="sm:col-span-2">
             <label for="concept" class="block text-sm font-medium leading-6 text-gray-900">Concepto</label>
             <div class="mt-2 sm:max-w-md">
-              <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <input type="text" name="concept" id="concept" v-model="concept" class="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="Descripción de la compra" required/>
-              </div>
+              <input type="text" name="concept" id="concept" v-model="concept" class="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="Descripción de la compra" />
             </div>
           </div>
 
-          <div class="sm:col-span-2">
+          <div v-if="userLevel == 1" class="sm:col-span-2">
             <label for="payConditions" class="block text-sm font-medium leading-6 text-gray-900">Condiciones de pago</label>
             <div class="mt-2 sm:max-w-md">
-              <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <select v-model="payConditions" id="payConditions" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
-                  <option v-for="pay in conditionsPay" :key="pay.id" :value="pay.id">{{ pay.value }}</option>
-                </select>
-              </div>
+              <select v-model="payConditions" id="payConditions" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <option v-for="pay in conditionsPay" :key="pay.id" :value="pay.id">{{ pay.value }}</option>
+              </select>
             </div>
           </div>
 
-          <div class="sm:col-span-2">
+          <div v-if="userLevel == 1" class="sm:col-span-2">
             <label for="payMethod" class="block text-sm font-medium leading-6 text-gray-900">Método de pago</label>
             <div class="mt-2 sm:max-w-md">
-              <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <select v-model="payMethod" id="payMethod" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
-                  <option v-for="pay in paymethods" :key="pay.id" :value="pay.id">{{ pay.value }}</option>
-                </select>
-              </div>
+              <select v-model="payMethod" id="payMethod" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <option v-for="pay in paymethods" :key="pay.id" :value="pay.id">{{ pay.value }}</option>
+              </select>
             </div>
           </div>
         </div>
       </div>
-
       <div class="border-b border-gray-900/10 pb-12">
         <h2 class="text-base font-semibold leading-7 text-gray-900">Descripción de artículos</h2>
         <p class="mt-1 text-sm leading-6 text-gray-600">Agregue todos los artículos requeridos en la solicitud.</p>
         <br>
         <div>
-          <table class="w-full min-w-full bg-white border">
+          <table v-if="userLevel == 1" class="w-full min-w-full bg-white border">
             <thead>
               <tr>
                 <th class="p-4 border">Artículo</th>
@@ -126,16 +110,16 @@
             <tbody>
               <tr v-for="(item, index) in items" :key="index">
                 <td class="py-2 px-4 border">
-                  <input v-model="item.article" type="text" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6" validate/>
+                  <input v-model="item.article" type="text" class="block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6" />
                 </td>
                 <td class="py-2 px-4 border">
-                  <input v-model="item.description" type="text" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6" validate/>
+                  <input v-model="item.description" type="text" class="block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6" />
                 </td>
                 <td class="py-2 px-4 border">
-                  <input v-model="item.quantity" type="number" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6" validate/>
+                  <input v-model="item.quantity" type="number" class="block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6" />
                 </td>
                 <td class="py-2 px-4 border">
-                  <input v-model="item.price" type="number" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6" validate/>
+                  <input v-model="item.price" type="number" class="block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6" />
                 </td>
                 <td class="py-2 px-4 border">
                   <button @click="removeItem(index)" class="bg-red-500 text-white px-2 py-1 rounded-md flex items-center justify-center">
@@ -146,10 +130,44 @@
                 </td>
               </tr>
             </tbody>
+            <div class="mt-4">
+              <button @click="addItem" class="bg-blue-500 text-white px-4 py-2 rounded-md">Añadir artículo</button>
+            </div>
           </table>
-        </div>
-        <div class="mt-4">
-          <button @click="addItem" class="bg-blue-500 text-white px-4 py-2 rounded-md">Añadir artículo</button>
+
+          <table v-else class="w-full min-w-full bg-white border">
+            <thead>
+              <tr>
+                <th class="p-4 border">Artículo</th>
+                <th class="p-4 border">Descripción</th>
+                <th class="p-4 border">Cantidad</th>
+                <th class="p-4 border"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item, index) in items" :key="index">
+                <td class="py-2 px-4 border">
+                  <input v-model="item.article" type="text" class="block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6" />
+                </td>
+                <td class="py-2 px-4 border">
+                  <input v-model="item.description" type="text" class="block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6" />
+                </td>
+                <td class="py-2 px-4 border">
+                  <input v-model="item.quantity" type="number" class="block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6" />
+                </td>
+                <td class="py-2 px-4 border">
+                  <button @click="removeItem(index)" class="bg-red-500 text-white px-2 py-1 rounded-md flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-1 14H6L5 7m6-2h2a2 2 0 012 2v1H7V7a2 2 0 012-2h2zm-1-4h2m2 4v1M7 7V5m5-4h2m-2 4v1M5 7v1m14 0V7m-4-1h2m-2 1H9m4-1h2m-6 0h2m4-1V3" />
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+            <div class="mt-4">
+              <button @click="addItemWest" class="bg-blue-500 text-white px-4 py-2 rounded-md">Añadir artículo</button>
+            </div>
+          </table>
         </div>
       </div>
     </div>
@@ -172,12 +190,12 @@ export default {
     return {
       department: '',
       subdepartment: '',
-      type: '',
-      subType: '',
+      type: 0,
+      subType: 0,
       concept: '',
       beneficiary: '',
-      payConditions: '',
-      payMethod: '',
+      payConditions: 0,
+      payMethod: 0,
       docStatus: '1',
       userRequest: '',
       docTotal: 0,
@@ -186,7 +204,8 @@ export default {
       subdepartments: [],
       users: [],
       usersG: [],
-      provedors: [],
+      UserData: JSON.parse(localStorage.getItem('user')),
+      userLevel: JSON.parse(localStorage.getItem('user')).user_level,
       typogastos: [
         { id: 1, value: 'Fiscal' },
         { id: 2, value: 'No Fiscal' }
@@ -209,7 +228,7 @@ export default {
   },
   created() {
     this.addItem();
-    this.getProvedors();
+     this.DataUserNoAdmin();
   },
   computed: {
     calculateTotal() {
@@ -246,35 +265,35 @@ export default {
         docTotal: this.docTotal,
       };
       try {
-         if (!this.validaritems()) {
-        Swal.fire({
-          title: 'Error',
-          text: 'Debe haber al menos un artículo completado',
-          icon: 'error',
-        });
-        return;
-      }else{
-        const response = await axios.post('/requestPurchases', requestPurchase, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-        if (response.data) {
-          const result = response.data;
-          const docEntry = result.id;
-          await this.submitItems(docEntry);
+        if (!this.validaritems()) {
           Swal.fire({
-            title: 'Correcto',
-            text: 'Solicitud creada correctamente',
-            icon: 'success',
+            title: 'Error',
+            text: 'Debe haber al menos un artículo completado',
+            icon: 'error',
           });
-          this.getDepartments();
-          this.reset();
+          return;
         } else {
-          throw new Error('Error al crear la solicitud');
+          const response = await axios.post('/requestPurchases', requestPurchase, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
+          if (response.data) {
+            const result = response.data;
+            const docEntry = result.id;
+            await this.submitItems(docEntry);
+            Swal.fire({
+              title: 'Correcto',
+              text: 'Solicitud creada correctamente',
+              icon: 'success',
+            });
+            this.getDepartments();
+            this.reset();
+          } else {
+            throw new Error('Error al crear la solicitud');
+          }
         }
-      }
       } catch (error) {
         console.error('Error:', error);
         Swal.fire({
@@ -286,7 +305,7 @@ export default {
     },
     validaritems() {
       return this.items.some(item => 
-        item.article && item.description && item.quantity > 0 && item.price > 0
+        item.article && item.description && item.quantity > 0
       );
     },
     async submitItems(docEntry) {
@@ -296,7 +315,7 @@ export default {
         docEntry 
       }));
       try {
-        const response = await  axios.post(`/requestPurchases/${docEntry}/items`, items, {
+        const response = await axios.post(`/requestPurchases/${docEntry}/items`, items, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -400,36 +419,6 @@ export default {
         });
       }
     },
-    async getProvedors() {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        Swal.fire({
-          title: 'Error',
-          text: 'Token no encontrado',
-          icon: 'error',
-        });
-        return;
-      }
-      try {
-        const response = await axios.get(`/proveedors/`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (response && response.status === 200) {
-          this.provedors = response.data;
-        } else {
-          throw new Error('Error en back');
-        }
-      } catch (error) {
-        console.error('Error al obtener los proveedores:', error);
-        Swal.fire({
-          title: 'Error',
-          text: 'No se pudo obtener la lista de proveedores',
-          icon: 'error',
-        });
-      }
-    },
     async getUsersByDepartment(departmentId) {
       const token = localStorage.getItem('token');
       if (!token) {
@@ -469,6 +458,20 @@ export default {
       });
       this.docTotal = this.calculateTotal;
     },
+    addItemWest() {
+      this.items.push({
+        article: '',
+        quantity: 0,
+        description: '',
+      });
+      this.docTotal = this.calculateTotal;
+    },
+    DataUserNoAdmin() {
+       this.department = this.UserData.user_department;
+      this.subdepartment = this.UserData.user_subdepartment || '';
+      this.userRequest = this.UserData.user_id;
+      this.fetchSubdepartmentsAndUsers();
+    },
     removeItem(index) {
       this.items.splice(index, 1);
       this.docTotal = this.calculateTotal;
@@ -485,12 +488,15 @@ export default {
       this.userRequest = '';
       this.docTotal = 0;
       this.items = [];
-    }
+    },
   },
   mounted() {
     this.getDepartments();
     this.getUsers();
     this.docTotal = this.calculateTotal;
+    if (this.userLevel !== 1) {
+     this.DataUserNoAdmin();
+    }
   },
 };
 </script>
