@@ -65,8 +65,8 @@
     <!-- <tableRequests v-if="showtable === 1" v-bind:requests="requests"></tableRequests> -->
     
     <div v-if="showtable === 1">
-      <tableRequests   v-bind:requests="requests"></tableRequests>
-
+      <tableRequests v-if="hasRequest"  v-bind:requests="requests"></tableRequests>
+      <p v-else class="mt-6 text-xl leading-8 text-gray-700">No hay resultados</p>
     </div>
 
 

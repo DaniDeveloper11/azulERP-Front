@@ -67,7 +67,6 @@
             <loader></loader>
     </div>
     <!-- <p id="notResults" class="mt-6 text-xl leading-8 text-gray-700">No se encontro coinsidencia</p> -->
-
 </div>
 
    
