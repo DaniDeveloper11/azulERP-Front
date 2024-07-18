@@ -31,8 +31,8 @@
           <div class="grid gap-2 items-center justify-between p-4">
             <h3 class="text-xl">{{ departmentName }}</h3>
             <p>{{ subdepaName }}</p>
-            <p>Solicitante: <span class="font-semibold uppercase">{{ request.userRequest_name }}</span></p>
-            <p> Beneficiario: <span class="font-semibold uppercase">{{ request.beneficiary }}</span></p>
+            <p>Solicitante: <span class="font-semibold uppercase">{{ request.userRequest.name}} {{ request.userRequest.lastname}}</span></p>
+            <p> Beneficiario: <span class="font-semibold uppercase">{{ request.beneficiary.name }}</span></p>
             <p class="py-1 px-2 w-32 text-center bg-red-300 text-xs rounded-full">Fecha: <span>{{
               formateDate(props.request.date) }}</span></p>
 
@@ -54,11 +54,11 @@
               <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
                 <a>
                   <span class="absolute inset-0" />
-                  {{ item.article }}
+                  {{ item.items_article }}
                 </a>
               </h3>
               <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600"><span>Descripcion:</span> <br>{{
-                item.description }}</p>
+                item.items_description }}</p>
             </div>
             <div class="relative mt-2 flex items-center gap-x-4">
               <!-- <img :src="post.author.imageUrl" alt="" class="h-10 w-10 rounded-full bg-gray-50" /> -->
@@ -75,7 +75,7 @@
                   {{ item.items_quantity}}
 
                 </p>
-                <p class="flex gap-1 text-gray-600">
+                <!-- <p class="flex gap-1 text-gray-600">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -83,13 +83,13 @@
                   </svg>
 
                   Precio:{{ item.items_price }}
-                </p>
+                </p> -->
               </div>
             </div>
           </article>
         </div>
 
-        <div class="grid justify-end items-start px-10">
+        <!-- <div class="grid justify-end items-start px-10">
           <div class="bg-gray-300 py-2 px-4 rounded-lg">
             <h2 class="text-3xl font-bold">Total: {{ request.docTotal }}</h2>
           </div>
@@ -119,7 +119,7 @@
             <p class="text-md font-serif">{{ request.payMethod == 1 ? 'Efectivo' : request.payMethod == 2 ? 'Targeta de Credito' : 'Transferencia' }}
             </p>
           </div>
-        </div>
+        </div> -->
 
 
         <!-- Comentario solo si es una solicitud sin aprobar -->
@@ -152,7 +152,7 @@
 
 
           <!--status =  aprobado  and  Pago en efectivo -->
-        <div v-if="props.request.docStatus == 2 && props.request.payMethod == 1"
+        <div v-if="props.request.docStatus == 2"
           class="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
           <button type="button" @click="handleGenerateOrder"
             class="flex gap-1 text-white bg-green-500 hover:bg-green-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -165,7 +165,7 @@
           </button>
         </div>
 
-        <div v-if="props.request.docStatus == 2 && props.request.payMethod >= 2"
+        <!-- <div v-if="props.request.docStatus == 2 && props.request.payMethod >= 2"
           class="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
           <button type="button" @click="handleGenerateOrder"
             class="flex gap-1 text-white bg-blue-500 hover:bg-blue-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -176,7 +176,7 @@
                 clip-rule="evenodd" />
             </svg>
           </button>
-        </div>
+        </div> -->
 
 
       </div>
@@ -194,8 +194,6 @@ import { formateDate } from '@/utils/formateDate';
 import Swal from 'sweetalert2';
 import { useRouter } from 'vue-router';
 import Departments from '@/views/Departments/Departments.vue';
-// import { comment } from 'postcss';
-// import money from '@/components/icons/money.vue'
 
 const router = useRouter();
 const emit = defineEmits(['update-value']);
@@ -207,8 +205,6 @@ let props = defineProps({
   request: {},
 
 })
-// const date = ref('')
-
 const closeModal = () => {
   emit('update-value', false)
 }
@@ -299,13 +295,4 @@ const declineRequest = async () => {
     closeModal()
   }
 }
-
-// function formatMoneyInMXN(amount) {
-//   return amount.toLocaleString('es-MX', {
-//     style: 'currency',
-//     currency: 'MXN'
-//   });
-// }
-
-
 </script>
