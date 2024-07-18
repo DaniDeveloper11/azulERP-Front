@@ -1,5 +1,7 @@
 <template>
   <div>
+
+
     <TransitionRoot as="template" :show="sidebarOpen">
       <Dialog class="relative z-50 lg:hidden" @close="sidebarOpen = false">
         <TransitionChild as="template" enter="transition-opacity ease-linear duration-300" enter-from="opacity-0"
@@ -22,6 +24,7 @@
                     <XMarkIcon class="h-6 w-6 text-white" aria-hidden="true" />
                   </button>
                 </div>
+                
               </TransitionChild>
               <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4 pt-4">
                 <div class="flex h-16 shrink-0 items-center">
@@ -57,12 +60,14 @@
                         </li>
                         </DisclosurePanel>
                         </Disclosure>
+                          
                     </li>
                   </ul>
                   </li>
                   </ul>
                 </nav>
               </div>
+              
             </DialogPanel>
           </TransitionChild>
         </div>
@@ -149,7 +154,10 @@
                   leave-to-class="transform opacity-0 scale-95">
                   <MenuItems
                     class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                    <MenuItem v-slot="{ active }" class="cursor-pointer">
+                   <MenuItem v-slot="{ active }" class="cursor-pointer">
+                    <span v-on:click="firmadigital" :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">Añadir Firma</span>
+                    </MenuItem>
+                        <MenuItem v-slot="{ active }" class="cursor-pointer">
                     <span v-on:click="logout"
                       :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">Salir</span>
                     </MenuItem>
@@ -175,12 +183,10 @@
     </div>
   </div>
 </template>
-
 <script setup>
-import { onMounted, ref, watch, computed, onUpdated } from 'vue'
-import useAuthStore from './store/auth' // Importa el store de autenticación
+import { ref, computed, onMounted, watch } from 'vue';
+import useAuthStore from './store/auth';
 import { useRouter } from 'vue-router';
-
 import {
   Dialog,
   DialogPanel,
@@ -190,7 +196,7 @@ import {
   MenuItems,
   TransitionChild,
   TransitionRoot,
-} from '@headlessui/vue'
+} from '@headlessui/vue';
 import {
   Bars3Icon,
   BellIcon,
@@ -207,25 +213,24 @@ import {
   MagnifyingGlassIcon,
   UserGroupIcon,
   CheckBadgeIcon
-} from '@heroicons/vue/24/outline'
-import Profile from './components/ProfileModal.vue'
-import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
-import { ChevronRightIcon } from '@heroicons/vue/20/solid'
-import { controllers } from 'chart.js';
+} from '@heroicons/vue/24/outline';
+import Profile from './components/ProfileModal.vue';
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue';
+import { ChevronRightIcon } from '@heroicons/vue/20/solid';
+
 const router = useRouter();
 
-const token = localStorage.getItem("token")
+const token = localStorage.getItem("token");
 
-const sidebarOpen = ref(false)
-const profileOpen = ref(false)
+const sidebarOpen = ref(false);
+const profileOpen = ref(false);
+const showSignatureModal = ref(false);
 
 const store = useAuthStore();
 const isToken = computed(() => store.isLoggedIn);
 const user = computed(() => store.user);
 
-//Perfiles de Navegacion
-//3:miembro 1:administrativo
-const navigationProfiles = () =>{
+const navigationProfiles = () => {
   switch (user.value.user_level) {
     case 3:
       navigation.value = [
@@ -234,46 +239,43 @@ const navigationProfiles = () =>{
           name: 'Solicitud de compra',
           icon: FolderIcon,
           current: false,
-          children:
-            [
-              { name: 'Crear solicitud de compra', href: '/requestPurchase' },
-              { name: 'Mis solicitudes de compra', href: '/listRequest' }
-            ]
+          children: [
+            { name: 'Crear solicitud de compra', href: '/requestPurchase' },
+            { name: 'Mis solicitudes de compra', href: '/listRequest' }
+          ]
         }
-      ]
+      ];
       break;
     case 1:
       navigation.value = [
         { name: 'Aprobación de solicitudes', to: '/approveRequest', icon: CheckBadgeIcon, current: false },
         { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
-        { name: 'Usuarios', to: '/users', icon: UserIcon, current: false, },
-        { name: 'Departamentos', to: '/departments', icon: HomeModernIcon, current: false, },
-        { name: 'Proveedores', to: '/proveedors', icon: UserGroupIcon, current: false, },
+        { name: 'Usuarios', to: '/users', icon: UserIcon, current: false },
+        { name: 'Departamentos', to: '/departments', icon: HomeModernIcon, current: false },
+        { name: 'Proveedores', to: '/proveedors', icon: UserGroupIcon, current: false },
         {
           name: 'Solicitud de compra',
           icon: FolderIcon,
           current: false,
-          children:
-            [
-              { name: 'Crear solicitud de compra', href: '/requestPurchase' },
-              { name: 'Mis solicitudes de compra', href: '/listRequest' }
-            ]
+          children: [
+            { name: 'Crear solicitud de compra', href: '/requestPurchase' },
+            { name: 'Mis solicitudes de compra', href: '/listRequest' }
+          ]
         },
         {
           name: 'Orden de Compra',
           icon: FolderIcon,
           current: false,
-          children:
-            [
-              { name: 'Crear orden de compra', href: '/orderPurchase' },
-              { name: 'Mis órdenes de compra', href: '/listOrders' },
-            ]
+          children: [
+            { name: 'Crear orden de compra', href: '/orderPurchase' },
+            { name: 'Mis órdenes de compra', href: '/listOrders' }
+          ]
         },
         { name: 'Reportes', to: '/reports', icon: ChartPieIcon, current: false }
-      ]
+      ];
       break;
   }
-}
+};
 
 watch(user, (newValue) => {
   if (newValue) {
@@ -282,7 +284,7 @@ watch(user, (newValue) => {
 });
 
 onMounted(() => {
-  if(isToken.value){
+  if (isToken.value) {
     navigationProfiles();
   }
 });
@@ -290,18 +292,18 @@ onMounted(() => {
 const logout = () => {
   store.logout();
   localStorage.clear();
-  sidebarOpen.value = false; 
-
+  sidebarOpen.value = false;
   router.push('/login');
-}
+};
 
-const navigation = ref('');
+const firmadigital = () => {
+  router.push('/signature');
+};
 
-
+const navigation = ref([]);
 </script>
 
 <style scoped></style>
-
 /**
 * !Al momento de mmoverse al apartado, el icono no se cambia de color (no cambia de color de estar seleccionado)
 * TODO: al momento de mmoverse de apartado en el menu debe de cambiar el color del apartado seleccionado
