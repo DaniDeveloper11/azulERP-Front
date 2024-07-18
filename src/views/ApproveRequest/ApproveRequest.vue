@@ -63,8 +63,17 @@
     </ul>
     <!-- <tables v-bind:requests="requests"></tables> -->
     <!-- <tableRequests v-if="showtable === 1" v-bind:requests="requests"></tableRequests> -->
-    <tableRequests v-if="showtable === 1" v-bind:requests="requests"></tableRequests>
-    <tableOrders v-if="showtable === 2" v-bind:orders="orders"></tableOrders>
+    
+    <div v-if="showtable === 1">
+      <tableRequests   v-bind:requests="requests"></tableRequests>
+
+    </div>
+
+
+    <div v-if="showtable === 2" >
+      <tableOrders v-if="hasData" v-bind:orders="orders"></tableOrders>
+      <p v-else class="mt-6 text-xl leading-8 text-gray-700">No hay resultados</p>
+    </div>
   </div>
 </template>
 
@@ -77,9 +86,11 @@ import { onMounted, ref, reactive, provide } from 'vue'
 import { request } from 'utilities';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import tableOrders from '@/components/tableOrders.vue'
+// import { hatSanta } from 'fontawesome';
 
 const showtable = ref(1) //1 tabla solicitudes de compra 2 tabla ordenes de compra
-
+const hasData = ref(true);
+const hasRequest = ref(true);
 const requests = ref([]);
 const orders = ref([])
 const countRequests = ref(0)
@@ -91,27 +102,28 @@ const projects = [
 
 onMounted(() => {
   getRequests();
-  getOrders();
+//  getOrders();
 })
 
 const getRequests = async () => {
   const token = localStorage.getItem('token');
   try {
     const response = await axios.get('/requestPurchases', {
-      Authorization: `Bearer ${token}`
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     });
-    requests.value = response.data;
-    countRequests.value = requests.value.length
-    for (const element of requests.value) {
-      const response2 = await axios.get(`/users/${element.userRequest}`, {
-        headers: { // Corregir el uso de headers
-          Authorization: `Bearer ${token}`
-        }
-      });
-      element.userRequest_name = (response2.data.user_name + " " + response2.data.user_lastname).toUpperCase(); // Asignar el nombre obtenido de la respuesta
+    if(response.data.length > 0 ){
+      requests.value = response.data;
+      countRequests.value = requests.value.length
     }
+    else{
+      hasRequest.value = false
+    }
+    
   } catch (error) {
     console.log('algo salio mal')
+    hasRequest.value = false
   } finally {
 
   }
@@ -123,22 +135,19 @@ const getOrders = async () => {
   const token = localStorage.getItem('token');
   try{
     const response = await axios.get('/orderPurchases', {
-      Authorization: `Bearer ${token}`
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     });
-    orders.value = response.data
-    countOrders.value = orders.value.length
-    // for (const element of orders.value) {
-    //   const response2 = await axios.get(`/users/${element.userRequest}`, {
-    //     headers: { // Corregir el uso de headers
-    //       Authorization: `Bearer ${token}`
-    //     }
-    //   });
-    //   element.userRequest_name = (response2.data.user_name + " " + response2.data.user_lastname).toUpperCase(); // Asignar el nombre obtenido de la respuesta
-    // }
+    if(response.data.length > 0){
+      orders.value = response.data
+      countOrders.value = orders.value.length
+    }else{
+      hasData.value = false
+    }
   }catch(error){
     console.error(error)
-  }finally{
-
+    hasData.value = false;
   }
 }
 

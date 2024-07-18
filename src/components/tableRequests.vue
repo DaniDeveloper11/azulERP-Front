@@ -18,13 +18,19 @@
         </div>
     </div>
 
-    <!-- tabla -->
-    <ul role="list" class="divide-y divide-gray-100">
-        <li v-for="request in filteredRequests" :key="request.id"
+   
+
+
+
+
+<!-- tabla -->
+<ul v-if="sortedFilteredRequests.length > 0"  role="list" class="divide-y divide-gray-100">
+        <li v-for="request in sortedFilteredRequests" :key="request.id"
             class="flex items-center justify-between gap-x-6 py-5">
             <div class="min-w-0">
                 <div class="flex items-start gap-x-3">
-                    <p class="text-sm font-semibold leading-6 text-gray-900">{{ request.concept }}</p>
+                    <p class="text-sm font-semibold leading-6 text-gray-900">{{ request.department.name }} / <span class="font-thin">{{ request.subdepartment.name }}</span></p>
+
                     <div class="px-3 py-0.5 font-medium rounded-full text-sm"
                         :class="request.docStatus == 1 ? statuses.pendiente : request.docStatus == 2 ? statuses.aprobado : request.docStatus == 3 ? statuses.rechazado : statuses.cerrado">
                         {{ request.docStatus == 1 ? 'Pendiente' : request.docStatus == 2 ? 'Aprobado' : request.docStatus == 3 ? 'Rechazado' : 'Cerrado' }}
@@ -54,6 +60,17 @@
 
         </li>
     </ul>
+    <!-- <p v-else class="mt-6 text-xl leading-8 text-gray-700">No se encontro coinsidencia</p> -->
+
+    <div v-else class="flex justify-center w-full">
+    <div class="grid h-full">
+            <loader></loader>
+    </div>
+    <!-- <p id="notResults" class="mt-6 text-xl leading-8 text-gray-700">No se encontro coinsidencia</p> -->
+
+</div>
+
+   
 
 
     <!-- modal para aprobar o rechazar solicitudes de compra -->
@@ -71,11 +88,12 @@ import axios from '@/utils/axios'
 import modal1 from '@/components/ModalRequest.vue'
 import { formateDate } from '@/utils/formateDate';
 import Swal from 'sweetalert2';
+import loader from '@/components/LoaderCss2.vue'
 
 const getRequests =inject('getRequests')
 const open = ref(false);
 const requestModal = ref('') 
-
+const showLoader = ref(true);
 const props = defineProps({
     requests: Array
 })
@@ -103,22 +121,31 @@ const getStatusText = (docStatus) => {
 }
 
 const filteredRequests = computed(() => {
-    const queries = searchQuery.value.toLowerCase().split(',').map(q => q.trim())
+    const query = searchQuery.value.toLowerCase().trim();
     return props.requests.filter(request => {
-        const statusText = getStatusText(request.docStatus).toLowerCase()
-        return queries.every(query =>
-            request.concept.toLowerCase().includes(query) ||
-            request.userRequest_name.toLowerCase().includes(query) ||
-            statusText.includes(query)
-     
-        )
-    })
-})
+        const statusText = getStatusText(request.docStatus).toLowerCase();
+        return (
+            request.department.name.toLowerCase().includes(query) ||
+            request.subdepartment.name.toLowerCase().includes(query) ||
+            request.date.toLowerCase().includes(query) ||
+            statusText.includes(query) ||
+            request.userRequest.name.toLowerCase().includes(query)||
+            request.userRequest.lastname.toLowerCase().includes(query)
+        );
+    });
+});
+
+const sortedFilteredRequests = computed(() => {
+    showLoader.value = false; 
+    return filteredRequests.value.sort((a, b) => new Date(b.date) - new Date(a.date));
+});
+
 
 onMounted(() => {
     initFlowbite();
     initDials();
     initModals();
+    // showLoader.value = true
 })
 
 function search() {
