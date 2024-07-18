@@ -39,7 +39,12 @@
           <div v-if="userLevel == 1" class="sm:col-span-2">
             <label for="beneficiary" class="block text-sm font-medium leading-6 text-gray-900">Beneficiario</label>
             <div class="mt-2 sm:max-w-md">
-              <input type="text" name="beneficiary" id="beneficiary" v-model="beneficiary" class="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="Nombre del beneficiario"/>
+              <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
+                <select v-model="beneficiary" id="beneficiary" required
+                  class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                  <option v-for="typ in provedors" :key="typ.id" :value="typ.id">{{ typ.name }}</option>
+                </select>
+              </div>
             </div>
           </div>
 
@@ -264,7 +269,6 @@ export default {
         typeFiscal: 0,
         bank: '',
       };
-
       try {
         if (!this.validaritems()) {
           Swal.fire({
