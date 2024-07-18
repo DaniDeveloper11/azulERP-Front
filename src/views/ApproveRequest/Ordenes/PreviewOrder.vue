@@ -9,7 +9,7 @@
             <label for="department" class="block text-sm font-medium leading-6 text-gray-900">Departamento</label>
             <div class="mt-2 sm:max-w-md">
               <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <select v-model="orderData.department" @change="fetchSubdepartmentsAndUsers" id="department" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <select v-model="orderData.department.id" @change="fetchSubdepartmentsAndUsers" id="department" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
                   <option v-for="dept in departments" :key="dept.id" :value="dept.id">{{ dept.name }}</option>
                 </select>
               </div>
@@ -20,7 +20,7 @@
             <label for="subdepartment" class="block text-sm font-medium leading-6 text-gray-900">Subdepartamento</label>
             <div class="mt-2 sm:max-w-md">
               <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <select v-model="orderData.subdepartment" id="subdepartment" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <select v-model="orderData.subdepartment.id" id="subdepartment" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
                   <option v-for="subdept in subdepartments" :key="subdept.id" :value="subdept.id">{{ subdept.name }}</option>
                 </select>
               </div>
@@ -31,18 +31,28 @@
             <label for="userRequest" class="block text-sm font-medium leading-6 text-gray-900">Solicitante</label>
             <div class="mt-2 sm:max-w-md">
               <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <select v-model="orderData.userRequest" id="userRequest" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <select v-model="orderData.userRequest.id" id="userRequest" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
                   <option v-for="user in users" :key="user.user_id" :value="user.user_id">{{ user.user_name }} {{user.user_lastname}}</option>
                 </select>
               </div>
             </div>
           </div>
-
+<!-- 
           <div class="sm:col-span-2">
             <label for="beneficiary" class="block text-sm font-medium leading-6 text-gray-900">Beneficiario</label>
             <div class="mt-2 sm:max-w-md">
               <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
                 <input type="text" name="beneficiary" id="beneficiary" v-model="orderData.beneficiary" class="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="Nombre del beneficiario"/>
+              </div>
+            </div>
+          </div> -->
+          <div class="sm:col-span-2">
+            <label for="userRequest" class="block text-sm font-medium leading-6 text-gray-900">Beneficiario</label>
+            <div class="mt-2 sm:max-w-md">
+              <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
+                <select  id="beneficiary" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                  <option v-for="provedor in proveedors" :key="provedor.id" :value="provedor.name">{{ provedor.name }}</option>
+                </select>
               </div>
             </div>
           </div>
@@ -120,16 +130,16 @@
             <tbody>
               <tr v-for="(item, index) in orderData.items" :key="index">
                 <td class="py-2 px-4 border">
-                  <input v-model="item.article" type="text" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"/>
+                  <input v-model="item.items_article" type="text" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"/>
                 </td>
                 <td class="py-2 px-4 border">
-                  <input v-model="item.description" type="text" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"/>
+                  <input v-model="item.items_description" type="text" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"/>
                 </td>
                 <td class="py-2 px-4 border">
-                  <input v-model="item.quantity" type="number" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"/>
+                  <input v-model="item.items_quantity" type="number" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"/>
                 </td>
                 <td class="py-2 px-4 border">
-                  <input v-model="item.price" type="number" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"/>
+                  <input v-model="item.items_price" type="number" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"/>
                 </td>
                 <td class="py-2 px-4 border">
                   <button @click="removeItem(index)" class="bg-red-500 text-white px-2 py-1 rounded-md flex items-center justify-center">
@@ -162,12 +172,18 @@ import Swal from 'sweetalert2'
 import useAuthStore from '../../../store/auth.js';
 import { useRouter } from 'vue-router';
 const orderData = ref({
-  items: []
+  beneficiary: {},
+  department:{},
+  items: [],
+  subdepartment:{},
+  userRequest:{}
+
 })
 
 const departments = ref([])
 const subdepartments = ref([])
 const users = ref([])
+const proveedors = ref([])
 
 const typogastos = [
   { id: 1, value: 'Fiscal' },
@@ -332,7 +348,7 @@ const fetchSubdepartments = async () => {
     return;
   }
   try {
-    const response = await axios.get(`/subdepartments/group/${orderData.value.department}`, {
+    const response = await axios.get(`/subdepartments/group/${orderData.value.department.id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -406,6 +422,29 @@ const getUsersByDepartment = async (departmentId) => {
   }
 }
 
+const getProveedors = async () => {
+  const token = localStorage.getItem('token');
+  try {
+    const response = await axios.get('/proveedors', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.data) {
+      proveedors.value = response.data;
+    } else {
+      throw new Error('No se pudo obtener la lista de provedores');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    Swal.fire({
+      title: 'Error',
+      text: 'No se pudo obtener la lista de provedores',
+      icon: 'error',
+    });
+  }
+}
+
 onMounted(() => {
   const data = localStorage.getItem('orderData')
   if (data) {
@@ -414,6 +453,7 @@ onMounted(() => {
   getDepartments()
   getUsers()
   fetchSubdepartments()
+  getProveedors()
 })
 
 const formattedDate = ref('')
