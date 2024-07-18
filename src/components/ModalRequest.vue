@@ -89,7 +89,7 @@
           </article>
         </div>
 
-        <div class="grid justify-end items-start px-10">
+        <!-- <div class="grid justify-end items-start px-10">
           <div class="bg-gray-300 py-2 px-4 rounded-lg">
             <h2 class="text-3xl font-bold">Total: {{ request.docTotal }}</h2>
           </div>
@@ -119,7 +119,7 @@
             <p class="text-md font-serif">{{ request.payMethod == 1 ? 'Efectivo' : request.payMethod == 2 ? 'Targeta de Credito' : 'Transferencia' }}
             </p>
           </div>
-        </div>
+        </div> -->
 
 
         <!-- Comentario solo si es una solicitud sin aprobar -->
