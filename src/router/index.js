@@ -105,6 +105,19 @@ const router = createRouter({
       component: () => import('../views/ApproveRequest/ApproveRequest.vue'),
       meta: { requiresAuth: true }
     },
+    {
+      path: '/signature',
+      name: 'signature',
+      component: () => import('../views/signature/signatureView.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/signatureForm',
+      name: 'signatureForm',
+      component: () => import('../components/SignatureForm.vue'),
+      meta: { requiresAuth: true }
+    }
+    
   ]
 })
 
