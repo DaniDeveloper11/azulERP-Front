@@ -188,13 +188,15 @@ export default {
       type: 0,
       subType: 0,
       concept: '',
-      beneficiary: '',
+      beneficiary: 1,
       payConditions: 0,
       payMethod: 0,
-      docStatus: '1',
+      docStatus: 1,
       userRequest: '',
       docTotal: 0,
-      items: [], 
+      items: [],
+      typeFiscal: 0,
+      bank: '', 
       departments: [],
       subdepartments: [],
       users: [],
@@ -258,6 +260,9 @@ export default {
         docStatus: this.docStatus,
         userRequest: user_id,
         docTotal: this.docTotal,
+        comments: '',
+        typeFiscal: 0,
+        bank: '',
       };
 
       try {
@@ -490,7 +495,7 @@ export default {
     this.getDepartments();
     this.getUsers();
     this.docTotal = this.calculateTotal;
-    if (this.userLevel !== 1) {
+    if (this.userLevel != 1) {
      this.DataUserNoAdmin();
     }
   },
