@@ -44,7 +44,7 @@
             </div>
             <div class="flex flex-none items-center gap-x-4">
 
-                <button @click="showModal(order) "
+                <button @click="showModal(order)"
                     class="flex rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:flex">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-5">
@@ -63,13 +63,13 @@
 
     <!-- modal para aprobar o rechazar solicitudes de compra -->
     <!-- <modal1 @update-value="handleUpdate" v-bind:request="requestModal" v-bind:open="open" @close="open = false"></modal1> -->
-    <RequestDetails v-if="showDetails" :data="itemSelected" @closeModal="handleClose">    
+    <RequestDetails v-if="showDetails" :data="itemSelected" @closeModal="handleClose">
     </RequestDetails>
- 
+
 </template>
 
 <script setup>
-import { ref, computed} from 'vue'
+import { ref, computed } from 'vue'
 import axios from '@/utils/axios'
 import Swal from 'sweetalert2';
 import RequestDetails from '@/views/RequestPurchases/modals/RequestDetails.vue';
@@ -83,12 +83,12 @@ const props = defineProps({
     orders: Array
 })
 
-    const statuses = {
+const statuses = {
     pendiente: 'text-yellow-800 bg-yellow-100 ring-yellow-600/20',
     aprobado: 'text-green-700 bg-green-100 ring-green-600/20',
     rechazado: 'text-red-600 bg-red-100 ring-red-600/20',
     cerrado: 'text grey-700 bg-gray-100 ring-gray-600/20'
-    }
+}
 
 const searchQuery = ref('');
 
@@ -124,17 +124,17 @@ function search() {
     console.log('Buscando:', searchQuery.value)
 }
 
-async function showModal(item){
+async function showModal(item) {
     const token = localStorage.getItem('token');
-    if(item.items ){
-    itemSelected.value = item
-    showDetails.value = true
+    if (item.items) {
+        itemSelected.value = item
+        showDetails.value = true
 
-    }else{
+    } else {
         Swal.fire({
-            title:'Error',
-            text:'No cuenta con items esta solicitud',
-            icon:'warning'
+            title: 'Error',
+            text: 'No cuenta con items esta solicitud',
+            icon: 'warning'
         });
     }
 };
