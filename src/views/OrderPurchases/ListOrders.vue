@@ -60,7 +60,7 @@
                         <h3 class="text-lg font-medium text-gray-900">{{ req.userRequest.name + " " +
                             req.userRequest.lastname }}</h3>
                         <h3 class="text-md font-medium text-gray-900">{{ req.department.name }}</h3>
-                        <p class="text-sm text-gray-500">{{ req.beneficiary }}</p>
+                        <p class="text-sm text-gray-500">{{ req.beneficiary.name }}</p>
                         <p class="text-sm text-gray-500">{{ moneyFormatter(req.docTotal) }}</p>
                     </div>
                     <div class="ml-4">
