@@ -20,6 +20,8 @@
       </div>
     </div>
 
+    <hr class="bg-indigo-600" style="height:3px; margin: .7rem">
+
     <div v-if="showModal" class="fixed inset-0 overflow-y-auto flex items-center justify-center z-50">
       <div class="fixed inset-0 bg-gray-900 bg-opacity-70"></div>
 
@@ -29,7 +31,7 @@
           <div class="mb-6">
             <label for="department_name" class="block text-sm font-medium text-gray-700">Nombre del Departamento</label>
             <input v-model="department_name" id="department_name" name="department_name" type="text" required
-              class="mt-2 px-8 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
+              class="mt-2 px-8 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" maxlength="50"/>
           </div>
           <div>
             <button type="submit"
@@ -92,7 +94,7 @@
             <label for="subdepartment_name" class="block text-sm font-medium text-gray-700">Nombre del
               Sub-Departamento</label>
             <input v-model="subdepartment_name" id="subdepartment_name" name="subdepartment_name" type="text" required
-              class="mt-2 px-8 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" />
+              class="mt-2 px-8 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" maxlength="50"/>
           </div>
           <div>
             <button type="submit"
@@ -149,6 +151,16 @@ export default {
       const token = localStorage.getItem('token');
       const authStore = useAuthStore();
       const user_id = authStore.user ? authStore.user.user_id : null;
+
+      const sanitized = this.department_name.replace(/[^a-zA-Z0-9\s]/g, '');
+      if (sanitized.length !== this.department_name.length) {
+        Swal.fire({
+          title: 'Error',
+          text: 'No se permiten caracteres especiales',
+          icon: 'error',
+        });
+      }
+      this.department_name = sanitized.slice(0, 50);
 
       const departments = {
         name: this.department_name,
@@ -297,6 +309,16 @@ export default {
       const authStore = useAuthStore();
       const user_id = authStore.user ? authStore.user.user_id : null;
 
+      const sanitized = this.subdepartment_name.replace(/[^a-zA-Z0-9\s]/g, '');
+      if (sanitized.length !== this.subdepartment_name.length) {
+        Swal.fire({
+          title: 'Error',
+          text: 'No se permiten caracteres especiales',
+          icon: 'error',
+        });
+      }
+      this.subdepartment_name = sanitized.slice(0, 50);
+
       const subdepartments = {
         name: this.subdepartment_name,
         date_create: this.department_create,
@@ -317,11 +339,11 @@ export default {
             text: 'Sub-Departamento creado correctamente',
             icon: 'success',
           });
-          this.getSubDepartments();
           this.subdepartment_name = '';
           this.department_create = new Date().toISOString().split('T')[0];
           this.showSubDepartmentModal = false;
           this.getDepartments();
+          this.getSubDepartments();
         }
       } catch (error) {
         console.error('Error:', error);
@@ -346,7 +368,7 @@ export default {
     this.getSubDepartments();
     this.getUsers();
     this.getDepartments();
-  },
+  }
 };
 </script>
 

@@ -1,3 +1,4 @@
+<!-- RequestDetails.vue -->
 <template>
     <TransitionRoot :show="open">
         <Dialog class="relative z-10" @close="closeModal">
@@ -48,11 +49,7 @@
                                     </div>
                                 </dl>
                             </div>
-<<<<<<< HEAD
-
-=======
                             <!-- Botones para cerrar el modal -->
->>>>>>> fa697d72a552b698ef8932973bb8e1c3b55e3f22
                             <div class="flow-root">
                                 <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                                     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -102,7 +99,7 @@
                             <div class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
                                 <button type="button"
                                     class="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2"
-                                    @click="print">Descargar PDF
+                                    @click="pdfDownload">Descargar PDF
                                 </button>
                                 <button type="button"
                                     class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:col-start-1 sm:mt-0"
@@ -115,80 +112,13 @@
             </div>
         </Dialog>
     </TransitionRoot>
-<<<<<<< HEAD
-    <div v-show="showPdfContent" ref="pdfContent" class="pdf-content">
-      <div class="text-center">
-            <a href="/"><img src="../../../assets/logo.png" width="150" alt="Logo" class="logo"></a>
-        </div>
-        <div class="border-t border-gray-100">
-            <dl class="divide-y divide-gray-100">
-                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt class="text-sm font-medium leading-6 text-gray-900">Departamento</dt>
-                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                        {{ data.department }}
-                    </dd>
-                </div>
-                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt class="text-sm font-medium leading-6 text-gray-900">Concepto</dt>
-                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                        {{ data.concept }}
-                    </dd>
-                </div>
-                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt class="text-sm font-medium leading-6 text-gray-900">Beneficiario</dt>
-                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                        {{ data.beneficiary }}
-                    </dd>
-                </div>
-                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt class="text-sm font-medium leading-6 text-gray-900">Total</dt>
-                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                        {{ moneyFormatter(data.docTotal) }}
-                    </dd>
-                </div>
-                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt class="text-sm font-medium leading-6 text-gray-900">Comentarios</dt>
-                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                        {{ data.comments }}
-                    </dd>
-                </div>
-            </dl>
-        </div>
-        <div class="flow-root">
-            <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                    <table class="min-w-full divide-y divide-gray-300">
-                        <thead>
-                            <tr>
-                                <th scope="col" class="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"></th>
-                                <th scope="col" class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">Artículo</th>
-                                <th scope="col" class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">Descripción</th>
-                                <th scope="col" class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">Precio</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200 bg-white">
-                            <tr v-for="item in data.items" :key="item.id">
-                                <td class="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0 text-center align-middle">
-                                    {{ "x" + item.quantity }}
-                                </td>
-                                <td class="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">{{ item.article }}</td>
-                                <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-900">{{ item.description }}</td>
-                                <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">{{ moneyFormatter(item.price) }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-=======
 
     <div id="orden-compra" ref="pdfContent">
         <div class="text-center">
             <img src="../../../assets/logo.png" width="150" alt="Logo" class="logo">
         </div>
         <div id="encabezado">
-            <h1>SOLICITUD DE COMPRA: {{data.id}}</h1>
+            <h1>ORDEN DE COMPRA: {{data.id}}</h1>
             <h2>DESTILADORA AGAVE AZUL</h2>
         </div>
 
@@ -249,29 +179,22 @@
                 <!-- <p>Nombre:</p>
                 <p>Fecha:</p> -->
             </div>
-            <!-- <div class="firma">
+            <div class="firma">
                 <p><strong>FIRMA DE PROVEEDOR</strong></p>
-                <p>Nombre:</p>
-                <p>Fecha:</p>
-            </div> -->
+                <!-- <p>Nombre:</p>
+                <p>Fecha:</p> -->
+            </div>
         </div>
->>>>>>> fa697d72a552b698ef8932973bb8e1c3b55e3f22
     </div>
 </template>
 
 <script setup>
-<<<<<<< HEAD
-import { ref, nextTick } from 'vue';
-=======
 import { ref, nextTick } from 'vue'
->>>>>>> fa697d72a552b698ef8932973bb8e1c3b55e3f22
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
 const open = ref(true)
-const showPdfContent = ref(false)
-const pdfContent = ref(false)
 const props = defineProps({
     data: {
         type: Object,
@@ -279,20 +202,13 @@ const props = defineProps({
     }
 })
 
-<<<<<<< HEAD
-const emit = defineEmits(['closeModal'])
-
-=======
 const emit = defineEmits(['closeModal', 'downloadPDF'])
 const showPDF = ref(false);
->>>>>>> fa697d72a552b698ef8932973bb8e1c3b55e3f22
 const closeModal = () => {
     open.value = false
     emit('closeModal', 'Datos desde el hijo')
 }
 
-<<<<<<< HEAD
-=======
 const pdfContent = ref(null);
 
 const pdfDownload = () => {
@@ -320,7 +236,7 @@ const pdfDownload = () => {
                 const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
                 pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-                pdf.save(`Solicitud_Compra_${props.data.id}.pdf`);
+                pdf.save(`Orden_Compra_${props.data.id}.pdf`);
             }).catch((error) => {
                 console.error("Error generando el PDF:", error);
             });
@@ -330,51 +246,11 @@ const pdfDownload = () => {
 }
 
 
->>>>>>> fa697d72a552b698ef8932973bb8e1c3b55e3f22
 const moneyFormatter = new Intl.NumberFormat('es-mx', {
     style: 'currency',
     currency: 'MXN',
     minimumFractionDigits: 0,
 }).format
-<<<<<<< HEAD
-
-const print = () => {
-    setTimeout(pdfDownload(),500)
-}
-
-const pdfDownload = () => {
-    showPdfContent.value = true;
-    nextTick(() => {
-        const element = pdfContent.value;
-        console.log('pdfContent:', element)
-
-        if (!element) {
-            console.error("No se encontró el contenido del PDF.");
-            return;
-        }
-
-        setTimeout(() => {
-            html2canvas(element).then((canvas) => {
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF({
-                    orientation: 'landscape',
-                     unit: 'px',
-              format: [canvas.width, canvas.height]
-                });
-                  pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-                pdf.save('Orden_Compra.pdf');
-                showPdfContent.value = false;
-            }).catch((error) => {
-                console.error("Error generando el PDF:", error);
-                showPdfContent.value = false;
-            });
-        }, 500);
-    });
-}
-</script>
-
-<style scoped>
-=======
 </script>
 
 <style >
@@ -427,5 +303,4 @@ const pdfDownload = () => {
     text-align: center;
     margin-bottom: 50px
 }
->>>>>>> fa697d72a552b698ef8932973bb8e1c3b55e3f22
 </style>

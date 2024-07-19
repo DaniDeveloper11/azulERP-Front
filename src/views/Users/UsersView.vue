@@ -24,6 +24,8 @@
       </div>
     </div>
 
+    <hr class="bg-indigo-600" style="height:3px; margin: .7rem">
+
     <div class="mt-8 flow-root">
       <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -86,9 +88,6 @@
       </div>
     </div>
 
-    <!-- Modal para editar usuario selecionado -->
-    <!-- props = emptyuser: objeto con datos del usuario -->
-    <!-- editOpen: bandera para abrir o cerrar el modal -->
     <EditUserModal 
       @update-value="handleUpdate" 
       v-bind:open="editOpen" 
@@ -100,32 +99,26 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import EditUserModal from '../components/EditUser.vue'
+import EditUserModal from '../../components/EditUser.vue'
 
 import loader from '@/components/LoaderCss.vue'
-import axios from '../utils/axios';
+import axios from '../../utils/axios';
 import { useRouter } from 'vue-router';
 const showloader = ref(false)
 
 const router = useRouter();
 const key = ref(0)
-// Funcion para cambiar valor del loader
 const setLoader = () => {
   setTimeout(() => {
     showloader.value = false
   }, 3000)
 }
 
-onMounted(async () => {
-  // setLoader();
+onMounted(() => {
   getUsers();
 })
 
 const handleUpdate = (value) => {
-  // showMessage.value = value;
-  // setTimeout(() => {
-  //   showMessage.value = false
-  // }, 3000)
   editOpen.value = value;
 
 };
@@ -137,18 +130,13 @@ const editOpen = ref(false)
 const getUsers = async () => {
   const token = localStorage.getItem('token');
   try {
-    const response = await axios.get('http://localhost:3000/users', {
+    const response = await axios.get('/users', {
       Authorization: `Bearer ${token}`
     });
     users.value = response.data;
-    console.log(response.data) // Suponiendo que la API devuelve un array de socios
-  } catch (error) {
+  } 
+  catch (error) {
     console.log('algo salio mal')
-    // proxy.$swal.fire({
-    //   title: 'Error',
-    //   text: 'Nombre de usuario o contraseña incorrectos',
-    //   icon: 'error'
-    // });
   }
 };
 </script>

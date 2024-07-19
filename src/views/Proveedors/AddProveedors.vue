@@ -11,47 +11,83 @@
           <div class="sm:col-span-3">
             <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Nombre</label>
             <div class="mt-2">
-              <input v-model="name" id="name" name="name" type="text" autocomplete="name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              <input v-model="name" id="name" name="name" type="text" autocomplete="name" required
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
             </div>
+            <p v-if="!nameValid" class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">El campo
+                nombre es </span>requerido</p>
           </div>
 
           <div class="sm:col-span-3">
             <label for="rfc" class="block text-sm font-medium leading-6 text-gray-900">RFC</label>
             <div class="mt-2">
-              <input v-model="rfc" id="rfc" name="rfc" type="text" autocomplete="rfc" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              <input v-model="rfc" id="rfc" name="rfc" type="text" autocomplete="rfc" required
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              <p v-if="!rfcValid" class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">El
+                  campo rfc es </span>requerido</p>
             </div>
           </div>
 
           <div class="sm:col-span-3">
             <label for="curp" class="block text-sm font-medium leading-6 text-gray-900">CURP</label>
             <div class="mt-2">
-              <input v-model="curp" id="curp" name="curp" type="text" autocomplete="curp" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              <input v-model="curp" id="curp" name="curp" type="text" autocomplete="curp" required
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              <p v-if="!curpValid" class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">El
+                  campo CURP es </span>requerido</p>
             </div>
           </div>
 
           <div class="sm:col-span-3">
             <label for="address" class="block text-sm font-medium leading-6 text-gray-900">Calle</label>
             <div class="mt-2">
-              <input v-model="address" id="address" name="address" type="text" autocomplete="address" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              <input v-model="address" id="address" name="address" type="text" autocomplete="address" required
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              <p v-if="!addressValid" class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">El
+                  campo
+                  direccion es </span>requerido</p>
             </div>
           </div>
 
           <div class="sm:col-span-3">
             <label for="city" class="block text-sm font-medium leading-6 text-gray-900">Ciudad</label>
             <div class="mt-2">
-              <input v-model="city" id="city" name="city" type="text" autocomplete="city" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              <input v-model="city" id="city" name="city" type="text" autocomplete="city" required
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              <p v-if="!cityValid" class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">El
+                  campo
+                  ciudad es </span>requerido</p>
+            </div>
+          </div>
+
+          <div class="sm:col-span-3">
+            <label for="phone" class="block text-sm font-medium leading-6 text-gray-900">Telefono</label>
+            <div class="mt-2">
+              <input v-model="phone" id="phone" name="phone" type="number" autocomplete="phone" required
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              <p v-if="!phoneValid" class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">El
+                  campo
+                  de numero de telefono es </span>requerido</p>
             </div>
           </div>
 
           <div class="sm:col-span-3">
             <label for="state" class="block text-sm font-medium leading-6 text-gray-900">Estado</label>
             <div class="mt-2">
+<<<<<<< HEAD
               <select v-model="state" id="state" name="state" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+=======
+              <select v-model="state" required
+                class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+>>>>>>> fa697d72a552b698ef8932973bb8e1c3b55e3f22
                 <option value="" disabled selected>Seleccione un estado</option>
                 <option v-for="estado in estados" :key="estado.abreviatura" :value="estado.abreviatura">
                   {{ estado.nombre }}
                 </option>
               </select>
+              <p v-if="!stateValid" class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">El
+                  campo
+                  estado es </span>requerido</p>
             </div>
           </div>
         </div>
@@ -59,7 +95,12 @@
     </div>
     <div class="mt-6 flex items-center justify-end gap-x-6">
       <button @click="reset" type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancelar</button>
+<<<<<<< HEAD
       <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Guardar</button>
+=======
+      <button @click="submitForm" type="submit"
+        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Guardar</button>
+>>>>>>> fa697d72a552b698ef8932973bb8e1c3b55e3f22
     </div>
   </form>
 </template>
@@ -67,7 +108,11 @@
 <script setup>
 import { ref } from 'vue';
 import Swal from 'sweetalert2';
+<<<<<<< HEAD
 import axios from '@/utils/axios';
+=======
+import axios from '../../utils/axios';
+>>>>>>> fa697d72a552b698ef8932973bb8e1c3b55e3f22
 
 const name = ref('');
 const rfc = ref('');
@@ -76,6 +121,14 @@ const phone = ref('');
 const address = ref('');
 const city = ref('');
 const state = ref('');
+const nameValid = ref(true);
+const rfcValid = ref(true);
+const curpValid = ref(true);
+const addressValid = ref(true);
+const cityValid = ref(true);
+const stateValid = ref(true);
+const phoneValid = ref(true);
+
 const estados = ref([
   { nombre: "Aguascalientes", abreviatura: "AGS" },
   { nombre: "Baja California", abreviatura: "BC" },
@@ -111,7 +164,31 @@ const estados = ref([
   { nombre: "Zacatecas", abreviatura: "ZAC" }
 ]);
 
+const validateField = (field, fieldValid) => {
+  if (field.value === '') {
+    fieldValid.value = false;
+    return false;
+  }
+  fieldValid.value = true;
+  return true;
+};
+
 const submitForm = async () => {
+  
+  const fields = [
+    { field: name, fieldValid: nameValid },
+    { field: rfc, fieldValid: rfcValid },
+    { field: curp, fieldValid: curpValid },
+    { field: address, fieldValid: addressValid },
+    { field: city, fieldValid: cityValid },
+    { field: state, fieldValid: stateValid },
+    { field: phone, fieldValid: phoneValid }
+  ];
+
+  const allValid = fields.every(({ field, fieldValid }) => validateField(field, fieldValid));
+
+  if (!allValid) return;
+
   const token = localStorage.getItem('token');
 
   if (!token) {
@@ -141,7 +218,12 @@ const submitForm = async () => {
         'Content-Type': 'application/json',
       }
     });
+<<<<<<< HEAD
     if (response.data) {
+=======
+    console.log(response);
+    if (response) {
+>>>>>>> fa697d72a552b698ef8932973bb8e1c3b55e3f22
       Swal.fire({
         title: 'Correcto',
         text: 'Proveedor creado correctamente',
@@ -171,5 +253,8 @@ const reset = () => {
 }
 </script>
 
-<style scoped>
-</style>
+/**
+* ? Esta permitido precionar el boton de guardar con el form vacio?
+* ! Permite subir el formulario en blanco
+* ! No existen validaciones de los campos del formulario
+**/

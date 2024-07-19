@@ -28,8 +28,8 @@
                 <div class="space-y-12">
                   <div class="border-b border-gray-900/10 pb-12">
                     <h2 class="text-base font-semibold leading-7 text-gray-900">Perfil</h2>
-                    <p class="mt-1 text-sm leading-6 text-gray-600">Esta informacion sera vista por Directivos y
-                      Administrativos.
+                    <p class="mt-1 text-sm leading-6 text-gray-600">Esta informacion sera vista por directivos y
+                      administrativos.
                     </p>
 
                     <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -228,8 +228,8 @@
                     <p class="mt-2 text-sm text-gray-500" id="email-description">Ingrese el puesto que desempeña el
                       usuario dentro de la empresa.</p>
                   </div>
-                  <SwitchGroup as="div" class="flex items-center justify-between">
-                    <span class="flex flex-grow flex-col">
+                  <SwitchGroup as="div" class="flex gap-3 items-center">
+                    <span class="flex flex-grow flex-col w-5/6">
                       <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>Habilita el
                         estado del
                         Usuario
@@ -239,11 +239,14 @@
                         disponible o dejalo apagado para no disponible
                       </SwitchDescription>
                     </span>
-                    <Switch v-model="userActiveBoolean"
-                      :class="[userActiveBoolean ? 'bg-indigo-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2']">
-                      <span aria-hidden="true"
-                        :class="[userActiveBoolean ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
-                    </Switch>
+                    <div class="w-1/6 flex justify-end ">
+                      <Switch v-model="userActiveBoolean"
+                        :class="[userActiveBoolean ? 'bg-indigo-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ring-2 ring-indigo-600 ring-offset-2']">
+                        <span aria-hidden="true"
+                          :class="[userActiveBoolean ? 'translate-x-5 bg-white' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-gray-500 shadow ring-0 transition duration-200 ease-in-out']" />
+                      </Switch>
+                    </div>
+
                   </SwitchGroup>
 
                 </div>
@@ -303,10 +306,7 @@ const publishingOptions = ref([
 function inputImage(event) {
   const file = event.target.files[0];
   if (file) {
-    // user_image.value = file,
     fileName.value = file.name;
-    // user_image.value = fileName.value;
-
     const reader = new FileReader();
     reader.onload = (e) => {
       fileUrl.value = e.target.result;
@@ -315,14 +315,12 @@ function inputImage(event) {
   }
 }
 
-// Watch for changes in User and update fileName
 watchEffect(() => {
   if (props.User && props.User.user_image) {
     fileName.value = props.User.user_image;
   }
 });
 
-//funtion that change the boolean value in switch element to bit value witch means true = 1 & false = 0
 const userActiveBoolean = computed({
   get() {
     return props.User.user_active === 1;
@@ -332,11 +330,13 @@ const userActiveBoolean = computed({
   }
 });
 
-//resquest https to server
 const Delete = async () => {
   showloader.value = true;
+  let data = {
+    user_active: 0
+  }
   try {
-    const response = await axios.delete(`http://localhost:3000/users/${props.User.user_id}`);
+    const response = await axios.put(`http://localhost:3000/users/${props.User.user_id}`, data);
     if (response) {
       Swal.fire({
         title: 'Correcto',
@@ -359,11 +359,21 @@ const Delete = async () => {
 }
 
 const Update = async () => {
-    console.log("holi")
-    try {
-      const response = await axios.put(`http://localhost:3000/users/${props.User.user_id}`, props.User, {
-      });
-      if (response) {
+  const dataUser = {
+      user_id: props.User.user_id,
+      user_image: fileUrl.value,
+      user_role: props.User.user_role,
+      user_document: props.User.user_document,
+      user_lastname: props.User.user_last,
+      user_name: props.User.user_name,
+      user_email: props.User.user_email,
+      user_phone: props.User.user_phone,
+      user_position: props.User.user_position,
+      user_active: props.User.user_active,
+    }
+  try {
+    const response = await axios.put(`http://localhost:3000/users/${props.User.user_id}`, dataUser);
+    if (response) {
       Swal.fire({
         title: 'Correcto',
         text: 'Usuario Actualizado Correctamente',
@@ -372,17 +382,22 @@ const Update = async () => {
 
     }
 
-      console.log('Respuesta del servidor:', response.data);
-    } catch(error) {
-      console.error('Error al actualizar el usuario',error);
-      Swal.fire({
-          title: 'Error',
-          text: 'No se pudo Actulizar el usuario',
-          icon: 'error'
-        });
-    } finally {
-      console.log('holi fin')
-    }
-
+    console.log('Respuesta del servidor:', response.data);
+  } catch (error) {
+    console.error('Error al actualizar el usuario', error);
+    Swal.fire({
+      title: 'Error',
+      text: 'No se pudo Actulizar el usuario',
+      icon: 'error'
+    });
+  } finally {
+    console.log('holi fin')
   }
+
+}
 </script>
+
+/**
+* !No se validan los campos al momento de editar el usuario, pueden quedar campos en blanco, lo cual es incorrecto.
+* Todo: Validar campos 
+**/
