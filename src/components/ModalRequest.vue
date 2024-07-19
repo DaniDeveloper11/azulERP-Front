@@ -140,9 +140,14 @@
 
 
 
-        <!-- Modal footer -->
-         <!-- status = pendiente -->
-        <div v-if="props.request.docStatus == 1"
+
+
+     
+  
+                <!-- Modal footer solicitudes-->
+                <!-- status = pendiente -->
+
+        <div v-if="props.request.docStatus == 1 && props.kind == 1"
           class="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
           <button type="button" @click="approveRequest()"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Aprobar</button>
@@ -152,7 +157,7 @@
 
 
           <!--status =  aprobado  and  Pago en efectivo -->
-        <div v-if="props.request.docStatus == 2"
+        <div v-if="props.request.docStatus == 2 && props.kind == 1"
           class="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
           <button type="button" @click="handleGenerateOrder"
             class="flex gap-1 text-white bg-green-500 hover:bg-green-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -165,23 +170,28 @@
           </button>
         </div>
 
-        <!-- <div v-if="props.request.docStatus == 2 && props.request.payMethod >= 2"
+
+
+        <!-- Modal footer to OrderPurchases and  user level 2 -->
+ 
+        <div v-if="props.request.docStatus == 1 && store.user.user_level == 2 && props.kind == 2 "
           class="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
           <button type="button" @click="handleGenerateOrder"
-            class="flex gap-1 text-white bg-blue-500 hover:bg-blue-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            Solicitar Autorizacion
+            class="flex gap-1 text-white bg-green-500 hover:bg-green-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            Autorizar Orden
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
               <path fill-rule="evenodd"
                 d="M12.97 3.97a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 1 1-1.06-1.06l6.22-6.22H3a.75.75 0 0 1 0-1.5h16.19l-6.22-6.22a.75.75 0 0 1 0-1.06Z"
                 clip-rule="evenodd" />
             </svg>
           </button>
-        </div> -->
+        </div>
 
+    </div>
 
       </div>
     </div>
-  </div>
+
 
 </template>
 
@@ -194,7 +204,9 @@ import { formateDate } from '@/utils/formateDate';
 import Swal from 'sweetalert2';
 import { useRouter } from 'vue-router';
 import Departments from '@/views/Departments/Departments.vue';
+import useAuthStore from '@/store/auth';
 
+const store = useAuthStore();
 const router = useRouter();
 const emit = defineEmits(['update-value']);
 const comment = ref('');
@@ -203,6 +215,7 @@ const subdepaName = ref('');
 let props = defineProps({
   open: Boolean,
   request: {},
+  kind: Number
 
 })
 const closeModal = () => {

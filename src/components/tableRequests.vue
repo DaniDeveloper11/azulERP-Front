@@ -73,7 +73,7 @@
 
 
     <!-- modal para aprobar o rechazar solicitudes de compra -->
-    <modal1 @update-value="handleUpdate" v-bind:request="requestModal" v-bind:open="open" @close="open = false"></modal1>
+    <modal1 @update-value="handleUpdate" v-bind:request="requestModal" v-bind:open="open" v-bind:kind="1" @close="open = false"></modal1>
    
 
 </template>
@@ -89,6 +89,7 @@ import { formateDate } from '@/utils/formateDate';
 import Swal from 'sweetalert2';
 import loader from '@/components/LoaderCss2.vue'
 
+// const isRequest = 1;
 const getRequests =inject('getRequests')
 const open = ref(false);
 const requestModal = ref('') 

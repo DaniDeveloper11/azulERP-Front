@@ -24,7 +24,7 @@
                     <XMarkIcon class="h-6 w-6 text-white" aria-hidden="true" />
                   </button>
                 </div>
-                
+
               </TransitionChild>
               <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4 pt-4">
                 <div class="flex h-16 shrink-0 items-center">
@@ -60,14 +60,14 @@
                         </li>
                         </DisclosurePanel>
                         </Disclosure>
-                          
+
                     </li>
                   </ul>
                   </li>
                   </ul>
                 </nav>
               </div>
-              
+
             </DialogPanel>
           </TransitionChild>
         </div>
@@ -154,10 +154,12 @@
                   leave-to-class="transform opacity-0 scale-95">
                   <MenuItems
                     class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                   <MenuItem v-slot="{ active }" class="cursor-pointer">
-                    <span v-on:click="firmadigital" :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">Ver firma</span>
+                    <MenuItem v-slot="{ active }" class="cursor-pointer">
+                    <span v-on:click="firmadigital"
+                      :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">Ver
+                      firma</span>
                     </MenuItem>
-                        <MenuItem v-slot="{ active }" class="cursor-pointer">
+                    <MenuItem v-slot="{ active }" class="cursor-pointer">
                     <span v-on:click="logout"
                       :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">Salir</span>
                     </MenuItem>
@@ -274,8 +276,36 @@ const navigationProfiles = () => {
         { name: 'Reportes', to: '/reports', icon: ChartPieIcon, current: false }
       ];
       break;
+    case 2:
+      navigation.value = [
+        { name: 'Aprobación de solicitudes', to: '/approveRequest', icon: CheckBadgeIcon, current: false },
+        { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
+        { name: 'Usuarios', to: '/users', icon: UserIcon, current: false },
+        { name: 'Departamentos', to: '/departments', icon: HomeModernIcon, current: false },
+        { name: 'Proveedores', to: '/proveedors', icon: UserGroupIcon, current: false },
+        {
+          name: 'Solicitud de compra',
+          icon: FolderIcon,
+          current: false,
+          children: [
+            { name: 'Crear solicitud de compra', href: '/requestPurchase' },
+            { name: 'Mis solicitudes de compra', href: '/listRequest' }
+          ]
+        },
+        {
+          name: 'Orden de Compra',
+          icon: FolderIcon,
+          current: false,
+          children: [
+            { name: 'Crear orden de compra', href: '/orderPurchase' },
+            { name: 'Mis órdenes de compra', href: '/listOrders' }
+          ]
+        },
+        { name: 'Reportes', to: '/reports', icon: ChartPieIcon, current: false }
+      ];
+      break;
   }
-};
+}
 
 watch(user, (newValue) => {
   if (newValue) {

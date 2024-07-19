@@ -1,5 +1,4 @@
 <template>
-  <form>
     <div class="space-y-12">
       <div class="border-b border-gray-900/10 pb-12">
         <h2 class="text-base font-semibold leading-7 text-gray-900">Orden de compra</h2>
@@ -13,7 +12,7 @@
             <div class="mt-2 sm:max-w-md">
               <div
                 class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <select v-model="department" @change="fetchSubdepartmentsAndUsers" id="department"
+                <select v-model="department" @change="fetchSubdepartmentsAndUsers" id="department" required
                   class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
                   <option v-for="dept in departments" :key="dept.id" :value="dept.id">{{ dept.name }}</option>
                 </select>
@@ -26,7 +25,7 @@
             <div class="mt-2 sm:max-w-md">
               <div
                 class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <select v-model="subdepartment" id="subdepartment"
+                <select v-model="subdepartment" id="subdepartment" required
                   class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
                   <option v-for="subdept in subdepartments" :key="subdept.id" :value="subdept.id">{{ subdept.name }}
                   </option>
@@ -40,7 +39,7 @@
             <div class="mt-2 sm:max-w-md">
               <div
                 class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <select v-model="userRequest" id="userRequest"
+                <select v-model="userRequest" id="userRequest" required
                   class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
                   <option v-for="user in users" :key="user.user_id" :value="user.user_id">{{ user.user_name }}
                     {{ user.user_lastname }}</option>
@@ -54,7 +53,7 @@
             <div class="mt-2 sm:max-w-md">
               <div
                 class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                  <select v-model="beneficiary" id="beneficiary"
+                <select v-model="beneficiary" id="beneficiary" required
                   class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
                   <option v-for="typ in provedors" :key="typ.id" :value="typ.id">{{ typ.name }}</option>
                 </select>
@@ -67,7 +66,7 @@
             <div class="mt-2 sm:max-w-md">
               <div
                 class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <select v-model="type" id="type"
+                <select v-model="type" id="type" required
                   class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
                   <option v-for="typ in typocaja" :key="typ.id" :value="typ.id">{{ typ.value }}</option>
                 </select>
@@ -80,7 +79,7 @@
             <div class="mt-2 sm:max-w-md">
               <div
                 class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <select v-model="subType" id="subType"
+                <select v-model="subType" id="subType" required
                   class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
                   <option v-for="typ in typogastos" :key="typ.id" :value="typ.id">{{ typ.value }}</option>
                 </select>
@@ -93,7 +92,7 @@
             <div class="mt-2 sm:max-w-md">
               <div
                 class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <input type="text" name="concept" id="concept" v-model="concept"
+                <input type="text" name="concept" id="concept" v-model="concept" required
                   class="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                   placeholder="Descripción de la compra" />
               </div>
@@ -106,7 +105,7 @@
             <div class="mt-2 sm:max-w-md">
               <div
                 class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <select v-model="payConditions" id="payConditions"
+                <select v-model="payConditions" id="payConditions" required
                   class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
                   <option v-for="pay in conditionsPay" :key="pay.id" :value="pay.id">{{ pay.value }}</option>
                 </select>
@@ -119,7 +118,7 @@
             <div class="mt-2 sm:max-w-md">
               <div
                 class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                <select v-model="payMethod" id="payMethod"
+                <select v-model="payMethod" id="payMethod" required
                   class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
                   <option v-for="pay in paymethods" :key="pay.id" :value="pay.id">{{ pay.value }}</option>
                 </select>
@@ -184,10 +183,9 @@
 
     <div class="mt-6 flex items-center justify-end gap-x-6">
       <button type="button" @click="reset" class="text-sm font-semibold leading-6 text-gray-900">Cancelar</button>
-      <button type="submit" @click="EnviarForm"
+      <button @click="EnviarForm"
         class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Crear</button>
     </div>
-  </form>
 </template>
 
 <script>
@@ -291,8 +289,6 @@ export default {
             text: 'Orden creada correctamente',
             icon: 'success',
           });
-          this.getDepartments();
-          this.reset();
         } else {
           throw new Error('Error al crear la solicitud');
         }
@@ -308,12 +304,12 @@ export default {
     async submitItems(docEntry) {
       const token = localStorage.getItem('token');
       console.log("Entro");
-        console.log(this.items);
+      alert(this.items);
       const items = this.items.map(item => ({
         ...item,
         docEntry
       }));
-    
+
       try {
         const response = await axios.post(`/orderPurchases/${docEntry}/items`, items, {
           headers: {
@@ -323,6 +319,13 @@ export default {
         });
         if (!response.data) {
           throw new Error('Error al enviar los artículos');
+        } else {
+          Swal.fire({
+            title: 'Correcto',
+            text: 'Artículos enviados correctamente',
+            icon: 'success',
+          });
+          this.reset();
         }
       } catch (error) {
         console.error('Error al enviar los artículos:', error);

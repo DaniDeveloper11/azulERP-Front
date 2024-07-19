@@ -44,7 +44,7 @@
             </div>
             <div class="flex flex-none items-center gap-x-4">
 
-                <button @click="showModal(order) "
+                <button v-if="order.docStatus == 2" @click="showModal(order)"
                     class="flex rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:flex">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-5">
@@ -53,6 +53,18 @@
                     </svg>
                     PDF
                 </button>
+
+
+                <button v-if="order.docStatus == 1" @click="orderModal = order;  open = true"
+                    class="flex rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:flex">
+                    <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                    </svg> -->
+                    revision
+                </button>
+
 
             </div>
 
@@ -63,32 +75,37 @@
 
     <!-- modal para aprobar o rechazar solicitudes de compra -->
     <!-- <modal1 @update-value="handleUpdate" v-bind:request="requestModal" v-bind:open="open" @close="open = false"></modal1> -->
-    <RequestDetails v-if="showDetails" :data="itemSelected" @closeModal="handleClose">    
+    <RequestDetails v-if="showDetails" :data="itemSelected" @closeModal="handleClose">
     </RequestDetails>
- 
+    <modal1 @update-value="handleUpdate" v-bind:request="orderModal" v-bind:kind="2" v-bind:open="open" @close="open = false"></modal1>
+
 </template>
 
 <script setup>
-import { ref, computed} from 'vue'
+import { ref, computed } from 'vue'
 import axios from '@/utils/axios'
 import Swal from 'sweetalert2';
 import RequestDetails from '@/views/RequestPurchases/modals/RequestDetails.vue';
 import { formateDate } from '@/utils/formateDate';
+import modal1 from '@/components/ModalRequest.vue'
+
 
 // const open = ref(false);
 const showDetails = ref(false)
 const itemSelected = ref('')
-
+const orderModal = ref('')
+const open = ref(false);
+// const isOrder = 2
 const props = defineProps({
     orders: Array
 })
 
-    const statuses = {
+const statuses = {
     pendiente: 'text-yellow-800 bg-yellow-100 ring-yellow-600/20',
     aprobado: 'text-green-700 bg-green-100 ring-green-600/20',
     rechazado: 'text-red-600 bg-red-100 ring-red-600/20',
     cerrado: 'text grey-700 bg-gray-100 ring-gray-600/20'
-    }
+}
 
 const searchQuery = ref('');
 
@@ -124,17 +141,17 @@ function search() {
     console.log('Buscando:', searchQuery.value)
 }
 
-async function showModal(item){
+async function showModal(item) {
     const token = localStorage.getItem('token');
-    if(item.items ){
-    itemSelected.value = item
-    showDetails.value = true
+    if (item.items) {
+        itemSelected.value = item
+        showDetails.value = true
 
-    }else{
+    } else {
         Swal.fire({
-            title:'Error',
-            text:'No cuenta con items esta solicitud',
-            icon:'warning'
+            title: 'Error',
+            text: 'No cuenta con items esta solicitud',
+            icon: 'warning'
         });
     }
 };
@@ -144,5 +161,9 @@ const handleClose = () => {
     itemSelected.value = null
 };
 
+const handleUpdate = (value) => {
+  open.value = value;
+    // getOrder(); that will be a refresh 
+};
 
 </script>
