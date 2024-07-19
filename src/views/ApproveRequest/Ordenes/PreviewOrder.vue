@@ -248,7 +248,7 @@ const conditionsPay = [
   { id: 2, value: 'Credito' }
 ]
 const router = useRouter();
-const EnviarForm = async () => {
+const EnviarForm = async (estatus = 2) => {
   const token = localStorage.getItem('token');
   const authStore = useAuthStore();
   const user_id = authStore.user ? authStore.user.user_id : null;
@@ -262,7 +262,7 @@ const EnviarForm = async () => {
     beneficiary: orderData.value.beneficiary,
     payConditions: orderData.value.payConditions,
     payMethod: orderData.value.payMethod,
-    docStatus: 2,
+    docStatus: estatus,
     userRequest: orderData.value.userRequest.id,
     docTotal: orderData.value.docTotal,
     docReference: orderData.value.id,
@@ -505,6 +505,7 @@ const requestApprove = async () => {
         text: 'La orden de compra se mando a revision',
         icon: 'success',
       });
+      EnviarForm(1);
       handleViewRequest()
     } else {
       Swal.fire({

@@ -176,7 +176,7 @@
  
         <div v-if="props.request.docStatus == 1 && store.user.user_level == 2 && props.kind == 2 "
           class="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-          <button type="button" @click="handleGenerateOrder"
+          <button type="button" @click="requestApprove"
             class="flex gap-1 text-white bg-green-500 hover:bg-green-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
             Autorizar Orden
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
@@ -306,6 +306,38 @@ const declineRequest = async () => {
     });
   } finally {
     closeModal()
+  }
+}
+
+
+const requestApprove = async () => {
+  const token = localStorage.getItem('token');
+  const docStatus = 2;
+  try {
+    const response = await axios.put(`/orderPurchases/${props.request.id}`, { docStatus }, {
+      Authorization: `Bearer ${token}`,
+    });
+    if (response.status == 200) {
+      Swal.fire({
+        title: 'Orden de compra aprobada',
+        text: 'La Orden de compra fue aprobada',
+        icon: 'success',
+      });
+      // handleViewRequest()
+    } else {
+      Swal.fire({
+        title: 'Error',
+        text: 'No se pudo Autorizar la Orden de compra',
+        icon: 'error',
+      })
+    }
+  } catch (error) {
+    console.error(error)
+    Swal.fire({
+      title: 'Error',
+      text: 'Error al Intentar Autorizar la solicitud',
+      icon: 'error'
+    });
   }
 }
 </script>
