@@ -74,12 +74,8 @@
           <div class="sm:col-span-3">
             <label for="state" class="block text-sm font-medium leading-6 text-gray-900">Estado</label>
             <div class="mt-2">
-<<<<<<< HEAD
-              <select v-model="state" id="state" name="state" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-=======
               <select v-model="state" required
                 class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
->>>>>>> fa697d72a552b698ef8932973bb8e1c3b55e3f22
                 <option value="" disabled selected>Seleccione un estado</option>
                 <option v-for="estado in estados" :key="estado.abreviatura" :value="estado.abreviatura">
                   {{ estado.nombre }}
@@ -95,12 +91,8 @@
     </div>
     <div class="mt-6 flex items-center justify-end gap-x-6">
       <button @click="reset" type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancelar</button>
-<<<<<<< HEAD
-      <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Guardar</button>
-=======
       <button @click="submitForm" type="submit"
         class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Guardar</button>
->>>>>>> fa697d72a552b698ef8932973bb8e1c3b55e3f22
     </div>
   </form>
 </template>
@@ -108,11 +100,7 @@
 <script setup>
 import { ref } from 'vue';
 import Swal from 'sweetalert2';
-<<<<<<< HEAD
-import axios from '@/utils/axios';
-=======
 import axios from '../../utils/axios';
->>>>>>> fa697d72a552b698ef8932973bb8e1c3b55e3f22
 
 const name = ref('');
 const rfc = ref('');
@@ -218,12 +206,8 @@ const submitForm = async () => {
         'Content-Type': 'application/json',
       }
     });
-<<<<<<< HEAD
-    if (response.data) {
-=======
     console.log(response);
     if (response) {
->>>>>>> fa697d72a552b698ef8932973bb8e1c3b55e3f22
       Swal.fire({
         title: 'Correcto',
         text: 'Proveedor creado correctamente',

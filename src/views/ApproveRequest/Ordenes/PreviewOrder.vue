@@ -130,16 +130,16 @@
             <tbody>
               <tr v-for="(item, index) in orderData.items" :key="index">
                 <td class="py-2 px-4 border">
-                  <input v-model="item.items_article" type="text" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"/>
+                  <input v-model="item.article" type="text" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"/>
                 </td>
                 <td class="py-2 px-4 border">
-                  <input v-model="item.items_description" type="text" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"/>
+                  <input v-model="item.description" type="text" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"/>
                 </td>
                 <td class="py-2 px-4 border">
-                  <input v-model="item.items_quantity" type="number" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"/>
+                  <input v-model="item.quantity" type="number" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"/>
                 </td>
                 <td class="py-2 px-4 border">
-                  <input v-model="item.items_price" type="number" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"/>
+                  <input v-model="item.price" type="number" class="peer block w-full border-0 bg-gray-50 py-1.5 text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"/>
                 </td>
                 <td class="py-2 px-4 border">
                   <button @click="removeItem(index)" class="bg-red-500 text-white px-2 py-1 rounded-md flex items-center justify-center">
@@ -222,7 +222,8 @@ const EnviarForm = async () => {
     userRequest: orderData.value.userRequest.id,
     docTotal: orderData.value.docTotal,
     docReference: orderData.value.id,
-    userApprove : user_id 
+    userApprove : user_id,
+    items: orderData.value.items,
   };
   try {
     const response = await axios.post('/orderPurchases', requestPurchase, {
@@ -282,6 +283,7 @@ const submitItems = async (docEntry) => {
     ...item,
     docEntry 
   }));
+  console.log(items)
   try {
     const response = await  axios.post(`/orderPurchases/${docEntry}/items`, items, {
       headers: {

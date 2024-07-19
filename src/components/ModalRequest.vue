@@ -54,11 +54,11 @@
               <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
                 <a>
                   <span class="absolute inset-0" />
-                  {{ item.items_article }}
+                  {{ item.article }}
                 </a>
               </h3>
               <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600"><span>Descripcion:</span> <br>{{
-                item.items_description }}</p>
+                item.description }}</p>
             </div>
             <div class="relative mt-2 flex items-center gap-x-4">
               <!-- <img :src="post.author.imageUrl" alt="" class="h-10 w-10 rounded-full bg-gray-50" /> -->
@@ -72,7 +72,7 @@
 
                   Cantidad:
                   <span class="absolute inset-0" />
-                  {{ item.items_quantity}}
+                  {{ item.quantity}}
 
                 </p>
                 <!-- <p class="flex gap-1 text-gray-600">
@@ -82,7 +82,7 @@
                       d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>
 
-                  Precio:{{ item.items_price }}
+                  Precio:{{ item.price }}
                 </p> -->
               </div>
             </div>

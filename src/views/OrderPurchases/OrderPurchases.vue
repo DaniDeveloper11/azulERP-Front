@@ -307,10 +307,13 @@ export default {
     },
     async submitItems(docEntry) {
       const token = localStorage.getItem('token');
+      console.log("Entro");
+        console.log(this.items);
       const items = this.items.map(item => ({
         ...item,
         docEntry
       }));
+    
       try {
         const response = await axios.post(`/orderPurchases/${docEntry}/items`, items, {
           headers: {

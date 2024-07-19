@@ -43,14 +43,9 @@
           </button>
         </div>
       </div>
-<<<<<<< HEAD
-      <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <div v-for="proveedor in proveedors" :key="proveedor.id" class="overflow-hidden rounded-lg bg-white shadow">
-=======
       
       <div class="mt-1 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <div v-for="proveedor in filteredProveedors" :key="proveedor.id" class="overflow-hidden rounded-lg bg-white shadow">
->>>>>>> fa697d72a552b698ef8932973bb8e1c3b55e3f22
           <div class="p-6">
             <div class="flex items-center">
               <div class="h-16 w-16 flex-shrink-0">
@@ -75,13 +70,6 @@
                 </span>
               </div>
             </div>
-<<<<<<< HEAD
-            <div class="mt-4 text-right">
-              <button 
-                v-on:click="editOpen = true; emptyPerson = proveedor;"
-                class="text-indigo-600 hover:text-indigo-900">
-                Edit<span class="sr-only">, {{ proveedor.name }}</span>
-=======
             <div class="mt-4 text-center">
               <button 
                 v-on:click="confirmDelete(proveedor.id)"
@@ -97,53 +85,35 @@
                 v-on:click="ConfirmAvailable(proveedor.id)" v-if="proveedor.active == 0"
                 class="rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 inline-block">
                 Habilitar<span class="sr-only">, {{ proveedor.name }}</span>
->>>>>>> fa697d72a552b698ef8932973bb8e1c3b55e3f22
               </button>
             </div>
           </div>
         </div>
-<<<<<<< HEAD
-      </div>
-=======
        
           
       </div>
        <div v-if="filteredProveedors.length == 0" class="flex justify-center w-full">
       <p class="mt-1 text-lg text-red-800 w-full bg-gray-300" >No se encontraron resultados con la busqueda</p>
         </div>
->>>>>>> fa697d72a552b698ef8932973bb8e1c3b55e3f22
     </div>
     <modal :open="editOpen" :proveedor="selectedProveedor" @close="editOpen = false"></modal>
   </div>
 </template>
 <script setup>
-<<<<<<< HEAD
-import { ref, onMounted } from 'vue';
-import axios from '@/utils/axios';
-import useAuthStore from '../../store/auth';
-import loader from '../../components/LoaderCss.vue';
-=======
 import { ref, onMounted, computed,provide } from 'vue';
 import axios from '@/utils/axios';
 import loader from '../../components/LoaderCss.vue';
 import defaultImage from '../../assets/provideer.png';
 import Swal from 'sweetalert2';
 import modal from './modal/modalProveedors.vue';
->>>>>>> fa697d72a552b698ef8932973bb8e1c3b55e3f22
 
 const showLoader = ref(true);
 const proveedors = ref([]);
 const editOpen = ref(false);
-<<<<<<< HEAD
-const emptyPerson = ref({});
-
-// Obtener los datos de los proveedores
-=======
 const selectedProveedor = ref(null); 
 const searchQuery = ref('');
 const statusFilter = ref('1');
 
->>>>>>> fa697d72a552b698ef8932973bb8e1c3b55e3f22
 const fetchProveedors = async () => {
   try {
     const response = await axios.get('/proveedors');
@@ -155,13 +125,6 @@ const fetchProveedors = async () => {
   }
 };
 
-<<<<<<< HEAD
-// Función para obtener la URL de la imagen del proveedor
-const getImageUrl = (proveedor) => {
-  // Reemplaza esto con la lógica adecuada para obtener la URL de la imagen del proveedor
-  return proveedor.image || 'https://via.placeholder.com/64';
-};
-=======
 const getImageUrl = (proveedor) => {
   return proveedor.image || defaultImage;
 };
@@ -257,14 +220,9 @@ const filteredProveedors = computed(() => {
     return matchesSearchQuery && matchesStatus;
   });
 });
->>>>>>> fa697d72a552b698ef8932973bb8e1c3b55e3f22
 
 // Llamar a fetchProveedors cuando el componente se monte
 onMounted(() => {
   fetchProveedors();
 });
-<<<<<<< HEAD
 </script>
-=======
-</script>
->>>>>>> fa697d72a552b698ef8932973bb8e1c3b55e3f22
