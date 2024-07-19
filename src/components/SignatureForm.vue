@@ -13,7 +13,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
+import axios from '../utils/axios';
 
 const router = useRouter();
 const signaturePad = ref(null);
@@ -40,7 +40,7 @@ const save = async () => {
         const formData = new FormData();
         formData.append('signature', blob, 'signature.png');
 
-        await axios.put(`/users/${userId}/signature`, formData, {
+        await axios.post(`/users/signature/${userId}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
