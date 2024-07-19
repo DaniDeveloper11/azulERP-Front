@@ -155,7 +155,7 @@
                   <MenuItems
                     class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                    <MenuItem v-slot="{ active }" class="cursor-pointer">
-                    <span v-on:click="firmadigital" :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">Añadir Firma</span>
+                    <span v-on:click="firmadigital" :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">Ver firma</span>
                     </MenuItem>
                         <MenuItem v-slot="{ active }" class="cursor-pointer">
                     <span v-on:click="logout"
