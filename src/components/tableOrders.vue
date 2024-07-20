@@ -37,7 +37,7 @@
                     <svg viewBox="0 0 2 2" class="h-0.5 w-0.5 fill-current">
                         <circle cx="1" cy="1" r="1" />
                     </svg>
-                    <p class="truncate">Creado por: {{ order.userRequest_name }}</p>
+                    <p class="truncate">Creado por: {{ order.userRequest.name + ' ' +order.userRequest.lastname }}</p>
 
                     <!-- <p class="truncate">Creado por: {{ request.userRequest_name }}</p> -->
                 </div>
@@ -85,7 +85,7 @@
 import { ref, computed } from 'vue'
 import axios from '@/utils/axios'
 import Swal from 'sweetalert2';
-import RequestDetails from '@/views/RequestPurchases/modals/RequestDetails.vue';
+import RequestDetails from '../views/OrderPurchases/modals/OrderDetails.vue';
 import { formateDate } from '@/utils/formateDate';
 import modal1 from '@/components/ModalRequest.vue'
 

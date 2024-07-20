@@ -20,7 +20,7 @@
                                     <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                         <dt class="text-sm font-medium leading-6 text-gray-900">Departamento</dt>
                                         <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                            {{ data.department }}
+                                            {{ data.department.name }}
                                         </dd>
                                     </div>
                                     <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -30,9 +30,9 @@
                                         </dd>
                                     </div>
                                     <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                        <dt class="text-sm font-medium leading-6 text-gray-900">solicitante</dt>
+                                        <dt class="text-sm font-medium leading-6 text-gray-900">Solicitante</dt>
                                         <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                            {{ data.userRequest }}
+                                            {{ data.userRequest.name + ' ' + data.userRequest.lastname }}
                                         </dd>
                                     </div>
                                     <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -49,7 +49,6 @@
                                     </div>
                                 </dl>
                             </div>
-                            <!-- Botones para cerrar el modal -->
                             <div class="flow-root">
                                 <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                                     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -61,11 +60,11 @@
                                                     </th>
                                                     <th scope="col"
                                                         class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                                        Articulo
+                                                        Artículo
                                                     </th>
                                                     <th scope="col"
                                                         class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                                        Descripcion
+                                                        Descripción
                                                     </th>
                                                     <th scope="col"
                                                         class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
@@ -101,6 +100,7 @@
                                     class="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2"
                                     @click="pdfDownload">Descargar PDF
                                 </button>
+                                
                                 <button type="button"
                                     class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:col-start-1 sm:mt-0"
                                     @click="closeModal">Cerrar
@@ -118,30 +118,22 @@
             <img src="../../../assets/logo.png" width="150" alt="Logo" class="logo">
         </div>
         <div id="encabezado">
-            <h1>ORDEN DE COMPRA: {{data.id}}</h1>
+            <h1>ORDEN DE COMPRA: {{ data.id }}</h1>
             <h2>DESTILADORA AGAVE AZUL</h2>
         </div>
 
         <div id="informacion-orden">
             <div class="item" id="informacion-cliente">
-                <p><strong>PERSONA QUE SOLICITA EL MATERIAL: {{data.userRequest}}</strong></p>
+                <p><strong>PERSONA QUE SOLICITA EL MATERIAL: {{ data.userRequest.name + ' ' + data.userRequest.lastname }}</strong></p>
             </div>
             <div class="item" id="informacion-cliente">
-                <p><strong>DEPARTAMENTO: {{data.department}}</strong></p>
+                <p><strong>DEPARTAMENTO: {{ data.department.name }}</strong></p>
             </div>
-
-            <!-- <div class="item" id="informacion-proveedor">
-                <p><strong>PROVEEDOR:</strong></p>
-                <p>Nombre:</p>
-                <p>Dirección:</p>
-                <p>Teléfono:</p>
-            </div> -->
         </div>
 
         <table id="tabla-productos">
             <thead>
                 <tr>
-                    <!-- <th>FECHA</th> -->
                     <th>CANTIDAD</th>
                     <th>CONCEPTO</th>
                     <th>P. UNIT.</th>
@@ -150,7 +142,6 @@
             </thead>
             <tbody>
                 <tr v-for="item in data.items" :key="item.id">
-                    <!-- <td>2024-07-02</td> -->
                     <td>{{ item.quantity }}</td>
                     <td>{{ item.article }}</td>
                     <td>{{ moneyFormatter(item.price / item.quantity) }}</td>
@@ -174,26 +165,30 @@
         </table>
 
         <div id="firmas">
-            <div class="firma">
-                <p><strong>FIRMA DE RECIBIDO DE QUIEN SOLICITA EL MATERIAL</strong></p>
-                <!-- <p>Nombre:</p>
-                <p>Fecha:</p> -->
+             <div class="firma">
+                <p><strong>FIRMA DEL SOLICITANTE</strong></p>
+                  <img :src="signatureSolicitante" alt="Firma del usuario"   v-if="signatureSolicitante"/>
             </div>
+            
             <div class="firma">
-                <p><strong>FIRMA DE PROVEEDOR</strong></p>
-                <!-- <p>Nombre:</p>
-                <p>Fecha:</p> -->
+                <p><strong>FIRMA DE PAULINA</strong></p>
+                  <img :src="signaturePaulina" alt="Firma del usuario"  v-if="signaturePaulina"/>
+            </div>
+           <div class="firma">
+                <p><strong>FIRMA DE CARLOS</strong></p>
+                 <img :src="signatureCarlos" alt="Firma del usuario"  v-if="signatureCarlos"/>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref, nextTick } from 'vue'
+import { ref, nextTick, onMounted } from 'vue'
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-
+import axios from '../../../utils/axios';
+import Swal from 'sweetalert2';
 const open = ref(true)
 const props = defineProps({
     data: {
@@ -203,17 +198,87 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['closeModal', 'downloadPDF'])
-const showPDF = ref(false);
+const signatureCarlos = ref('');
+const signaturePaulina = ref('');
+const signatureSolicitante = ref(''); 
+
 const closeModal = () => {
     open.value = false
     emit('closeModal', 'Datos desde el hijo')
 }
 
+const getSignature = async () => {
+    try {
+        //firma de carlos
+        const response = await axios.get(`/users/signature/17`, {
+            responseType: 'blob',
+        });
+        
+        // Crea una URL para el blob y la establece como la firma del carlos
+        const blob = response.data;
+        const url = URL.createObjectURL(blob);
+        signatureCarlos.value = url;
+
+    } catch (error) {
+        console.error('Error al obtener la firma:', error);
+        Swal.fire({
+      title: 'Firma no encontrada',
+      text: 'Firma de Carlos no encontrada',
+      icon: 'warning',
+    });
+    }
+};
+const getSignature1 = async () => {
+    try {
+          //firma de paulina
+         const response1 = await axios.get(`/users/signature/7`, {
+            responseType: 'blob',
+        });
+    // Crea una URL para el blob y la establece como la firma del Paulina
+          const blob1 = response1.data;
+        const url1 = URL.createObjectURL(blob1);
+        signaturePaulina.value = url1;
+
+    } catch (error) {
+        console.error('Error al obtener la firma:', error);
+                Swal.fire({
+      title: 'Firma no encontrada',
+      text: 'Firma de Paulina no encontrada',
+      icon: 'warning',
+    });
+    }
+};
+const getSignature2 = async () => {
+    try {
+        // firma del solicitante
+         const response2 = await axios.get(`/users/signature/${props.data.userRequest.id}`, {
+            responseType: 'blob',
+        });
+    // Crea una URL para el blob y la establece como la firma del solicitante
+         const blob2 = response2.data;
+        const url2 = URL.createObjectURL(blob2);
+        signatureSolicitante.value = url2;
+
+    } catch (error) {
+        console.error('Error al obtener la firma:', error);
+                Swal.fire({
+      title: 'Firma no encontrada',
+      text: 'Firma del solicitante no encontrada',
+      icon: 'warning',
+    });
+    }
+};
+
+onMounted(() => {
+  getSignature();
+  getSignature1();
+  getSignature2();
+});
+
 const pdfContent = ref(null);
 
 const pdfDownload = () => {
     nextTick(() => {
-        showPDF.value = true;
         if (!pdfContent.value) {
             console.error("No se encontró el contenido del PDF.");
             return;
@@ -241,20 +306,19 @@ const pdfDownload = () => {
                 console.error("Error generando el PDF:", error);
             });
         }, 500); // retraso para asegurar que el contenido esté completamente renderizado
-        showPDF.value = false;
     });
 }
-
 
 const moneyFormatter = new Intl.NumberFormat('es-mx', {
     style: 'currency',
     currency: 'MXN',
     minimumFractionDigits: 0,
 }).format
+
+
 </script>
 
-<style >
-    
+<style>
 #orden-compra {
     max-width: 800px;
     margin: 0 auto;
@@ -301,6 +365,15 @@ const moneyFormatter = new Intl.NumberFormat('es-mx', {
 .firma {
     width: 32%;
     text-align: center;
-    margin-bottom: 50px
+    margin-bottom: 50px;
+}
+
+.signature-display {
+    min-height: 100px;
+}
+
+.signature-display img {
+    max-width: 100%;
+    height: auto;
 }
 </style>

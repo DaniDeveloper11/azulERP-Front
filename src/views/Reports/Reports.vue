@@ -641,7 +641,7 @@ export default {
             Folio: row.id,
             Fecha: this.formateDate(row.date),
             Departamento: row.department.name,
-            'Sub-DEDpartamento': row.subdepartment.name,
+            'Sub-Departamento': row.subdepartment.name,
             'Tipo de caja': row.type == 1 ? 'Normal' : row.type == 2 ? 'Caja chica' : 'Caja chica Guadalajara',
             Concepto: row.concept,
             Total: row.docTotal,
