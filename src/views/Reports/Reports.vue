@@ -228,9 +228,9 @@
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
                             {{
                                 row.department.name }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
+                        <!-- <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
                             {{
-                                row.subdepartment.name }}</td>
+                                row.subdepartment.name }}</td> -->
                         <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
                             {{ row.type == 1
                                 ? 'Normal' : row.type == 2 ? 'Caja chica' : 'Caja chica Guadalajara' }}</td>
@@ -641,7 +641,7 @@ export default {
             Folio: row.id,
             Fecha: this.formateDate(row.date),
             Departamento: row.department.name,
-            'Sub-Departamento': row.subdepartment.name,
+            // 'Sub-Departamento': row.subdepartment.name,
             'Tipo de caja': row.type == 1 ? 'Normal' : row.type == 2 ? 'Caja chica' : 'Caja chica Guadalajara',
             Concepto: row.concept,
             Total: row.docTotal,
