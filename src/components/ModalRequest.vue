@@ -236,12 +236,12 @@ onUpdated(() => {
 const getDepartment = async () => {
   const token = localStorage.getItem('token');
   try {
-    const response = await axios.get(`/departments/${props.request.department}`, {
+    const response = await axios.get(`/departments/${props.request.department.id}`, {
       Authorization: `Bearer ${token}`,
     });
     if (response) {
       departmentName.value = response.data.name
-      const response2 = await axios.get(`/subdepartments/group/${props.request.department}`, {
+      const response2 = await axios.get(`/subdepartments/group/${props.request.department.id}`, {
         Authorization: `Bearer ${token}`,
       });
       subdepaName.value = response2.data.name

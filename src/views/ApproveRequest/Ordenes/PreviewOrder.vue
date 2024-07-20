@@ -188,19 +188,20 @@
     </div>
   </div>
 
-  <div class="mt-6 flex items-center justify-end gap-x-6" v-if="orderData.type == 2 || orderData.type == 3">
+  <!-- botones para directivos -->
+  <div class="mt-6 flex items-center justify-end gap-x-6" v-if="authStore.user.user_level == 2">
     <button type="button" @click="reset" class="text-sm font-semibold leading-6 text-gray-900">Cancelar</button>
     <button type="submit" @click="EnviarForm"
       class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Crear</button>
   </div>
 
-  <div class="mt-6 flex items-center justify-end gap-x-6" v-if="orderData.type == 1">
+  <div class="mt-6 flex items-center justify-end gap-x-6" v-if="authStore.user.user_level != 2 && orderData.type == 1">
     <button type="button" @click="reset" class="text-sm font-semibold leading-6 text-gray-900">Cancelar</button>
-    <button type="submit" @click="requestApprove" v-if="orderData.payMethod == 2 || orderData.payMethod == 3"
+    <button type="submit" @click="requestApprove" v-if="orderData.payMethod != 1"
       class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
       Solicitar aprobacion
     </button>
-    <button type="submit" @click="EnviarForm" v-if="orderData.payMethod != 2 && orderData.payMethod != 3"
+    <button type="submit" @click="EnviarForm" v-if="orderData.payMethod == 1"
       class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
       Crear
     </button>
@@ -223,7 +224,7 @@ const orderData = ref({
   userRequest: {}
 
 })
-
+const authStore = useAuthStore();
 const departments = ref([])
 const subdepartments = ref([])
 const users = ref([])
@@ -248,7 +249,7 @@ const conditionsPay = [
   { id: 2, value: 'Credito' }
 ]
 const router = useRouter();
-const EnviarForm = async (estatus = 2) => {
+const EnviarForm = async (estatus: number) => {
   const token = localStorage.getItem('token');
   const authStore = useAuthStore();
   const user_id = authStore.user ? authStore.user.user_id : null;
@@ -259,16 +260,17 @@ const EnviarForm = async (estatus = 2) => {
     type: orderData.value.type,
     subType: orderData.value.subType,
     concept: orderData.value.concept,
-    beneficiary: orderData.value.beneficiary,
+    beneficiary: orderData.value.beneficiary.id,
     payConditions: orderData.value.payConditions,
     payMethod: orderData.value.payMethod,
-    docStatus: estatus,
+    docStatus: estatus ? estatus : 2,
     userRequest: orderData.value.userRequest.id,
     docTotal: orderData.value.docTotal,
     docReference: orderData.value.id,
     userApprove: user_id,
     items: orderData.value.items,
   };
+  console.log(requestPurchase)
   try {
     const response = await axios.post('/orderPurchases', requestPurchase, {
       headers: {
