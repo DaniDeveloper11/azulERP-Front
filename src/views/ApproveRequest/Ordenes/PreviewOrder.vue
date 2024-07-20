@@ -257,9 +257,9 @@ const EnviarForm = async () => {
    let status;
 
   if (user_level == 1 && user_id == 1) {
-    status = 2; 
+    status = 1; 
   } else {
-    status = 1;
+    status = 2;
   }
 
   const requestPurchase = {
