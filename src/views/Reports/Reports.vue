@@ -637,11 +637,12 @@ export default {
         },
  exportToExcel() {
     if (this.data.length > 0) {
+        console.log(this.data);
         const datosExcel = this.data.map(row => ({
             Folio: row.id,
             Fecha: this.formateDate(row.date),
             Departamento: row.department.name,
-            // 'Sub-Departamento': row.subdepartment.name,
+            //  'Sub-Departamento': row.department.subdepartment.id,
             'Tipo de caja': row.type == 1 ? 'Normal' : row.type == 2 ? 'Caja chica' : 'Caja chica Guadalajara',
             Concepto: row.concept,
             Total: row.docTotal,

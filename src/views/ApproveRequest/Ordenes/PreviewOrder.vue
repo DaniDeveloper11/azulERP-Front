@@ -23,7 +23,7 @@
           <div class="mt-2 sm:max-w-md">
             <div
               class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-              <select v-model="orderData.department.id" id="subdepartment"
+              <select v-model="orderData.subdepartment.id" id="subdepartment"
                 class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 <option v-for="subdept in subdepartments" :key="subdept.id" :value="subdept.id">{{ subdept.name }}
                 </option>
@@ -249,20 +249,21 @@ const conditionsPay = [
   { id: 2, value: 'Credito' }
 ]
 const router = useRouter();
-const EnviarForm = async () => {
+const EnviarForm = async (estatus) => {
   const token = localStorage.getItem('token');
   const authStore = useAuthStore();
   const user_id = authStore.user ? authStore.user.user_id : null;
 
   const requestPurchase = {
     department: orderData.value.department.id,
+    subdepartment: orderData.value.subdepartment.id,
     type: orderData.value.type,
     subType: orderData.value.subType,
     concept: orderData.value.concept,
     beneficiary: orderData.value.beneficiary.id,
     payConditions: orderData.value.payConditions,
     payMethod: orderData.value.payMethod,
-    docStatus: 2,
+    docStatus: estatus ? estatus : 2,
     userRequest: orderData.value.userRequest.id,
     docTotal: orderData.value.docTotal,
     docReference: orderData.value.id,
@@ -403,7 +404,6 @@ const fetchSubdepartments = async () => {
     });
     if (response && response.status === 200) {
       subdepartments.value = response.data;
-
     } else {
       throw new Error('Error en back');
     }
