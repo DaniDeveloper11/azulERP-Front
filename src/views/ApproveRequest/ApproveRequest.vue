@@ -101,8 +101,8 @@ const projects = [
 ]
 
 onMounted(() => {
-  getRequests();
- getOrders();
+    getRequests();
+    getOrders();
 })
 
 const getRequests = async () => {
