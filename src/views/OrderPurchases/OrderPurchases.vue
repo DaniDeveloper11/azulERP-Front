@@ -21,7 +21,7 @@
           </div>
 
           <div class="sm:col-span-2">
-            <label for="subdepartment" class="block text-sm font-medium leading-6 text-gray-900">Subdepartamento</label>
+            <label for="subdepartment" class="block text-sm font-medium leading-6 text-gray-900">Auxiliar</label>
             <div class="mt-2 sm:max-w-md">
               <div
                 class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">

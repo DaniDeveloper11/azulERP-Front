@@ -20,7 +20,7 @@
             </div>
           </div>
           <div class="sm:col-span-2">
-            <label for="subdepartment" class="block text-sm font-medium leading-6 text-gray-900">Subdepartamento</label>
+            <label for="subdepartment" class="block text-sm font-medium leading-6 text-gray-900">Auxiliar</label>
             <div class="mt-2 sm:max-w-md">
               <select v-model="subdepartment" id="subdepartment"
                 class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
