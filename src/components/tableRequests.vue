@@ -29,7 +29,7 @@
             class="flex items-center justify-between gap-x-6 py-5">
             <div class="min-w-0">
                 <div class="flex items-start gap-x-3">
-                    <p class="text-sm font-semibold leading-6 text-gray-900">{{ request.department.name }} / <span class="font-thin">{{ request.subdepartment.name }}</span></p>
+                    <p class="text-sm font-semibold leading-6 text-gray-900">{{ request.department.name }} / <span class="font-thin"></span></p>
 
                     <div class="px-3 py-0.5 font-medium rounded-full text-sm"
                         :class="request.docStatus == 1 ? statuses.pendiente : request.docStatus == 2 ? statuses.aprobado : request.docStatus == 3 ? statuses.rechazado : statuses.cerrado">

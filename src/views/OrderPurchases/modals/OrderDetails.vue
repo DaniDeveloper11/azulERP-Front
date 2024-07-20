@@ -210,7 +210,7 @@ const closeModal = () => {
 const getSignature = async () => {
     try {
         //firma de carlos
-        const response = await axios.get(`/users/signature/17`, {
+        const response = await axios.get(`/users/signature/2`, {
             responseType: 'blob',
         });
         
@@ -231,7 +231,7 @@ const getSignature = async () => {
 const getSignature1 = async () => {
     try {
           //firma de paulina
-         const response1 = await axios.get(`/users/signature/7`, {
+         const response1 = await axios.get(`/users/signature/1`, {
             responseType: 'blob',
         });
     // Crea una URL para el blob y la establece como la firma del Paulina

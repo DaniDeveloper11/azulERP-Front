@@ -221,7 +221,6 @@ export default {
   data() {
     return {
       department: '',
-      subdepartment: '',
       type: 0,
       subType: 0,
       concept: '',
@@ -289,7 +288,6 @@ export default {
 
       const requestPurchase = {
         department: this.department,
-        subdepartment: this.subdepartment,
         type: this.type,
         subType: this.subType,
         concept: this.concept,
