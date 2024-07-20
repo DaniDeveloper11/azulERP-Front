@@ -207,7 +207,7 @@ const submitForm = async () => {
       }
     });
     console.log(response);
-    if (response) {
+    if (response.response.status == 200) {
       Swal.fire({
         title: 'Correcto',
         text: 'Proveedor creado correctamente',
