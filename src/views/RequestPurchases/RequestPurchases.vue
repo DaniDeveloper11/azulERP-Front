@@ -215,6 +215,7 @@ import useAuthStore from '../../store/auth.js';
 import axios from '../../utils/axios.js';
 import Swal from 'sweetalert2';
 import '@fortawesome/fontawesome-free/css/all.css';
+import { useRouter } from 'vue-router'
 
 export default {
   data() {
@@ -237,8 +238,8 @@ export default {
       subdepartments: [],
       users: [],
       usersG: [],
-      UserData: JSON.parse(localStorage.getItem('user')),
-      userLevel: JSON.parse(localStorage.getItem('user')).user_level,
+      UserData: JSON.parse(localStorage.getItem('user')) || null,
+      userLevel: JSON.parse(localStorage.getItem('user'))?.user_level || null,
       provedors: [],
       typogastos: [
         { id: 1, value: 'Fiscal' },
@@ -347,58 +348,62 @@ export default {
       );
     },
     async submitItems(docEntry) {
-      const token = localStorage.getItem('token');
-      const items = this.items.map(item => ({
-        ...item,
-        docEntry
-      }));
-      try {
-        const response = await axios.post(`/requestPurchases/${docEntry}/items`, items, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-        if (!response.data) {
-          throw new Error('Error al enviar los artículos');
+      if (this.isSession()){
+        const token = localStorage.getItem('token');
+        const items = this.items.map(item => ({
+          ...item,
+          docEntry
+        }));
+        try {
+          const response = await axios.post(`/requestPurchases/${docEntry}/items`, items, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
+          if (!response.data) {
+            throw new Error('Error al enviar los artículos');
+          }
+        } catch (error) {
+          console.error('Error al enviar los artículos:', error);
+          Swal.fire({
+            title: 'Error',
+            text: 'No se pudieron enviar los artículos',
+            icon: 'error',
+          });
         }
-      } catch (error) {
-        console.error('Error al enviar los artículos:', error);
-        Swal.fire({
-          title: 'Error',
-          text: 'No se pudieron enviar los artículos',
-          icon: 'error',
-        });
       }
     },
     async getDepartments() {
       const token = localStorage.getItem('token');
-      if (!token) {
-        Swal.fire({
-          title: 'Error',
-          text: 'Token no encontrado',
-          icon: 'error',
-        });
-        return;
-      }
-      try {
-        const response = await axios.get('/departments', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (response && response.status === 200) {
-          this.departments = response.data;
-        } else {
-          throw new Error('Respuesta inesperada del servidor');
+      if (this.isSession()) {
+        if (!token) {
+          Swal.fire({
+            title: 'Error',
+            text: 'Token no encontrado',
+            icon: 'error',
+          });
+          return;
         }
-      } catch (error) {
-        console.error('Error al obtener los departamentos:', error);
-        Swal.fire({
-          title: 'Error',
-          text: 'No se pudo obtener la lista de departamentos',
-          icon: 'error',
-        });
+        try {
+          const response = await axios.get('/departments', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          if (response && response.status === 200) {
+            this.departments = response.data;
+          } else {
+            throw new Error('Respuesta inesperada del servidor');
+          }
+        } catch (error) {
+          console.error('Error al obtener los departamentos:', error);
+          Swal.fire({
+            title: 'Error',
+            text: 'No se pudo obtener la lista de departamentos',
+            icon: 'error',
+          });
+        }
       }
     },
     async fetchSubdepartmentsAndUsers() {
@@ -407,115 +412,132 @@ export default {
     },
     async fetchSubdepartments() {
       const token = localStorage.getItem('token');
-      if (!token) {
-        Swal.fire({
-          title: 'Error',
-          text: 'Token no encontrado',
-          icon: 'error',
-        });
-        return;
-      }
-      try {
-        const response = await axios.get(`/subdepartments/group/${this.department}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (response && response.status === 200) {
-          this.subdepartments = response.data;
-        } else {
-          throw new Error('Error en back');
+      if (this.isSession()) {
+        if (!token) {
+          Swal.fire({
+            title: 'Error',
+            text: 'Token no encontrado',
+            icon: 'error',
+          });
+          return;
         }
-      } catch (error) {
-        console.error('Error al obtener los subdepartamentos:', error);
-        Swal.fire({
-          title: 'Error',
-          text: 'No se pudo obtener la lista de subdepartamentos',
-          icon: 'error',
-        });
+        try {
+          const response = await axios.get(`/subdepartments/group/${this.department}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          if (response && response.status === 200) {
+            this.subdepartments = response.data;
+          } else {
+            throw new Error('Error en back');
+          }
+        } catch (error) {
+          console.error('Error al obtener los subdepartamentos:', error);
+          Swal.fire({
+            title: 'Error',
+            text: 'No se pudo obtener la lista de subdepartamentos',
+            icon: 'error',
+          });
+        }
       }
     },
     async getUsers() {
       const token = localStorage.getItem('token');
-      try {
-        const response = await axios.get('/users', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (response.data) {
-          this.usersG = response.data;
-        } else {
-          throw new Error('No se pudo obtener la lista de usuarios');
+      if (this.isSession()) {
+        if (token == null) {
+          Swal.fire({
+            title: 'Error',
+            text: 'Token no encontrado',
+            icon: 'error',
+          });
+          return;
         }
-      } catch (error) {
-        console.error('Error:', error);
-        Swal.fire({
-          title: 'Error',
-          text: 'No se pudo obtener la lista de usuarios',
-          icon: 'error',
-        });
+        try {
+          const response = await axios.get('/users', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          if (response.data) {
+            this.usersG = response.data;
+          } else {
+            throw new Error('No se pudo obtener la lista de usuarios');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          Swal.fire({
+            title: 'Error',
+            text: 'No se pudo obtener la lista de usuarios',
+            icon: 'error',
+          });
+        }
       }
     },
     async getUsersByDepartment(departmentId) {
       const token = localStorage.getItem('token');
-      if (!token) {
-        Swal.fire({
-          title: 'Error',
-          text: 'Token no encontrado',
-          icon: 'error',
-        });
-        return;
-      }
-      try {
-        const response = await axios.get(`/users/departments/${departmentId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (response && response.status === 200) {
-          this.users = response.data;
-        } else {
-          throw new Error('Error en back');
+      if (this.isSession()) {
+        if (!token) {
+          Swal.fire({
+            title: 'Error',
+            text: 'Token no encontrado',
+            icon: 'error',
+          });
+          return;
         }
-      } catch (error) {
-        console.error('Error al obtener los usuarios:', error);
-        Swal.fire({
-          title: 'Error',
-          text: 'No se pudo obtener la lista de usuarios',
-          icon: 'error',
-        });
+        try {
+          const response = await axios.get(`/users/departments/${departmentId}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          if (response && response.status === 200) {
+            this.users = response.data;
+          } else {
+            throw new Error('Error en back');
+          }
+        } catch (error) {
+          console.error('Error al obtener los usuarios:', error);
+          Swal.fire({
+            title: 'Error',
+            text: 'No se pudo obtener la lista de usuarios',
+            icon: 'error',
+          });
+        }
       }
     },
     async getProvedors() {
       const token = localStorage.getItem('token');
-      if (!token) {
-        Swal.fire({
-          title: 'Error',
-          text: 'Token no encontrado',
-          icon: 'error',
-        });
-        return;
-      }
-      try {
-        const response = await axios.get(`/proveedors/`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (response && response.status === 200) {
-          this.provedors = response.data;
-        } else {
-          throw new Error('Error en back');
+      if (this.isSession()) {
+        if (!token) {
+          Swal.fire({
+            title: 'Error',
+            text: 'Token no encontrado',
+            icon: 'error',
+          });
+          return;
         }
-      } catch (error) {
-        console.error('Error al obtener los proveedores:', error);
-        Swal.fire({
-          title: 'Error',
-          text: 'No se pudo obtener la lista de proveedores',
-          icon: 'error',
-        });
+        try {
+          const response = await axios.get(`/proveedors/`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          if (response && response.status === 200) {
+            this.provedors = response.data;
+          } else {
+            throw new Error('Error en back');
+          }
+        } catch (error) {
+          console.error('Error al obtener los proveedores:', error);
+          Swal.fire({
+            title: 'Error',
+            text: 'No se pudo obtener la lista de proveedores',
+            icon: 'error',
+          });
+        }
       }
+
     },
     addItem() {
       this.items.push({
@@ -535,10 +557,12 @@ export default {
       this.docTotal = this.calculateTotal;
     },
     DataUserNoAdmin() {
-      this.department = this.UserData.user_department;
-      this.subdepartment = this.UserData.user_subdepartment || '';
-      this.userRequest = this.UserData.user_id;
-      this.fetchSubdepartmentsAndUsers();
+      if (this.isSession()) {
+        this.department = this.UserData.user_department;
+        this.subdepartment = this.UserData.user_subdepartment || '';
+        this.userRequest = this.UserData.user_id;
+        this.fetchSubdepartmentsAndUsers();
+      }
     },
     removeItem(index) {
       this.items.splice(index, 1);
@@ -555,8 +579,18 @@ export default {
       this.payMethod = '';
       this.userRequest = '';
       this.docTotal = 0;
-      this.items = [];
+      this.items = [{
+        article: '',
+        quantity: 0,
+        description: '',
+      }];
     },
+    isSession() {
+      if (!this.UserData || !this.userLevel) {
+        return false;
+      }
+      return true;
+    }
   },
   mounted() {
     this.getDepartments();

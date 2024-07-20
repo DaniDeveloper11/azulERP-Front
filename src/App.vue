@@ -219,6 +219,7 @@ import {
 import Profile from './components/ProfileModal.vue';
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue';
 import { ChevronRightIcon } from '@heroicons/vue/20/solid';
+import Swal from 'sweetalert2';
 
 const router = useRouter();
 
@@ -324,6 +325,11 @@ const logout = () => {
   localStorage.clear();
   sidebarOpen.value = false;
   router.push('/login');
+  Swal.fire({
+    title: 'Sesion terminada',
+    text: 'vuelva a iniciar sesion',
+    icon: 'warning',
+  });
 };
 
 const firmadigital = () => {
