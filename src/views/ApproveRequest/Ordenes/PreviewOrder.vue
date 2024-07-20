@@ -381,7 +381,7 @@ const getDepartments = async () => {
 
 const fetchSubdepartmentsAndUsers = async () => {
   await fetchSubdepartments();
-  await getUsersByDepartment(orderData.value.department);
+  await getUsersByDepartment(orderData.value.department.id);
 }
 
 const fetchSubdepartments = async () => {
