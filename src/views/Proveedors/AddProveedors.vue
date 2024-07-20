@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.prevent="submitForm">
     <div class="space-y-12">
       <div class="border-b border-gray-900/10 pb-12">
         <h2 class="text-base font-semibold leading-7 text-gray-900">Alta de proveedor</h2>
@@ -8,7 +8,6 @@
 
       <div class="border-b border-gray-900/10 pb-12">
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-
           <div class="sm:col-span-3">
             <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Nombre</label>
             <div class="mt-2">
@@ -73,7 +72,7 @@
           </div>
 
           <div class="sm:col-span-3">
-            <label for="region" class="block text-sm font-medium leading-6 text-gray-900">Estado</label>
+            <label for="state" class="block text-sm font-medium leading-6 text-gray-900">Estado</label>
             <div class="mt-2">
               <select v-model="state" required
                 class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
@@ -100,8 +99,6 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import useAuthStore from '../../store/auth';
 import Swal from 'sweetalert2';
 import axios from '../../utils/axios';
 
@@ -182,6 +179,15 @@ const submitForm = async () => {
 
   const token = localStorage.getItem('token');
 
+  if (!token) {
+    Swal.fire({
+      title: 'Error',
+      text: 'Token no encontrado. Por favor, inicie sesión de nuevo.',
+      icon: 'error',
+    });
+    return;
+  }
+
   const formData = {
     name: name.value,
     rfc: rfc.value,
@@ -229,7 +235,6 @@ const reset = () => {
   city.value = '';
   state.value = '';
 }
-
 </script>
 
 /**

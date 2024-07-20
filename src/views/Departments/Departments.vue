@@ -88,11 +88,11 @@
       <div class="fixed inset-0 bg-gray-900 bg-opacity-70"></div>
 
       <div class="relative bg-white rounded-lg p-8 max-w-md mx-auto">
-        <h2 class="text-xl font-bold mb-6 text-center">Crear Sub-Departamento</h2>
+        <h2 class="text-xl font-bold mb-6 text-center">Crear Auxiliar</h2>
         <form @submit.prevent="submitSubDepartmentForm">
           <div class="mb-6">
             <label for="subdepartment_name" class="block text-sm font-medium text-gray-700">Nombre del
-              Sub-Departamento</label>
+              Auxiliar</label>
             <input v-model="subdepartment_name" id="subdepartment_name" name="subdepartment_name" type="text" required
               class="mt-2 px-8 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm" maxlength="50"/>
           </div>
@@ -336,7 +336,7 @@ export default {
         if (response.data) {
           Swal.fire({
             title: 'Correcto',
-            text: 'Sub-Departamento creado correctamente',
+            text: 'Auxiliar creado correctamente',
             icon: 'success',
           });
           this.subdepartment_name = '';
@@ -349,7 +349,7 @@ export default {
         console.error('Error:', error);
         Swal.fire({
           title: 'Error',
-          text: 'No se pudo crear sub-departamento',
+          text: 'No se pudo crear Auxiliar',
           icon: 'error',
         });
       } finally {

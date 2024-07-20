@@ -1,4 +1,3 @@
-<!-- RequestDetails.vue -->
 <template>
     <TransitionRoot :show="open">
         <Dialog class="relative z-10" @close="closeModal">
@@ -32,7 +31,7 @@
                                     <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                         <dt class="text-sm font-medium leading-6 text-gray-900">solicitante</dt>
                                         <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                            {{ data.userRequest.name }} {{ data.userRequest.lastname }} 
+                                            {{ data.userRequest.name }}
                                         </dd>
                                     </div>
                                     <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -77,17 +76,17 @@
                                                 <tr v-for="item in data.items" :key="item.id">
                                                     <td
                                                         class="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0 text-center align-middle">
-                                                        {{ "x" + item.items_quantity }}
+                                                        {{ "x" + item.quantity }}
                                                     </td>
                                                     <td
                                                         class="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">
-                                                        {{ item.items_article }}
+                                                        {{ item.article }}
                                                     </td>
                                                     <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
-                                                        {{ item.items_description }}
+                                                        {{ item.description }}
                                                     </td>
                                                     <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
-                                                        {{ moneyFormatter(item.items_price) }}
+                                                        {{ moneyFormatter(item.price) }}
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -95,11 +94,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Botones para cerrar el modal -->
                             <div class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
                                 <button type="button"
                                     class="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2"
-                                    @click="pdfDownload">Descargar PDF
+                                    @click="print">Descargar PDF
                                 </button>
                                 <button type="button"
                                     class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:col-start-1 sm:mt-0"
@@ -129,13 +127,6 @@
             <div class="item" id="informacion-cliente">
                 <p><strong>DEPARTAMENTO: {{data.department}}</strong></p>
             </div>
-
-            <!-- <div class="item" id="informacion-proveedor">
-                <p><strong>PROVEEDOR:</strong></p>
-                <p>Nombre:</p>
-                <p>Dirección:</p>
-                <p>Teléfono:</p>
-            </div> -->
         </div>
 
         <table id="tabla-productos">
@@ -151,10 +142,10 @@
             <tbody>
                 <tr v-for="item in data.items" :key="item.id">
                     <!-- <td>2024-07-02</td> -->
-                    <td>{{ item.items_quantity }}</td>
-                    <td>{{ item.items_article }}</td>
-                    <td>{{ moneyFormatter(item.items_price / item.items_quantity) }}</td>
-                    <td>{{ moneyFormatter(item.items_price) }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.article }}</td>
+                    <td>{{ moneyFormatter(item.price / item.quantity) }}</td>
+                    <td>{{ moneyFormatter(item.price) }}</td>
                 </tr>
             </tbody>
             <tfoot>
@@ -195,6 +186,8 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
 const open = ref(true)
+const showPdfContent = ref(false)
+const pdfContent = ref(false)
 const props = defineProps({
     data: {
         type: Object,
@@ -209,7 +202,6 @@ const closeModal = () => {
     emit('closeModal', 'Datos desde el hijo')
 }
 
-const pdfContent = ref(null);
 
 const pdfDownload = () => {
     nextTick(() => {

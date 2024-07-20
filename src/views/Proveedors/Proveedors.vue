@@ -99,7 +99,6 @@
     <modal :open="editOpen" :proveedor="selectedProveedor" @close="editOpen = false"></modal>
   </div>
 </template>
-
 <script setup>
 import { ref, onMounted, computed,provide } from 'vue';
 import axios from '@/utils/axios';
@@ -222,6 +221,7 @@ const filteredProveedors = computed(() => {
   });
 });
 
+// Llamar a fetchProveedors cuando el componente se monte
 onMounted(() => {
   fetchProveedors();
 });

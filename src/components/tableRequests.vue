@@ -29,7 +29,7 @@
             class="flex items-center justify-between gap-x-6 py-5">
             <div class="min-w-0">
                 <div class="flex items-start gap-x-3">
-                    <p class="text-sm font-semibold leading-6 text-gray-900">{{ request.department.name }} / <span class="font-thin">{{ request.subdepartment.name }}</span></p>
+                    <p class="text-sm font-semibold leading-6 text-gray-900">{{ request.department.name }} / <span class="font-thin"></span></p>
 
                     <div class="px-3 py-0.5 font-medium rounded-full text-sm"
                         :class="request.docStatus == 1 ? statuses.pendiente : request.docStatus == 2 ? statuses.aprobado : request.docStatus == 3 ? statuses.rechazado : statuses.cerrado">
@@ -73,7 +73,7 @@
 
 
     <!-- modal para aprobar o rechazar solicitudes de compra -->
-    <modal1 @update-value="handleUpdate" v-bind:request="requestModal" v-bind:open="open" @close="open = false"></modal1>
+    <modal1 @update-value="handleUpdate" v-bind:request="requestModal" v-bind:open="open" v-bind:kind="1" @close="open = false"></modal1>
    
 
 </template>
@@ -89,6 +89,7 @@ import { formateDate } from '@/utils/formateDate';
 import Swal from 'sweetalert2';
 import loader from '@/components/LoaderCss2.vue'
 
+// const isRequest = 1;
 const getRequests =inject('getRequests')
 const open = ref(false);
 const requestModal = ref('') 

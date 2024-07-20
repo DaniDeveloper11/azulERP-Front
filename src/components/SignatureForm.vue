@@ -14,6 +14,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from '../utils/axios';
+import Swal from 'sweetalert2';
 
 const router = useRouter();
 const signaturePad = ref(null);
@@ -40,12 +41,20 @@ const save = async () => {
         const formData = new FormData();
         formData.append('signature', blob, 'signature.png');
 
-        await axios.post(`/users/signature/${userId}`, formData, {
+        const response = await axios.post(`/users/signature/${userId}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         });
-        router.push('/');
+        if (response.status == 201) {
+          localStorage.setItem('user', JSON.stringify(response.data.user))
+          Swal.fire({
+            title: 'Correcto',
+            text: response.data.message,
+            icon: 'success'
+          });
+          router.push('/');
+        }
       } catch (error) {
         console.error('Error al guardar la firma:', error);
         alert('Hubo un error al guardar la firma.');
@@ -71,6 +80,7 @@ const cancel = () => {
   margin: 0 auto;
   padding: 20px;
 }
+
 .buttons {
   display: flex;
   justify-content: space-between;

@@ -60,10 +60,10 @@
                         <h3 class="text-lg font-medium text-gray-900">{{ req.userRequest.name + " " +
                             req.userRequest.lastname }}</h3>
                         <h3 class="text-md font-medium text-gray-900">{{ req.department.name }}</h3>
-                        <p class="text-sm text-gray-500">{{ req.beneficiary }}</p>
+                        <p class="text-sm text-gray-500">{{ req.beneficiary.name }}</p>
                         <p class="text-sm text-gray-500">{{ moneyFormatter(req.docTotal) }}</p>
                     </div>
-                    <div class="ml-4">
+                    <!-- <div class="ml-4">
                         <span v-if="req.docStatus == 1"
                             class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium leading-4 bg-yellow-100 text-yellow-600">
                             PENDIENTE
@@ -88,7 +88,7 @@
                             class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium leading-4 bg-gray-100 text-gray-600">
                             CERRADO
                         </span>
-                    </div>
+                    </div> -->
                 </div>
             </li>
         </ul>

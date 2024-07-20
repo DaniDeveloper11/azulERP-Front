@@ -43,7 +43,7 @@ const showLoader = ref(false);
 const login = async () => {
   showLoader.value = true; // Mostrar loader al iniciar sesión
   try {
-    const response = await axios.post('http://localhost:3000/auth/login', {
+    const response = await axios.post('/auth/login', {
       user_nickname: userNickname.value,
       user_password: userPassword.value,
     });

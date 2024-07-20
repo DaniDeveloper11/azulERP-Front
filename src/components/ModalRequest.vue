@@ -54,11 +54,11 @@
               <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
                 <a>
                   <span class="absolute inset-0" />
-                  {{ item.items_article }}
+                  {{ item.article }}
                 </a>
               </h3>
               <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600"><span>Descripcion:</span> <br>{{
-                item.items_description }}</p>
+                item.description }}</p>
             </div>
             <div class="relative mt-2 flex items-center gap-x-4">
               <!-- <img :src="post.author.imageUrl" alt="" class="h-10 w-10 rounded-full bg-gray-50" /> -->
@@ -72,7 +72,7 @@
 
                   Cantidad:
                   <span class="absolute inset-0" />
-                  {{ item.items_quantity}}
+                  {{ item.quantity}}
 
                 </p>
                 <!-- <p class="flex gap-1 text-gray-600">
@@ -82,7 +82,7 @@
                       d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>
 
-                  Precio:{{ item.items_price }}
+                  Precio:{{ item.price }}
                 </p> -->
               </div>
             </div>
@@ -140,9 +140,14 @@
 
 
 
-        <!-- Modal footer -->
-         <!-- status = pendiente -->
-        <div v-if="props.request.docStatus == 1"
+
+
+     
+  
+                <!-- Modal footer solicitudes-->
+                <!-- status = pendiente -->
+
+        <div v-if="props.request.docStatus == 1 && props.kind == 1"
           class="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
           <button type="button" @click="approveRequest()"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Aprobar</button>
@@ -152,7 +157,7 @@
 
 
           <!--status =  aprobado  and  Pago en efectivo -->
-        <div v-if="props.request.docStatus == 2"
+        <div v-if="props.request.docStatus == 2 && props.kind == 1"
           class="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
           <button type="button" @click="handleGenerateOrder"
             class="flex gap-1 text-white bg-green-500 hover:bg-green-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -165,23 +170,28 @@
           </button>
         </div>
 
-        <!-- <div v-if="props.request.docStatus == 2 && props.request.payMethod >= 2"
+
+
+        <!-- Modal footer to OrderPurchases and  user level 2 -->
+ 
+        <div v-if="props.request.docStatus == 1 && store.user.user_level == 2 && props.kind == 2 "
           class="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-          <button type="button" @click="handleGenerateOrder"
-            class="flex gap-1 text-white bg-blue-500 hover:bg-blue-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            Solicitar Autorizacion
+          <button type="button" @click="requestApprove"
+            class="flex gap-1 text-white bg-green-500 hover:bg-green-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            Autorizar Orden
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
               <path fill-rule="evenodd"
                 d="M12.97 3.97a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 1 1-1.06-1.06l6.22-6.22H3a.75.75 0 0 1 0-1.5h16.19l-6.22-6.22a.75.75 0 0 1 0-1.06Z"
                 clip-rule="evenodd" />
             </svg>
           </button>
-        </div> -->
+        </div>
 
+    </div>
 
       </div>
     </div>
-  </div>
+
 
 </template>
 
@@ -194,7 +204,9 @@ import { formateDate } from '@/utils/formateDate';
 import Swal from 'sweetalert2';
 import { useRouter } from 'vue-router';
 import Departments from '@/views/Departments/Departments.vue';
+import useAuthStore from '@/store/auth';
 
+const store = useAuthStore();
 const router = useRouter();
 const emit = defineEmits(['update-value']);
 const comment = ref('');
@@ -203,6 +215,7 @@ const subdepaName = ref('');
 let props = defineProps({
   open: Boolean,
   request: {},
+  kind: Number
 
 })
 const closeModal = () => {
@@ -223,12 +236,12 @@ onUpdated(() => {
 const getDepartment = async () => {
   const token = localStorage.getItem('token');
   try {
-    const response = await axios.get(`/departments/${props.request.department}`, {
+    const response = await axios.get(`/departments/${props.request.department.id}`, {
       Authorization: `Bearer ${token}`,
     });
     if (response) {
       departmentName.value = response.data.name
-      const response2 = await axios.get(`/subdepartments/group/${props.request.department}`, {
+      const response2 = await axios.get(`/subdepartments/group/${props.request.department.id}`, {
         Authorization: `Bearer ${token}`,
       });
       subdepaName.value = response2.data.name
@@ -293,6 +306,38 @@ const declineRequest = async () => {
     });
   } finally {
     closeModal()
+  }
+}
+
+
+const requestApprove = async () => {
+  const token = localStorage.getItem('token');
+  const docStatus = 2;
+  try {
+    const response = await axios.put(`/orderPurchases/${props.request.id}`, { docStatus }, {
+      Authorization: `Bearer ${token}`,
+    });
+    if (response.status == 200) {
+      Swal.fire({
+        title: 'Orden de compra aprobada',
+        text: 'La Orden de compra fue aprobada',
+        icon: 'success',
+      });
+      // handleViewRequest()
+    } else {
+      Swal.fire({
+        title: 'Error',
+        text: 'No se pudo Autorizar la Orden de compra',
+        icon: 'error',
+      })
+    }
+  } catch (error) {
+    console.error(error)
+    Swal.fire({
+      title: 'Error',
+      text: 'Error al Intentar Autorizar la solicitud',
+      icon: 'error'
+    });
   }
 }
 </script>

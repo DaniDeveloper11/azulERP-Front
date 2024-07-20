@@ -635,24 +635,40 @@ export default {
             const formattedDate = `${day}/${month}/${year}`;
             return formattedDate
         },
-        exportToExcel() {
-            if(this.data.length > 0){
-                const worksheet = XLSX.utils.json_to_sheet(this.data);
+ exportToExcel() {
+    if (this.data.length > 0) {
+        const datosExcel = this.data.map(row => ({
+            Folio: row.id,
+            Fecha: this.formateDate(row.date),
+            Departamento: row.department.name,
+            'Sub-Departamento': row.subdepartment.name,
+            'Tipo de caja': row.type == 1 ? 'Normal' : row.type == 2 ? 'Caja chica' : 'Caja chica Guadalajara',
+            Concepto: row.concept,
+            Total: row.docTotal,
+            Proveedor: row.beneficiary.name,
+            'Condiciones de pago': row.payConditions == 1 ? 'Contado' : 'Crédito',
+            'Forma de pago': row.payMethod == 1 ? 'Efectivo' : row.payMethod == 2 ? 'Tarjeta de crédito' : 'Transferencia',
+            Estatus: this.estatusArray[row.docStatus - 1].nombre,
+            Solicitante: row.userRequest.name + " " + row.userRequest.lastname,
+            'Fecha de pago': row.payDate ? this.formateDate(row.payDate) : '',
+            Factura: row.invoice,
+            Tipo: row.typeFiscal,
+            Banco: row.bank
+        }));
 
-                const workbook = XLSX.utils.book_new();
+        const worksheet = XLSX.utils.json_to_sheet(datosExcel);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+        XLSX.writeFile(workbook, 'Reporte de egresos.xlsx');
+    } else {
+        Swal.fire({
+            title: 'Error',
+            text: 'No se puede descargar el archivo de excel sin registros',
+            icon: 'error'
+        });
+    }
+},
 
-                XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-
-                XLSX.writeFile(workbook, 'Reporte de egresos.xlsx');
-            }
-            else{
-                Swal.fire({
-                    title: 'Error',
-                    text: 'No se puede descargar el archivo de excel sin registros',
-                    icon: 'error'
-                });
-            }
-        },
         reset() {
             this.type = '',
             this.filter = '',
