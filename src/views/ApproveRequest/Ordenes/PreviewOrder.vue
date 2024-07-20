@@ -249,21 +249,29 @@ const conditionsPay = [
   { id: 2, value: 'Credito' }
 ]
 const router = useRouter();
-const EnviarForm = async (estatus) => {
+const EnviarForm = async () => {
   const token = localStorage.getItem('token');
   const authStore = useAuthStore();
   const user_id = authStore.user ? authStore.user.user_id : null;
+  const user_level = authStore.user ? authStore.user.user_level : null;
+   let status;
+
+  if (user_level == 1 && user_id == 1) {
+    status = 2; 
+  } else {
+    status = 1;
+  }
 
   const requestPurchase = {
     department: orderData.value.department.id,
-    subdepartment: orderData.value.subdepartment.id,
+    subdepartment: orderData.value.department.subdepartment,
     type: orderData.value.type,
     subType: orderData.value.subType,
     concept: orderData.value.concept,
     beneficiary: orderData.value.beneficiary.id,
     payConditions: orderData.value.payConditions,
     payMethod: orderData.value.payMethod,
-    docStatus: estatus ? estatus : 2,
+    docStatus: status,
     userRequest: orderData.value.userRequest.id,
     docTotal: orderData.value.docTotal,
     docReference: orderData.value.id,
@@ -322,6 +330,7 @@ const UpdateRequest = async () => {
 
   }
 }
+
 
 const submitItems = async (docEntry) => {
   const token = localStorage.getItem('token');

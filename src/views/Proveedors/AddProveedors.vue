@@ -1,5 +1,4 @@
 <template>
-  <form>
     <div class="space-y-12">
       <div class="border-b border-gray-900/10 pb-12">
         <h2 class="text-base font-semibold leading-7 text-gray-900">Alta de proveedor</h2>
@@ -94,7 +93,6 @@
       <button @click="submitForm" type="submit"
         class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Guardar</button>
     </div>
-  </form>
 </template>
 
 <script setup>
@@ -207,7 +205,7 @@ const submitForm = async () => {
       }
     });
     console.log(response);
-    if (response.response.status == 200) {
+    if (response.response.status == 201) {
       Swal.fire({
         title: 'Correcto',
         text: 'Proveedor creado correctamente',
