@@ -233,6 +233,8 @@ const store = useAuthStore();
 const isToken = computed(() => store.isLoggedIn);
 const user = computed(() => store.user);
 
+//Miguel stuvo aqui
+
 const navigationProfiles = () => {
   switch (user.value.user_level) {
     case 3:
