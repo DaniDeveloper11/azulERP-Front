@@ -150,6 +150,7 @@ const getOrders = async () => {
     hasData.value = false;
   }
 }
+provide('getOrders',getOrders);
 
 
 
