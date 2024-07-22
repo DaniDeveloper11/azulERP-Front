@@ -274,7 +274,7 @@ const navigationProfiles = () => {
             { name: 'Mis órdenes de compra', href: '/listOrders' }
           ]
         },
-        { name: 'Reportes', to: '/reports', icon: ChartPieIcon, current: false }
+        //{ name: 'Reportes', to: '/reports', icon: ChartPieIcon, current: false }
       ];
       break;
     case 2:
@@ -302,7 +302,7 @@ const navigationProfiles = () => {
             { name: 'Mis órdenes de compra', href: '/listOrders' }
           ]
         },
-        { name: 'Reportes', to: '/reports', icon: ChartPieIcon, current: false }
+        //{ name: 'Reportes', to: '/reports', icon: ChartPieIcon, current: false }
       ];
       break;
   }
