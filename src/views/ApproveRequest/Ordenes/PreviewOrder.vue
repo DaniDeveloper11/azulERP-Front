@@ -24,7 +24,7 @@
           <div class="mt-2 sm:max-w-md">
             <div
               class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-              <select v-model="orderData.department.id" id="subdepartment"
+              <select v-model="subdept" id="subdepartment"
                 class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 <option v-for="subdept in subdepartments" :key="subdept.id" :value="subdept.id">{{ subdept.name }}
                 </option>
@@ -230,6 +230,9 @@ const departments = ref([])
 const subdepartments = ref([])
 const users = ref([])
 const proveedors = ref([])
+const subdept = ref("")
+
+
 
 const typogastos = [
   { id: 1, value: 'Fiscal' },
@@ -254,16 +257,18 @@ const EnviarForm = async () => {
   const token = localStorage.getItem('token');
   const authStore = useAuthStore();
   const user_id = authStore.user ? authStore.user.user_id : null;
+  const docStatus = authStore.user.user_level == 1 ? 1 :2 
 
   const requestPurchase = {
     department: orderData.value.department.id,
+    subdepartments : subdept.value,
     type: orderData.value.type,
     subType: orderData.value.subType,
     concept: orderData.value.concept,
     beneficiary: orderData.value.beneficiary.id,
     payConditions: orderData.value.payConditions,
     payMethod: orderData.value.payMethod,
-    docStatus: 2,
+    docStatus: docStatus,
     userRequest: orderData.value.userRequest.id,
     docTotal: orderData.value.docTotal,
     docReference: orderData.value.id,
