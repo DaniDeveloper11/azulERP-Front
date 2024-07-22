@@ -257,15 +257,6 @@ const navigationProfiles = () => {
         { name: 'Departamentos', to: '/departments', icon: HomeModernIcon, current: false },
         { name: 'Proveedores', to: '/proveedors', icon: UserGroupIcon, current: false },
         {
-          name: 'Solicitud de compra',
-          icon: FolderIcon,
-          current: false,
-          children: [
-            { name: 'Crear solicitud de compra', href: '/requestPurchase' },
-            { name: 'Mis solicitudes de compra', href: '/listRequest' }
-          ]
-        },
-        {
           name: 'Orden de Compra',
           icon: FolderIcon,
           current: false,
@@ -284,15 +275,6 @@ const navigationProfiles = () => {
         { name: 'Usuarios', to: '/users', icon: UserIcon, current: false },
         { name: 'Departamentos', to: '/departments', icon: HomeModernIcon, current: false },
         { name: 'Proveedores', to: '/proveedors', icon: UserGroupIcon, current: false },
-        {
-          name: 'Solicitud de compra',
-          icon: FolderIcon,
-          current: false,
-          children: [
-            { name: 'Crear solicitud de compra', href: '/requestPurchase' },
-            { name: 'Mis solicitudes de compra', href: '/listRequest' }
-          ]
-        },
         {
           name: 'Orden de Compra',
           icon: FolderIcon,
