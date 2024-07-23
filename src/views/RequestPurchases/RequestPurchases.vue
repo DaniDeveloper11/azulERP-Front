@@ -19,12 +19,12 @@
               </select>
             </div>
           </div>
-          <div class="sm:col-span-2">
+          <div v-if="userLevel == 1" class="sm:col-span-2">
             <label for="subdepartment" class="block text-sm font-medium leading-6 text-gray-900">Auxiliar</label>
             <div class="mt-2 sm:max-w-md">
               <select v-model="subdepartment" id="subdepartment"
                 class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                :disabled="userLevel != 1" required>
+                 required>
                 <option v-for="subdept in subdepartments" :key="subdept.id" :value="subdept.id">{{ subdept.name }}
                 </option>
               </select>
@@ -32,7 +32,7 @@
           </div>
 
 
-          <div class="sm:col-span-2">
+          <div  class="sm:col-span-2">
             <label for="userRequest" class="block text-sm font-medium leading-6 text-gray-900">Solicitante</label>
             <div class="mt-2 sm:max-w-md">
               <select v-model="userRequest" id="userRequest"
@@ -219,7 +219,9 @@ import { useRouter } from 'vue-router'
 
 export default {
   data() {
+    const router = useRouter();
     return {
+      router,
       department: '',
       type: 0,
       subType: 0,
@@ -327,6 +329,7 @@ export default {
             });
             this.getDepartments();
             this.reset();
+            this.router.push({name:'listRequest'})
           } else {
             throw new Error('Error al crear la solicitud');
           }
@@ -588,7 +591,7 @@ export default {
         return false;
       }
       return true;
-    }
+    },
   },
   mounted() {
     this.getDepartments();
