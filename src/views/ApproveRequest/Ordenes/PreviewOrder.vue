@@ -197,9 +197,9 @@
         class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Crear</button>
     </div>
 
-    <div class="mt-6 flex items-center justify-end gap-x-6" v-if="authStore.user.user_level != 2 && orderData.type == 1">
+    <div class="mt-6 flex items-center justify-end gap-x-6" v-if="authStore.user.user_level == 1">
       <button type="button" @click="reset" class="text-sm font-semibold leading-6 text-gray-900">Cancelar</button>
-      <button type="submit" @click="requestApprove" v-if="orderData.payMethod != 1"
+      <button type="submit" @click="requestApprove" v-if="orderData.payMethod == 2 || orderData.payMethod == 3"
         class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
         Solicitar aprobacion
       </button>
@@ -292,14 +292,10 @@ const EnviarForm = async () => {
         title: 'Correcto',
         text: 'Orden creada correctamente',
         icon: 'success',
-      }).then (() => {
-      window.location.reload();
-        
       });
       UpdateRequest();
       reset();
       handleViewRequest();
-
     } else {
       throw new Error('Error al crear la solicitud');
     }
@@ -313,7 +309,7 @@ const EnviarForm = async () => {
   }
 }
 const handleViewRequest = () => {
-  router.push('/approveRequest' )
+  router.push({ name: 'approveRequest' })
 }
 const UpdateRequest = async () => {
   const token = localStorage.getItem('token');
@@ -572,6 +568,4 @@ const reset = () => {
   }
   handleViewRequest();
 }
-
-
 </script>

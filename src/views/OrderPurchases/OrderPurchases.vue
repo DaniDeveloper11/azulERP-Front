@@ -182,10 +182,23 @@
       </div>
     </div>
 
-    <div class="mt-6 flex items-center justify-end gap-x-6">
+    <!-- botones para directivos -->
+    <div class="mt-6 flex items-center justify-end gap-x-6" v-if="authStore.user.user_level == 2">
       <button type="button" @click="reset" class="text-sm font-semibold leading-6 text-gray-900">Cancelar</button>
-      <button @click="EnviarForm"
+      <button type="submit" @click="EnviarForm"
         class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Crear</button>
+    </div>
+
+    <div class="mt-6 flex items-center justify-end gap-x-6" v-if="authStore.user.user_level == 1">
+      <button type="button" @click="reset" class="text-sm font-semibold leading-6 text-gray-900">Cancelar</button>
+      <button type="submit" @click="requestApprove" v-if="payMethod == 2 || payMethod == 3"
+        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+        Solicitar aprobacion
+      </button>
+      <button type="submit" @click="EnviarForm" v-if="payMethod == 1"
+        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+        Crear
+      </button>
     </div>
   </div>
 </template>
@@ -198,7 +211,9 @@ import '@fortawesome/fontawesome-free/css/all.css';
 
 export default {
   data() {
+    const authStore = useAuthStore();
     return {
+      authStore,
       department: '',
       subdepartment: '',
       type: '',
