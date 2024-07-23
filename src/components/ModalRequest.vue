@@ -338,6 +338,8 @@ const requestApprove = async () => {
       text: 'Error al Intentar Autorizar la solicitud',
       icon: 'error'
     });
+  }finally{
+    closeModal()
   }
 }
 </script>
