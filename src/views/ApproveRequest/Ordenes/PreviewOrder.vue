@@ -292,10 +292,14 @@ const EnviarForm = async () => {
         title: 'Correcto',
         text: 'Orden creada correctamente',
         icon: 'success',
+      }).then (() => {
+      window.location.reload();
+        
       });
       UpdateRequest();
       reset();
       handleViewRequest();
+
     } else {
       throw new Error('Error al crear la solicitud');
     }
@@ -309,7 +313,7 @@ const EnviarForm = async () => {
   }
 }
 const handleViewRequest = () => {
-  router.push({ name: 'approveRequest' })
+  router.push('/approveRequest' )
 }
 const UpdateRequest = async () => {
   const token = localStorage.getItem('token');
@@ -568,4 +572,6 @@ const reset = () => {
   }
   handleViewRequest();
 }
+
+
 </script>
