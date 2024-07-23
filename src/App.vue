@@ -1,7 +1,5 @@
 <template>
   <div>
-
-
     <TransitionRoot as="template" :show="sidebarOpen">
       <Dialog class="relative z-50 lg:hidden" @close="sidebarOpen = false">
         <TransitionChild as="template" enter="transition-opacity ease-linear duration-300" enter-from="opacity-0"
@@ -110,8 +108,6 @@
                 </li>
                 </DisclosurePanel>
                 </Disclosure>
-
-
             </li>
           </ul>
           </li>
@@ -130,7 +126,6 @@
 
         <!-- Separator -->
         <div class="h-6 w-px bg-gray-200 lg:hidden" aria-hidden="true"></div>
-
         <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
           <div class="flex items-center gap-x-4 lg:gap-x-6 w-full">
             <!-- Separator -->
@@ -169,7 +164,6 @@
             </div>
           </div>
         </div>
-
       </div>
 
       <Profile v-bind:open="profileOpen" @close="profileOpen = false"></Profile>
@@ -232,8 +226,6 @@ const showSignatureModal = ref(false);
 const store = useAuthStore();
 const isToken = computed(() => store.isLoggedIn);
 const user = computed(() => store.user);
-
-//Miguel stuvo aqui
 
 const navigationProfiles = () => {
   switch (user.value.user_level) {
@@ -324,7 +316,3 @@ const navigation = ref([]);
 </script>
 
 <style scoped></style>
-/**
-* !Al momento de mmoverse al apartado, el icono no se cambia de color (no cambia de color de estar seleccionado)
-* TODO: al momento de mmoverse de apartado en el menu debe de cambiar el color del apartado seleccionado
-**/
