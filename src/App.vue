@@ -114,6 +114,8 @@
           </ul>
         </nav>
       </div>
+      <Profile v-bind:open="profileOpen" @close="profileOpen = false" @update-value="handleUpdate"></Profile>
+
     </div>
 
     <div v-if="isToken" class="lg:pl-72">
@@ -150,9 +152,8 @@
                   <MenuItems
                     class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                     <MenuItem v-slot="{ active }" class="cursor-pointer">
-                    <span v-on:click="firmadigital"
-                      :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">Ver
-                      firma</span>
+                    <span v-on:click="profileOpen = true"
+                      :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">Perfil</span>
                     </MenuItem>
                     <MenuItem v-slot="{ active }" class="cursor-pointer">
                     <span v-on:click="logout"
@@ -164,9 +165,9 @@
             </div>
           </div>
         </div>
+
       </div>
 
-      <Profile v-bind:open="profileOpen" @close="profileOpen = false"></Profile>
       <main class="py-10">
         <div class="px-4 sm:px-6 lg:px-8">
           <RouterView />
@@ -217,7 +218,7 @@ import Swal from 'sweetalert2';
 
 const router = useRouter();
 
-const token = localStorage.getItem("token");
+// const token = localStorage.getItem("token");
 
 const sidebarOpen = ref(false);
 const profileOpen = ref(false);
@@ -231,7 +232,7 @@ const navigationProfiles = () => {
   switch (user.value.user_level) {
     case 3:
       navigation.value = [
-        { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
+        { name: 'Home', to: '/', icon: HomeIcon, current: true },
         {
           name: 'Solicitud de compra',
           icon: FolderIcon,
@@ -245,8 +246,8 @@ const navigationProfiles = () => {
       break;
     case 1:
       navigation.value = [
+        { name: 'Home', to: '/', icon: HomeIcon, current: true },
         { name: 'Aprobación de solicitudes', to: '/approveRequest', icon: CheckBadgeIcon, current: false },
-        { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
         { name: 'Usuarios', to: '/users', icon: UserIcon, current: false },
         { name: 'Departamentos', to: '/departments', icon: HomeModernIcon, current: false },
         { name: 'Proveedores', to: '/proveedors', icon: UserGroupIcon, current: false },
@@ -264,8 +265,8 @@ const navigationProfiles = () => {
       break;
     case 2:
       navigation.value = [
+        { name: 'Home', to: '/', icon: HomeIcon, current: true },
         { name: 'Aprobación de solicitudes', to: '/approveRequest', icon: CheckBadgeIcon, current: false },
-        { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
         { name: 'Usuarios', to: '/users', icon: UserIcon, current: false },
         { name: 'Departamentos', to: '/departments', icon: HomeModernIcon, current: false },
         { name: 'Proveedores', to: '/proveedors', icon: UserGroupIcon, current: false },
@@ -308,10 +309,13 @@ const logout = () => {
   });
 };
 
-const firmadigital = () => {
-  router.push('/signature');
+// const firmadigital = () => {
+//   router.push('/signature');
+// };
+const handleUpdate = (value) => {
+  profileOpen.value = value;
+    
 };
-
 const navigation = ref([]);
 </script>
 

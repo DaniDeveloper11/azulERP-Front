@@ -68,8 +68,9 @@
                 </button>
 
 
-                <button v-if="order.docStatus == 1" @click="orderModal = order; open = true"
+                <button v-if="order.docStatus == 1 && store.user.user_level == 2" @click="orderModal = order; open = true"
                     class="flex rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:flex">
+                    Autorizar
                 </button>
             </div>
 
@@ -94,7 +95,7 @@ import Swal from 'sweetalert2';
 import RequestDetails from '../views/OrderPurchases/modals/OrderDetails.vue';
 import { formateDate } from '@/utils/formateDate';
 import modal1 from '@/components/ModalRequest.vue'
-
+import useAuthStore from '@/store/auth'
 
 // const open = ref(false);
 const getOrders = inject('getOrders')
@@ -102,6 +103,7 @@ const showDetails = ref(false)
 const itemSelected = ref('')
 const orderModal = ref('')
 const open = ref(false);
+const store = useAuthStore();
 // const isOrder = 2
 const props = defineProps({
     orders: Array

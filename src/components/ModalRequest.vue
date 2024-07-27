@@ -137,16 +137,6 @@
           </div>
         </article>
 
-
-
-
-
-
-     
-  
-                <!-- Modal footer solicitudes-->
-                <!-- status = pendiente -->
-
         <div v-if="props.request.docStatus == 1 && props.kind == 1"
           class="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
           <button type="button" @click="approveRequest()"
