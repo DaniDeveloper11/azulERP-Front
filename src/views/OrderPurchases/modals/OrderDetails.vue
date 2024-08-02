@@ -14,7 +14,7 @@
                         leave-from="opacity-100 translate-y-0 sm:scale-100"
                         leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                         <DialogPanel
-                            class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all  sm:my-8 sm:p-6 sm:max-w-7xl sm:left-36 sm:h-full sm:max-h-xl sm:top-14 ">
+                            class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all top-14  sm:my-8 sm:p-6 sm:max-w-5xl sm:left-36 sm:h-full sm:max-h-xl sm:top-10 ">
                             <div class="sm:flex w-auto gap-6 ">
                                 <!-- info section -->
                                 <div class="sm:w-1/2">
@@ -38,7 +38,7 @@
 
                                                 <!-- Usuarios Involucrados en la orden de compra -->
                                                 <div
-                                                    class="mt-6 flex w-full flex-none gap-x-20 border-t border-gray-900/5 px-6 pt-6">
+                                                    class="mt-6 sm:flex w-full flex-none gap-x-20 border-t border-gray-900/5 px-6 pt-6">
 
                                                     <div class="flex gap-1">
                                                         <dt class="flex-none">
@@ -108,13 +108,13 @@
                                     </div>
 
                                     <!-- Botones para cerrar el modal y vista previa -->
-                                    <div class="mt-5 sm:flex sm:gap-4 sm:justify-end">
+                                    <div class="mt-5  sm:flex sm:gap-4 sm:justify-end">
                                         <button type="button"
-                                            class="mt-3 inline-flex w-1/3 justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:col-start-1 sm:mt-0"
+                                            class="mt-3 sm:inline-flex sm:w-1/3 justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:col-start-1 sm:mt-0"
                                             @click="closeModal">Cerrar
                                         </button>
                                         <button type="button"
-                                            class="inline-flex w-1/3 justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-3"
+                                            class="sm:inline-flex sm:w-1/3 justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-3"
                                             @click="pdfDownload">Descargar PDF
                                         </button>
                                     </div>
@@ -132,11 +132,11 @@
                                                     <img src="../../../assets/logo2.png" width="200" alt="Logo"
                                                         class="logo">
                                                 </div>
-                                                <div id="encabezado" class="align-item-end gap-1">
-                                                    <h1 class="font-bold text-lg">ORDEN DE COMPRA</h1>
+                                                <div id="encabezado" class="align-item-end">
+                                                    <h1 class="font-bold text-xs sm:text-lg">ORDEN DE COMPRA</h1>
                                                     <div class="flex justify-end">
                                                         <div
-                                                            class="w-1/2 px-1 py-1.5 rounded-xl border border-blue-700 text-center text-red-500 text-xs">
+                                                            class="centrar w-1/2 rounded-xl border border-blue-700 text-red-500 text-xs">
                                                             Nº 003</div>
                                                     </div>
                                                     <!-- <h2>DESTILADORA AGAVE AZUL</h2> -->
@@ -145,20 +145,20 @@
 
                                             <div id="informacion-orden" class="grid gap-1.5">
                                                 <div class="item border border-blue-700" id="informacion-cliente">
-                                                    <p class="bg-blue-700 text-white text-xs py-1 px-3">PERSONA QUE
+                                                    <p class=" bg-blue-700 text-white text-xs py-1 px-3">PERSONA QUE
                                                         SOLICITA EL MATERIAL:</p>
                                                     <p class="py-1 px-3 text-xs text-left"> {{
                                                         data.userRequest.name + ' '
                                                         + data.userRequest.lastname }}</p>
                                                 </div>
                                                 <div class="item border border-blue-700" id="informacion-cliente">
-                                                    <p class="bg-blue-700 text-white text-xs py-1 px-3">DEPARTAMENTO:
+                                                    <p class=" bg-blue-700 text-white text-xs py-1 px-3">DEPARTAMENTO:
                                                     </p>
                                                     <p class="py-1 px-3 text-xs text-left"> {{ data.department.name }}
                                                     </p>
                                                 </div>
                                                 <div class="item border border-blue-700" id="informacion-cliente">
-                                                    <p class="bg-blue-700 text-white text-xs py-1 px-3">PROVEEDOR:</p>
+                                                    <p class=" bg-blue-700 text-white text-xs py-1 px-3">PROVEEDOR:</p>
                                                     <p class="py-1 px-3 text-xs text-left"> {{ data.beneficiary.name }}
                                                     </p>
                                                 </div>
@@ -366,7 +366,7 @@ const moneyFormatter = new Intl.NumberFormat('es-mx', {
 </script>
 
 
-<style>
+<style scoped>
 #orden-compra {
     max-width: 800px;
     margin: 0 auto;
@@ -410,6 +410,23 @@ const moneyFormatter = new Intl.NumberFormat('es-mx', {
     justify-content: space-between;
 }
 
+#encabezado h1 {
+    margin-bottom: 0.5rem;
+    
+}
+.centrar{
+    display: grid;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 0.375rem /* 6px */;
+    padding-bottom: 0.375rem /* 6px */;
+    text-align: center;
+}
+
+/* .paco{
+    margin-bottom: 0.5rem;
+} */
+
 .firma {
     width: 32%;
     text-align: center;
@@ -431,4 +448,6 @@ const moneyFormatter = new Intl.NumberFormat('es-mx', {
     margin-top: 20px;
     /* padding: 40px; */
 }
+
+
 </style>
