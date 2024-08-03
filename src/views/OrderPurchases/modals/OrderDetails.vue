@@ -159,7 +159,7 @@
                                                 </div>
                                                 <div class="item border border-blue-700" id="informacion-cliente">
                                                     <p class=" bg-blue-700 text-white text-xs py-1 px-3">PROVEEDOR:</p>
-                                                    <p class="py-1 px-3 text-xs text-left"> {{ data.beneficiary.name }}
+                                                    <p class="py-1 px-3 text-xs text-left"> Destiladora de los rosales S.A de C.V
                                                     </p>
                                                 </div>
 
