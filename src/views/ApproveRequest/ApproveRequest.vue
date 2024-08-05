@@ -86,7 +86,7 @@ import { onMounted, ref, reactive, provide } from 'vue'
 import { request } from 'utilities';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import tableOrders from '@/components/tableOrders.vue'
-// import { hatSanta } from 'fontawesome';
+// import { onBeforeRouteUpdate } from 'vue-router';
 
 const showtable = ref(1) //1 tabla solicitudes de compra 2 tabla ordenes de compra
 const hasData = ref(true);
@@ -101,8 +101,8 @@ const projects = [
 ]
 
 onMounted(() => {
-  getRequests();
- getOrders();
+    getRequests();
+    getOrders();
 })
 
 const getRequests = async () => {
@@ -151,6 +151,7 @@ const getOrders = async () => {
   }
 }
 
+provide('getOrders',getOrders);
 
 
 </script>

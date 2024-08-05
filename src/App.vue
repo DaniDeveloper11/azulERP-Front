@@ -1,7 +1,5 @@
 <template>
   <div>
-
-
     <TransitionRoot as="template" :show="sidebarOpen">
       <Dialog class="relative z-50 lg:hidden" @close="sidebarOpen = false">
         <TransitionChild as="template" enter="transition-opacity ease-linear duration-300" enter-from="opacity-0"
@@ -85,7 +83,7 @@
             <li>
               <ul role="list" class="-mx-2 space-y-1">
                 <li v-for="item in navigation" :key="item.name">
-                  <RouterLink v-if="!item.children" :to="item.to"
+                  <RouterLink  v-if="!item.children" :to="item.to"
                     :class="[item.current ? 'bg-gray-50 text-indigo-600' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
                     <component :is="item.icon"
                       :class="[item.current ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600', 'h-6 w-6 shrink-0']"
@@ -110,14 +108,14 @@
                 </li>
                 </DisclosurePanel>
                 </Disclosure>
-
-
             </li>
           </ul>
           </li>
           </ul>
         </nav>
       </div>
+      <Profile v-bind:open="profileOpen" @close="profileOpen = false" @update-value="handleUpdate"></Profile>
+
     </div>
 
     <div v-if="isToken" class="lg:pl-72">
@@ -130,7 +128,6 @@
 
         <!-- Separator -->
         <div class="h-6 w-px bg-gray-200 lg:hidden" aria-hidden="true"></div>
-
         <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
           <div class="flex items-center gap-x-4 lg:gap-x-6 w-full">
             <!-- Separator -->
@@ -155,9 +152,8 @@
                   <MenuItems
                     class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                     <MenuItem v-slot="{ active }" class="cursor-pointer">
-                    <span v-on:click="firmadigital"
-                      :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">Ver
-                      firma</span>
+                    <span v-on:click="profileOpen = true"
+                      :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">Perfil</span>
                     </MenuItem>
                     <MenuItem v-slot="{ active }" class="cursor-pointer">
                     <span v-on:click="logout"
@@ -172,7 +168,6 @@
 
       </div>
 
-      <Profile v-bind:open="profileOpen" @close="profileOpen = false"></Profile>
       <main class="py-10">
         <div class="px-4 sm:px-6 lg:px-8">
           <RouterView />
@@ -223,7 +218,7 @@ import Swal from 'sweetalert2';
 
 const router = useRouter();
 
-const token = localStorage.getItem("token");
+// const token = localStorage.getItem("token");
 
 const sidebarOpen = ref(false);
 const profileOpen = ref(false);
@@ -237,7 +232,7 @@ const navigationProfiles = () => {
   switch (user.value.user_level) {
     case 3:
       navigation.value = [
-        { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
+        { name: 'Home', to: '/', icon: HomeIcon, current: true },
         {
           name: 'Solicitud de compra',
           icon: FolderIcon,
@@ -251,20 +246,11 @@ const navigationProfiles = () => {
       break;
     case 1:
       navigation.value = [
+        { name: 'Home', to: '/', icon: HomeIcon, current: true },
         { name: 'Aprobación de solicitudes', to: '/approveRequest', icon: CheckBadgeIcon, current: false },
-        { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
         { name: 'Usuarios', to: '/users', icon: UserIcon, current: false },
         { name: 'Departamentos', to: '/departments', icon: HomeModernIcon, current: false },
         { name: 'Proveedores', to: '/proveedors', icon: UserGroupIcon, current: false },
-        {
-          name: 'Solicitud de compra',
-          icon: FolderIcon,
-          current: false,
-          children: [
-            { name: 'Crear solicitud de compra', href: '/requestPurchase' },
-            { name: 'Mis solicitudes de compra', href: '/listRequest' }
-          ]
-        },
         {
           name: 'Orden de Compra',
           icon: FolderIcon,
@@ -274,25 +260,16 @@ const navigationProfiles = () => {
             { name: 'Mis órdenes de compra', href: '/listOrders' }
           ]
         },
-        //{ name: 'Reportes', to: '/reports', icon: ChartPieIcon, current: false }
+        { name: 'Reportes', to: '/reports', icon: ChartPieIcon, current: false }
       ];
       break;
     case 2:
       navigation.value = [
+        { name: 'Home', to: '/', icon: HomeIcon, current: true },
         { name: 'Aprobación de solicitudes', to: '/approveRequest', icon: CheckBadgeIcon, current: false },
-        { name: 'Dashboard', to: '/', icon: HomeIcon, current: true },
         { name: 'Usuarios', to: '/users', icon: UserIcon, current: false },
         { name: 'Departamentos', to: '/departments', icon: HomeModernIcon, current: false },
         { name: 'Proveedores', to: '/proveedors', icon: UserGroupIcon, current: false },
-        {
-          name: 'Solicitud de compra',
-          icon: FolderIcon,
-          current: false,
-          children: [
-            { name: 'Crear solicitud de compra', href: '/requestPurchase' },
-            { name: 'Mis solicitudes de compra', href: '/listRequest' }
-          ]
-        },
         {
           name: 'Orden de Compra',
           icon: FolderIcon,
@@ -302,7 +279,7 @@ const navigationProfiles = () => {
             { name: 'Mis órdenes de compra', href: '/listOrders' }
           ]
         },
-        //{ name: 'Reportes', to: '/reports', icon: ChartPieIcon, current: false }
+        { name: 'Reportes', to: '/reports', icon: ChartPieIcon, current: false }
       ];
       break;
   }
@@ -332,15 +309,14 @@ const logout = () => {
   });
 };
 
-const firmadigital = () => {
-  router.push('/signature');
+// const firmadigital = () => {
+//   router.push('/signature');
+// };
+const handleUpdate = (value) => {
+  profileOpen.value = value;
+    
 };
-
 const navigation = ref([]);
 </script>
 
 <style scoped></style>
-/**
-* !Al momento de mmoverse al apartado, el icono no se cambia de color (no cambia de color de estar seleccionado)
-* TODO: al momento de mmoverse de apartado en el menu debe de cambiar el color del apartado seleccionado
-**/

@@ -429,13 +429,3 @@ const resetForm = () => {
 };
 </script>
 
-/**
-* !Permite subir videos a la hora de registar el usuario
-* !Permite caracteres en el numero de telefono del usuario   
-* !No manda mensaje en UI de campo vacio en el campo del numero de telefono vacio   
-* !No manda mensaje en UI de campo vacio en el campo de Estado vacio 
-* !No manda mensaje en UI de campo vacio en el campo de Puesto vacio 
-* !No manda mensaje en UI de campo vacio en el campo de Departamento vacio 
-* TODO: Realizar validacion del campo de numero de telefono
-* TODO: Realizar retroalimentacion visual a la hora de dejar vacios los campos mencionados
-**/

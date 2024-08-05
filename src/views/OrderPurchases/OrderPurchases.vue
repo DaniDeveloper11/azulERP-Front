@@ -1,4 +1,5 @@
 <template>
+  <div>
     <div class="space-y-12">
       <div class="border-b border-gray-900/10 pb-12">
         <h2 class="text-base font-semibold leading-7 text-gray-900">Orden de compra</h2>
@@ -181,11 +182,25 @@
       </div>
     </div>
 
-    <div class="mt-6 flex items-center justify-end gap-x-6">
+    <!-- botones para directivos -->
+    <div class="mt-6 flex items-center justify-end gap-x-6" v-if="authStore.user.user_level == 2">
       <button type="button" @click="reset" class="text-sm font-semibold leading-6 text-gray-900">Cancelar</button>
-      <button @click="EnviarForm"
+      <button type="submit" @click="EnviarForm"
         class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Crear</button>
     </div>
+
+    <div class="mt-6 flex items-center justify-end gap-x-6" v-if="authStore.user.user_level == 1">
+      <button type="button" @click="reset" class="text-sm font-semibold leading-6 text-gray-900">Cancelar</button>
+      <button type="submit" @click="requestApprove" v-if="payMethod == 2 || payMethod == 3"
+        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+        Solicitar aprobacion
+      </button>
+      <button type="submit" @click="EnviarForm" v-if="payMethod == 1"
+        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+        Crear
+      </button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -196,7 +211,9 @@ import '@fortawesome/fontawesome-free/css/all.css';
 
 export default {
   data() {
+    const authStore = useAuthStore();
     return {
+      authStore,
       department: '',
       subdepartment: '',
       type: '',
@@ -288,7 +305,9 @@ export default {
             title: 'Correcto',
             text: 'Orden creada correctamente',
             icon: 'success',
-          });
+          }).then(() => {        
+            window.location.href = '/listOrders';
+          }); 
         } else {
           throw new Error('Error al crear la solicitud');
         }
@@ -303,8 +322,6 @@ export default {
     },
     async submitItems(docEntry) {
       const token = localStorage.getItem('token');
-      console.log("Entro");
-      alert(this.items);
       const items = this.items.map(item => ({
         ...item,
         docEntry

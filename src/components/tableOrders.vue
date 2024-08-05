@@ -23,13 +23,8 @@
             <div class="min-w-0">
                 <div class="flex items-start gap-x-3">
                     <p class="text-sm font-semibold leading-6 text-gray-900">{{ order.concept }}</p>
-                    <!-- <div class="px-3 py-0.5 font-medium rounded-full text-sm"
-                        :class="request.docStatus == 1 ? statuses.pendiente : request.docStatus == 2 ? statuses.aprobado : request.docStatus == 3 ? statuses.rechazado : statuses.cerrado">
-                        {{ request.docStatus == 1 ? 'Pendiente' : request.docStatus == 2 ? 'Aprobado' : request.docStatus == 3 ? 'Rechazado' : 'Cerrado' }}
-                    </div> -->
                 </div>
                 <p class="text-sm font-semibold leading-6 text-gray-500">{{ order.nameDepartment }}</p>
-
                 <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
                     <p class="whitespace-nowrap">
                         Creado en <time :datetime="order.date">{{ formateDate(order.date) }}</time>
@@ -37,13 +32,31 @@
                     <svg viewBox="0 0 2 2" class="h-0.5 w-0.5 fill-current">
                         <circle cx="1" cy="1" r="1" />
                     </svg>
-                    <p class="truncate">Creado por: {{ order.userRequest.name + ' ' +order.userRequest.lastname }}</p>
-
-                    <!-- <p class="truncate">Creado por: {{ request.userRequest_name }}</p> -->
+                    <p class="truncate">Creado por: {{ order.userRequest.name + ' ' + order.userRequest.lastname }}</p>
+                    <svg viewBox="0 0 2 2" class="h-0.5 w-0.5 fill-current">
+                        <circle cx="1" cy="1" r="1" />
+                    </svg>
+                    <p class="flex gap-2">{{ order.payMethod == 1 ? 'Efectivo' : order.payMethod == 2 ? 'Tarjeta de credito' :
+                        'Transferencia' }}
+                    </p>
+                    <svg v-if="order.payMethod == 1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
+                        </svg>
+                        <svg v-if="order.payMethod == 2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
+                        </svg>
+                        <svg v-if="order.payMethod == 3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                            stroke="currentColor" class="size-6">
+                            <path strokeLinecap="round" strokeLinejoin="round"
+                                d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+                        </svg>
                 </div>
             </div>
             <div class="flex flex-none items-center gap-x-4">
-
                 <button v-if="order.docStatus == 2" @click="showModal(order)"
                     class="flex rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:flex">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -55,20 +68,13 @@
                 </button>
 
 
-                <button v-if="order.docStatus == 1" @click="orderModal = order;  open = true"
+                <button v-if="order.docStatus == 1 && store.user.user_level == 2" @click="orderModal = order; open = true"
                     class="flex rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:flex">
-                    <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-5">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                    </svg> -->
-                    revision
+                    Autorizar
                 </button>
-
-
             </div>
 
-            <!-- <h1>holi</h1> -->
+
         </li>
     </ul>
 
@@ -77,24 +83,27 @@
     <!-- <modal1 @update-value="handleUpdate" v-bind:request="requestModal" v-bind:open="open" @close="open = false"></modal1> -->
     <RequestDetails v-if="showDetails" :data="itemSelected" @closeModal="handleClose">
     </RequestDetails>
-    <modal1 @update-value="handleUpdate" v-bind:request="orderModal" v-bind:kind="2" v-bind:open="open" @close="open = false"></modal1>
+    <modal1 @update-value="handleUpdate" v-bind:request="orderModal" v-bind:kind="2" v-bind:open="open"
+        @close="open = false"></modal1>
 
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed,inject } from 'vue'
 import axios from '@/utils/axios'
 import Swal from 'sweetalert2';
 import RequestDetails from '../views/OrderPurchases/modals/OrderDetails.vue';
 import { formateDate } from '@/utils/formateDate';
 import modal1 from '@/components/ModalRequest.vue'
-
+import useAuthStore from '@/store/auth'
 
 // const open = ref(false);
+const getOrders = inject('getOrders')
 const showDetails = ref(false)
 const itemSelected = ref('')
 const orderModal = ref('')
 const open = ref(false);
+const store = useAuthStore();
 // const isOrder = 2
 const props = defineProps({
     orders: Array
@@ -162,8 +171,8 @@ const handleClose = () => {
 };
 
 const handleUpdate = (value) => {
-  open.value = value;
-    // getOrder(); that will be a refresh 
+    open.value = value;
+    getOrders(); 
 };
 
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="submitForm">
+  <div>
     <div class="space-y-12">
       <div class="border-b border-gray-900/10 pb-12">
         <h2 class="text-base font-semibold leading-7 text-gray-900">Alta de proveedor</h2>
@@ -94,7 +94,7 @@
       <button @click="submitForm" type="submit"
         class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Guardar</button>
     </div>
-  </form>
+  </div>
 </template>
 
 <script setup>
@@ -162,7 +162,7 @@ const validateField = (field, fieldValid) => {
 };
 
 const submitForm = async () => {
-  
+
   const fields = [
     { field: name, fieldValid: nameValid },
     { field: rfc, fieldValid: rfcValid },
@@ -206,14 +206,16 @@ const submitForm = async () => {
         'Content-Type': 'application/json',
       }
     });
-    console.log(response);
-    if (response) {
+    if (response.status == 201) {
       Swal.fire({
         title: 'Correcto',
         text: 'Proveedor creado correctamente',
         icon: 'success',
+      }).then(() => {
+        window.location.href = '/proveedors';
       });
-    } else {
+    } 
+    else {
       throw new Error('No se pudo crear Proveedor');
     }
   } catch (error) {
@@ -236,9 +238,3 @@ const reset = () => {
   state.value = '';
 }
 </script>
-
-/**
-* ? Esta permitido precionar el boton de guardar con el form vacio?
-* ! Permite subir el formulario en blanco
-* ! No existen validaciones de los campos del formulario
-**/
