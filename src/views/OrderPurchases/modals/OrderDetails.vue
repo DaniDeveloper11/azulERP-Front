@@ -46,11 +46,11 @@
                                                             <UserCircleIcon class="h-6 w-5 text-gray-400"
                                                                 aria-hidden="true" />
                                                         </dt>
-                                                        <dd class="text-sm font-medium leading-6 text-gray-900">{{
-                                                            data.userRequest.name }} {{ data.userRequest.lastname }}
+                                                        <dd class="text-sm font-medium leading-6 text-gray-900">
+                                                            {{ data.userRequest }}
                                                         </dd>
                                                     </div>
-                                                    <div class="flex gap-1">
+                                                    <!-- <div class="flex gap-1">
                                                         <dt class="flex-none">
                                                             <span class="sr-only">Client</span>
                                                             <UserCircleIcon class="h-6 w-5 text-gray-400"
@@ -59,8 +59,8 @@
                                                         <dd class="text-sm font-medium leading-6 text-gray-900">
                                                             Paulina Velador
                                                         </dd>
-                                                    </div>
-                                                    <div class="flex gap-1">
+                                                    </div> -->
+                                                    <!-- <div class="flex gap-1">
                                                         <dt class="flex-none">
                                                             <span class="sr-only">Client</span>
                                                             <UserCircleIcon class="h-6 w-5 text-gray-400"
@@ -68,7 +68,7 @@
                                                         </dt>
                                                         <dd class="text-sm font-medium leading-6 text-gray-900">
                                                             Carlos Sierra </dd>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
 
 
@@ -85,25 +85,38 @@
                                                 <div class="mt-4 flex w-full flex-none gap-x-4 px-6">
                                                     <dt class="flex-none">
                                                         <span class="sr-only">Metodo de pago</span>
-                                                        <CreditCardIcon v-if="data.payMethod == 2"  class="h-6 w-5 text-gray-400"
-                                                            aria-hidden="true" />
-                                                            <!-- Cash Icon -->
-                                                        <svg v-if="data.payMethod == 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 text-gray-400">
-                                                        <path d="M12 7.5a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" />
-                                                        <path fill-rule="evenodd" d="M1.5 4.875C1.5 3.839 2.34 3 3.375 3h17.25c1.035 0 1.875.84 1.875 1.875v9.75c0 1.036-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 14.625v-9.75ZM8.25 9.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM18.75 9a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75V9.75a.75.75 0 0 0-.75-.75h-.008ZM4.5 9.75A.75.75 0 0 1 5.25 9h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H5.25a.75.75 0 0 1-.75-.75V9.75Z" clip-rule="evenodd" />
-                                                        <path d="M2.25 18a.75.75 0 0 0 0 1.5c5.4 0 10.63.722 15.6 2.075 1.19.324 2.4-.558 2.4-1.82V18.75a.75.75 0 0 0-.75-.75H2.25Z" />
+                                                        <CreditCardIcon v-if="data.payMethod == 2"
+                                                            class="h-6 w-5 text-gray-400" aria-hidden="true" />
+                                                        <!-- Cash Icon -->
+                                                        <svg v-if="data.payMethod == 1"
+                                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                            fill="currentColor" class="size-6 text-gray-400">
+                                                            <path
+                                                                d="M12 7.5a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" />
+                                                            <path fill-rule="evenodd"
+                                                                d="M1.5 4.875C1.5 3.839 2.34 3 3.375 3h17.25c1.035 0 1.875.84 1.875 1.875v9.75c0 1.036-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 14.625v-9.75ZM8.25 9.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM18.75 9a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75V9.75a.75.75 0 0 0-.75-.75h-.008ZM4.5 9.75A.75.75 0 0 1 5.25 9h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H5.25a.75.75 0 0 1-.75-.75V9.75Z"
+                                                                clip-rule="evenodd" />
+                                                            <path
+                                                                d="M2.25 18a.75.75 0 0 0 0 1.5c5.4 0 10.63.722 15.6 2.075 1.19.324 2.4-.558 2.4-1.82V18.75a.75.75 0 0 0-.75-.75H2.25Z" />
                                                         </svg>
                                                         <!-- Movile device Icon -->
-                                                        <svg v-if="data.payMethod == 3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 text-gray-400">
-                                                        <path d="M10.5 18.75a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" />
-                                                        <path fill-rule="evenodd" d="M8.625.75A3.375 3.375 0 0 0 5.25 4.125v15.75a3.375 3.375 0 0 0 3.375 3.375h6.75a3.375 3.375 0 0 0 3.375-3.375V4.125A3.375 3.375 0 0 0 15.375.75h-6.75ZM7.5 4.125C7.5 3.504 8.004 3 8.625 3H9.75v.375c0 .621.504 1.125 1.125 1.125h2.25c.621 0 1.125-.504 1.125-1.125V3h1.125c.621 0 1.125.504 1.125 1.125v15.75c0 .621-.504 1.125-1.125 1.125h-6.75A1.125 1.125 0 0 1 7.5 19.875V4.125Z" clip-rule="evenodd" />
-                                                        </svg>    
+                                                        <svg v-if="data.payMethod == 3"
+                                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                            fill="currentColor" class="size-6 text-gray-400">
+                                                            <path
+                                                                d="M10.5 18.75a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" />
+                                                            <path fill-rule="evenodd"
+                                                                d="M8.625.75A3.375 3.375 0 0 0 5.25 4.125v15.75a3.375 3.375 0 0 0 3.375 3.375h6.75a3.375 3.375 0 0 0 3.375-3.375V4.125A3.375 3.375 0 0 0 15.375.75h-6.75ZM7.5 4.125C7.5 3.504 8.004 3 8.625 3H9.75v.375c0 .621.504 1.125 1.125 1.125h2.25c.621 0 1.125-.504 1.125-1.125V3h1.125c.621 0 1.125.504 1.125 1.125v15.75c0 .621-.504 1.125-1.125 1.125h-6.75A1.125 1.125 0 0 1 7.5 19.875V4.125Z"
+                                                                clip-rule="evenodd" />
+                                                        </svg>
                                                     </dt>
-                                                    <dd class="text-sm leading-6 text-gray-500">Pagado con {{ data.payMethod == 1 ? 'Efectivo' : data.payMethod == 2 ? 'Tarjeta de Credito' : 'Trasferencia' }}
+                                                    <dd class="text-sm leading-6 text-gray-500">Pagado con {{
+                                                        data.payMethod == 1 ? 'Efectivo' : data.payMethod == 2 ?
+                                                        'Tarjeta de Credito' : 'Trasferencia' }}
                                                     </dd>
                                                 </div>
                                             </dl>
- 
+
                                         </div>
                                     </div>
 
@@ -137,7 +150,7 @@
                                                     <div class="flex justify-end">
                                                         <div
                                                             class="centrar w-1/2 rounded-xl border border-blue-700 text-red-500 text-xs">
-                                                            Nº 003</div>
+                                                            Nº {{ data.id }}</div>
                                                     </div>
                                                     <!-- <h2>DESTILADORA AGAVE AZUL</h2> -->
                                                 </div>
@@ -147,19 +160,18 @@
                                                 <div class="item border border-blue-700" id="informacion-cliente">
                                                     <p class=" bg-blue-700 text-white text-xs py-1 px-3">PERSONA QUE
                                                         SOLICITA EL MATERIAL:</p>
-                                                    <p class="py-1 px-3 text-xs text-left"> {{
-                                                        data.userRequest.name + ' '
-                                                        + data.userRequest.lastname }}</p>
+                                                    <p class="py-1 px-3 text-xs text-left"> {{ data.userRequest }}</p>
                                                 </div>
                                                 <div class="item border border-blue-700" id="informacion-cliente">
                                                     <p class=" bg-blue-700 text-white text-xs py-1 px-3">DEPARTAMENTO:
                                                     </p>
-                                                    <p class="py-1 px-3 text-xs text-left"> {{ data.department.name }}
+                                                    <p class="py-1 px-3 text-xs text-left"> {{ data.department }}
                                                     </p>
                                                 </div>
                                                 <div class="item border border-blue-700" id="informacion-cliente">
                                                     <p class=" bg-blue-700 text-white text-xs py-1 px-3">PROVEEDOR:</p>
-                                                    <p class="py-1 px-3 text-xs text-left"> Destiladora de los rosales S.A de C.V
+                                                    <p class="py-1 px-3 text-xs text-left"> Destiladora de los rosales
+                                                        S.A de C.V
                                                     </p>
                                                 </div>
 
@@ -187,35 +199,27 @@
                                                     <tr class="text-center" v-for="item in data.items" :key="item.id">
                                                         <td>{{ item.quantity }}</td>
                                                         <td>{{ item.article }}</td>
-                                                        <td>{{ moneyFormatter(item.price / item.quantity) }}</td>
                                                         <td>{{ moneyFormatter(item.price) }}</td>
+                                                        <td>{{ moneyFormatter(item.price * item.quantity) }}</td>
                                                     </tr>
                                                 </tbody>
                                                 <tfoot class="text-xs">
 
-                                                    <tr v-for="index in 2" :key="index" class="h-8">
-                                                        <td colspan="1"></td>
-                                                        <td colspan="1"></td>
-                                                        <td colspan="1"></td>
-                                                        <td colspan="1"></td>
-
-                                                    </tr>
-
-
                                                     <tr class="font-bold">
                                                         <td colspan="2"></td>
                                                         <td colspan="1">Sub-Total $</td>
-                                                        <td id="subtotal"></td>
+                                                        <td id="subtotal">{{ moneyFormatter(data.docTotal) }}</td>
                                                     </tr>
                                                     <tr class="font-bold">
                                                         <td colspan="2"></td>
                                                         <td colspan="1">I.V.A.</td>
-                                                        <td id="iva">$</td>
+                                                        <td id="iva">{{ moneyFormatter(data.docTotal * .16) }}</td>
                                                     </tr>
                                                     <tr class="font-bold">
                                                         <td colspan="2"></td>
                                                         <td colspan="1">Total</td>
-                                                        <td id="total">{{ moneyFormatter(data.docTotal) }}</td>
+                                                        <td id="total">{{ moneyFormatter(data.docTotal + (data.docTotal
+                                                            *.16)) }}</td>
                                                     </tr>
                                                 </tfoot>
                                             </table>
@@ -263,7 +267,7 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import axios from '../../../utils/axios';
 import Swal from 'sweetalert2';
-import { CalendarDaysIcon, CreditCardIcon, UserCircleIcon} from '@heroicons/vue/20/solid';
+import { CalendarDaysIcon, CreditCardIcon, UserCircleIcon } from '@heroicons/vue/20/solid';
 import { formateDate } from '@/utils/formateDate';
 
 const open = ref(true)
@@ -276,7 +280,7 @@ const props = defineProps({
     }
 })
 
-
+console.log(props.data)
 
 const emit = defineEmits(['closeModal', 'downloadPDF'])
 const signatureCarlos = ref('');
@@ -412,14 +416,19 @@ const moneyFormatter = new Intl.NumberFormat('es-mx', {
 
 #encabezado h1 {
     margin-bottom: 0.5rem;
-    
+
 }
-.centrar{
+
+.centrar {
     display: grid;
     padding-left: 4px;
     padding-right: 4px;
-    padding-top: 0.375rem /* 6px */;
-    padding-bottom: 0.375rem /* 6px */;
+    padding-top: 0.375rem
+        /* 6px */
+    ;
+    padding-bottom: 0.375rem
+        /* 6px */
+    ;
     text-align: center;
 }
 
@@ -448,6 +457,4 @@ const moneyFormatter = new Intl.NumberFormat('es-mx', {
     margin-top: 20px;
     /* padding: 40px; */
 }
-
-
 </style>
