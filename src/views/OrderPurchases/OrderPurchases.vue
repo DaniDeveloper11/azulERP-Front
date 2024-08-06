@@ -286,7 +286,8 @@ export default {
         payConditions: this.payConditions,
         payMethod: this.payMethod,
         docStatus: this.docStatus,
-        userRequest: user_id,
+        userRequest: this.userRequest,
+        createBy: user_id,
         docTotal: this.docTotal,
       };
 
