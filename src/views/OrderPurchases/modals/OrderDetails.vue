@@ -47,7 +47,7 @@
                                                                 aria-hidden="true" />
                                                         </dt>
                                                         <dd class="text-sm font-medium leading-6 text-gray-900">
-                                                            {{ data.userRequest }}
+                                                            {{ data.userRequest.name + " " +data.userRequest.lastname }}
                                                         </dd>
                                                     </div>
                                                     <!-- <div class="flex gap-1">
@@ -160,12 +160,12 @@
                                                 <div class="item border border-blue-700" id="informacion-cliente">
                                                     <p class=" bg-blue-700 text-white text-xs py-1 px-3">PERSONA QUE
                                                         SOLICITA EL MATERIAL:</p>
-                                                    <p class="py-1 px-3 text-xs text-left"> {{ data.userRequest }}</p>
+                                                    <p class="py-1 px-3 text-xs text-left"> {{ data.userRequest.name + " " +data.userRequest.lastname }}</p>
                                                 </div>
                                                 <div class="item border border-blue-700" id="informacion-cliente">
                                                     <p class=" bg-blue-700 text-white text-xs py-1 px-3">DEPARTAMENTO:
                                                     </p>
-                                                    <p class="py-1 px-3 text-xs text-left"> {{ data.department }}
+                                                    <p class="py-1 px-3 text-xs text-left"> {{ data.department.name }}
                                                     </p>
                                                 </div>
                                                 <div class="item border border-blue-700" id="informacion-cliente">
