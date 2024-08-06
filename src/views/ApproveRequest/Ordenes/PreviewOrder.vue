@@ -258,11 +258,18 @@ const EnviarForm = async () => {
   const token = localStorage.getItem('token');
   const authStore = useAuthStore();
   const user_id = authStore.user ? authStore.user.user_id : null;
-  const docStatus = authStore.user.user_level == 1 ? 1 :2 
-
+  let docStatus = 1
+  if (authStore.user.user_level == 1 && (orderData.value.payMethod == 2 || orderData.value.payMethod == 3)) {
+    docStatus = 1
+  } else {
+    docStatus = 2
+  }
+  const totalPrice = orderData.value.items.reduce((accumulator, item) => {
+    return accumulator + (item.price * item.quantity);
+  }, 0);
   const requestPurchase = {
     department: orderData.value.department.id,
-    subdepartments : subdept.value,
+    subdepartments: subdept.value,
     type: orderData.value.type,
     subType: orderData.value.subType,
     concept: orderData.value.concept,
@@ -271,9 +278,10 @@ const EnviarForm = async () => {
     payMethod: orderData.value.payMethod,
     docStatus: docStatus,
     userRequest: orderData.value.userRequest.id,
-    docTotal: orderData.value.docTotal,
+    docTotal: totalPrice,
     docReference: orderData.value.id,
     userApprove: user_id,
+    createBy: user_id,
     items: orderData.value.items,
   };
   console.log(requestPurchase)
