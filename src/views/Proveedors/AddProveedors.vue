@@ -101,6 +101,7 @@
 import { ref } from 'vue';
 import Swal from 'sweetalert2';
 import axios from '../../utils/axios';
+import router from '@/router';
 
 const name = ref('');
 const rfc = ref('');
@@ -236,5 +237,6 @@ const reset = () => {
   address.value = '';
   city.value = '';
   state.value = '';
+  router.push("/proveedors")
 }
 </script>

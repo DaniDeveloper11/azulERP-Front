@@ -75,52 +75,11 @@
                   {{ item.quantity}}
 
                 </p>
-                <!-- <p class="flex gap-1 text-gray-600">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                  </svg>
 
-                  Precio:{{ item.price }}
-                </p> -->
               </div>
             </div>
           </article>
         </div>
-
-        <!-- <div class="grid justify-end items-start px-10">
-          <div class="bg-gray-300 py-2 px-4 rounded-lg">
-            <h2 class="text-3xl font-bold">Total: {{ request.docTotal }}</h2>
-          </div>
-
-          <div class="flex justify-end px-3 gap-2">
-            <svg v-if="request.payMethod == 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 text-green-600">
-              <path d="M12 7.5a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" />
-              <path fill-rule="evenodd"
-                d="M1.5 4.875C1.5 3.839 2.34 3 3.375 3h17.25c1.035 0 1.875.84 1.875 1.875v9.75c0 1.036-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 14.625v-9.75ZM8.25 9.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM18.75 9a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75V9.75a.75.75 0 0 0-.75-.75h-.008ZM4.5 9.75A.75.75 0 0 1 5.25 9h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H5.25a.75.75 0 0 1-.75-.75V9.75Z"
-                clip-rule="evenodd" />
-              <path
-                d="M2.25 18a.75.75 0 0 0 0 1.5c5.4 0 10.63.722 15.6 2.075 1.19.324 2.4-.558 2.4-1.82V18.75a.75.75 0 0 0-.75-.75H2.25Z" />
-            </svg>
-
-            <svg v-if="request.payMethod == 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 text-yellow-400">
-            <path d="M4.5 3.75a3 3 0 0 0-3 3v.75h21v-.75a3 3 0 0 0-3-3h-15Z" />
-            <path fill-rule="evenodd" d="M22.5 9.75h-21v7.5a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3v-7.5Zm-18 3.75a.75.75 0 0 1 .75-.75h6a.75.75 0 0 1 0 1.5h-6a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" clip-rule="evenodd" />
-            </svg>
-
-            <svg v-if="request.payMethod == 3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 text-sky-700">
-            <path fill-rule="evenodd" d="M15.97 2.47a.75.75 0 0 1 1.06 0l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 1 1-1.06-1.06l3.22-3.22H7.5a.75.75 0 0 1 0-1.5h11.69l-3.22-3.22a.75.75 0 0 1 0-1.06Zm-7.94 9a.75.75 0 0 1 0 1.06l-3.22 3.22H16.5a.75.75 0 0 1 0 1.5H4.81l3.22 3.22a.75.75 0 1 1-1.06 1.06l-4.5-4.5a.75.75 0 0 1 0-1.06l4.5-4.5a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
-            </svg>
-
-
-            
-
-            <p class="text-md font-serif">{{ request.payMethod == 1 ? 'Efectivo' : request.payMethod == 2 ? 'Targeta de Credito' : 'Transferencia' }}
-            </p>
-          </div>
-        </div> -->
-
 
         <!-- Comentario solo si es una solicitud sin aprobar -->
         <div v-if="props.request.docStatus == 1" class="md:w-3/5 p-4 md:p-6">
@@ -165,9 +124,21 @@
         <!-- Modal footer to OrderPurchases and  user level 2 -->
  
         <div v-if="props.request.docStatus == 1 && store.user.user_level == 2 && props.kind == 2 "
-          class="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-          <button type="button" @click="requestApprove"
-            class="flex gap-1 text-white bg-green-500 hover:bg-green-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          class="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600 gap-2">
+
+
+          <button type="button" @click="declineOrder"
+            class="flex gap-1 text-white bg-gray-500 hover:bg-red-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            Rechazar Orden
+            <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+              <path fill-rule="evenodd"
+                d="M12.97 3.97a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 1 1-1.06-1.06l6.22-6.22H3a.75.75 0 0 1 0-1.5h16.19l-6.22-6.22a.75.75 0 0 1 0-1.06Z"
+                clip-rule="evenodd" />
+            </svg> -->
+          </button>
+
+          <button type="button" @click="approveOrder"
+            class="flex gap-1 text-white bg-green-400 hover:bg-green-300 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
             Autorizar Orden
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
               <path fill-rule="evenodd"
@@ -175,6 +146,7 @@
                 clip-rule="evenodd" />
             </svg>
           </button>
+          
         </div>
 
     </div>
@@ -300,7 +272,9 @@ const declineRequest = async () => {
 }
 
 
-const requestApprove = async () => {
+
+// methods to Orders
+const approveOrder = async () => {
   const token = localStorage.getItem('token');
   const docStatus = 2;
   try {
@@ -331,5 +305,38 @@ const requestApprove = async () => {
   }finally{
     closeModal()
   }
+}
+const declineOrder = async() => {
+  const token = localStorage.getItem('token');
+  const docStatus = 3;
+  try {
+    const response = await axios.put(`/orderPurchases/${props.request.id}`, { docStatus }, {
+      Authorization: `Bearer ${token}`,
+    });
+    if (response.status == 200) {
+      Swal.fire({
+        title: 'Orden de compra Rechazada',
+        text: 'La Orden de compra fue rechazada',
+        icon: 'success',
+      });
+      // handleViewRequest()
+    } else {
+      Swal.fire({
+        title: 'Error',
+        text: 'No se pudo Autorizar la Orden de compra',
+        icon: 'error',
+      })
+    }
+  } catch (error) {
+    console.error(error)
+    Swal.fire({
+      title: 'Error',
+      text: 'Error al Intentar Rechazar la solicitud',
+      icon: 'error'
+    });
+  }finally{
+    closeModal()
+  }
+
 }
 </script>
