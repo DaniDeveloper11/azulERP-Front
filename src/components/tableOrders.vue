@@ -72,6 +72,15 @@
                     class="flex rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:flex">
                     Autorizar
                 </button>
+
+                <p v-if="order.docStatus == 3" 
+                    class="flex rounded-md bg-gray-300 px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 ">
+
+                    Rechazado
+                </p>
+
+
+
             </div>
 
 
