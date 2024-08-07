@@ -116,6 +116,12 @@ const router = createRouter({
       name: 'signatureForm',
       component: () => import('../components/SignatureForm.vue'),
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/tutorialsView',
+      name: 'tutorialsView',
+      component: () => import('../views/Tutorials/TutorialsView.vue'),
+      meta: { requiresAuth: true }
     }
     
   ]

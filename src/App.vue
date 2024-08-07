@@ -29,7 +29,7 @@
                   <img class="h-14 w-auto" src="../src/assets/logo.png" alt="Your Company" />
                 </div>
                 <nav class="flex flex-1 flex-col">
-                  <ul role="list" class="flex flex-1 flex-col gap-y-7">
+                  <ul role="list" class="flex flex-1 flex-col gap-y-7 justify-between">
                     <li>
                       <ul role="list" class="-mx-2 space-y-1">
                         <li v-for="item in navigation" :key="item.name">
@@ -61,6 +61,15 @@
 
                     </li>
                   </ul>
+                  </li>
+                  <li>
+                    <div @click="logout()" class="flex item-center gap-1 cursor-pointer">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 stroke-gray-500">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                      </svg>
+
+                      salir
+                    </div>
                   </li>
                   </ul>
                 </nav>
@@ -109,8 +118,10 @@
                 </DisclosurePanel>
                 </Disclosure>
             </li>
+
           </ul>
           </li>
+
           </ul>
         </nav>
       </div>
@@ -152,8 +163,24 @@
                   <MenuItems
                     class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                     <MenuItem v-slot="{ active }" class="cursor-pointer">
-                    <span v-on:click="profileOpen = true"
-                      :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">Perfil</span>
+                    <span v-on:click="profileOpen = true" class="flex items-center gap-2"
+                      :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-gray-400 ">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                      </svg>
+
+                      
+                      Perfil</span>
+                    </MenuItem>
+                    <MenuItem v-slot="{ active }" class="cursor-pointer">
+                      
+                    <RouterLink to="/tutorialsView" class="flex items-center gap-2"
+                      :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">
+                      
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 stroke-zinc-400">
+                       <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" />
+                      </svg>
+                      Tutoriales</RouterLink>
                     </MenuItem>
                     <MenuItem v-slot="{ active }" class="cursor-pointer">
                     <span v-on:click="logout"
@@ -183,7 +210,7 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
 import useAuthStore from './store/auth';
-import { useRouter } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 import {
   Dialog,
   DialogPanel,
