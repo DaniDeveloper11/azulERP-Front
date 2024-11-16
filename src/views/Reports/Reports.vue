@@ -1,279 +1,346 @@
-<template>
-    <div class="space-y-12">
-        <div class="border-b pb-6">
-            <div class="mt-10 grid grid-cols-1 ">
-                <div class="sm:col-span-4">
-                    <h2 class="text-base font-semibold leading-7 text-gray-900">Analitica</h2>
-                    <p class="mt-1 text-sm leading-6 text-gray-600">Modulo de reportes para análisis de datos y/o
-                        aclaraciones.</p>
-                </div>
 
+<template>
+    <div class="bg-white  sm:py-12">
+        <div class="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
+            <h2 class="text-base/7 font-semibold text-indigo-900">Reportes</h2>
+            <p class="mt-2 max-w-lg text-pretty text-4xl font-medium tracking-tight text-gray-700 sm:text-5xl">Analisis de Datos
+            </p>
+            <div class="mt-10 grid grid-cols-1 gap-4 sm:mt-16 lg:grid-cols-6 lg:grid-rows-2">
+                <div class="flex p-px lg:col-span-4">
+                    <div
+                        class="overflow-hidden rounded-lg bg-gray-800 ring-1 ring-white/15 max-lg:rounded-t-[2rem] lg:rounded-tl-[2rem]">
+                        <Chart class="h-80 object-cover object-left" />
+                        <div class="p-10">
+                            <h3 class="text-sm/4 font-semibold text-gray-400">Grafica</h3>
+                            <p class="mt-2 text-lg/7 font-medium tracking-tight text-white">Barras</p>
+                            <p class="mt-2 max-w-lg text-sm/6 text-gray-400">Lorem ipsum dolor sit amet, consectetur
+                                adipiscing elit. In gravida justo et nulla efficitur, maximus egestas sem pellentesque.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex p-px lg:col-span-2">
+                    <div class="overflow-hidden rounded-lg bg-gray-800 ring-1 ring-white/15 lg:rounded-tr-[2rem]">
+                        <aside class="  overflow-y-auto  px-4 py-6 sm:px-6 lg:px-8 xl:block">
+
+                            <div class="mt-10 grid gap-4 w-full ">
+                                <div>
+                                    <div class="sm:col-span-3">
+                                        <label for="region"
+                                            class="block text-sm font-medium leading-6 text-gray-100">Documento</label>
+                                        <div class="mt-2">
+                                            <select v-model="type"
+                                                class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                                <option value="" disabled selected>Seleccione un tipo de documento
+                                                </option>
+                                                <option v-for="option in types" :key="option.value"
+                                                    :value="option.value">
+                                                    {{ option.nombre }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="sm:col-span-3" v-if="type != ''">
+                                        <label for="region"
+                                            class="block text-sm font-medium leading-6 text-gray-900">Filtro</label>
+                                        <div class="mt-2">
+                                            <select v-model="filter"
+                                                class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                                <option value="" disabled selected>Seleccione un filtro</option>
+                                                <option v-for="option in filters" :key="option.value"
+                                                    :value="option.value">
+                                                    {{ option.nombre }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="sm:col-span-3" v-if="filter == 1">
+                                        <label for="initDate">Fecha de inicio</label>
+                                        <div class="mt-2">
+                                            <input v-model="initDate" id="initDate" name="initDate" type="date"
+                                                autocomplete="initDate"
+                                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                        </div>
+                                    </div>
+
+                                    <div class="sm:col-span-3" v-if="filter == 1">
+                                        <label for="closeDate">Fecha de cierre</label>
+                                        <div class="mt-2">
+                                            <input v-model="closeDate" id="closeDate" name="closeDate" type="date"
+                                                autocomplete="closeDate"
+                                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                        </div>
+                                    </div>
+
+                                    <div class="sm:col-span-3" v-if="filter == 2">
+                                        <label for="department">Departamento</label>
+                                        <div class="mt-2">
+                                            <select v-model="department" @change="fetchSubdepartmentsAndUsers"
+                                                id="department"
+                                                class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6 ring-gray-300">
+                                                <option v-for="dept in departments" :key="dept.id" :value="dept.id">{{
+                                                    dept.name }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="sm:col-span-3" v-if="filter == 3">
+                                        <label for="subdepartment">Subdepartamento</label>
+                                        <div class="mt-2">
+                                            <select v-model="subdepartment" id="subdepartment"
+                                                class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                                <option v-for="subdept in subdepartments" :key="subdept.id"
+                                                    :value="subdept.id">{{
+                                                        subdept.name }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="sm:col-span-3" v-if="filter == 4">
+                                        <label for="conditionsPay">Condiciones de pago</label>
+                                        <div class="mt-2">
+                                            <select v-model="conditionsPay"
+                                                class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                                <option value="" disabled selected>Seleccione un tipo de pago</option>
+                                                <option v-for="option in conditionsPays" :key="option.value"
+                                                    :value="option.value">
+                                                    {{ option.nombre }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="sm:col-span-3" v-if="filter == 5">
+                                        <label for="payMethod">Metodos de pago</label>
+                                        <div class="mt-2">
+                                            <select v-model="payMethod"
+                                                class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                                <option value="" disabled selected>Seleccione un tipo de pago</option>
+                                                <option v-for="option in paymethods" :key="option.value"
+                                                    :value="option.value">
+                                                    {{ option.nombre }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="sm:col-span-3" v-if="filter == 6">
+                                        <label for="status">Estatus</label>
+                                        <div class="mt-2">
+                                            <select v-model="status"
+                                                class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                                <option value="" disabled selected>Seleccione un estatus</option>
+                                                <option v-for="option in estatusArray" :key="option.value"
+                                                    :value="option.value">
+                                                    {{ option.nombre }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="sm:col-span-3" v-if="filter == 7">
+                                        <label for="request">Solicitante</label>
+                                        <div class="mt-2">
+                                            <select v-model="request" id="userRequest"
+                                                class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                                <option v-for="user in users" :key="user.user_id" :value="user.user_id">
+                                                    {{
+                                                        user.user_name }}
+                                                    {{ user.user_lastname }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="sm:col-span-3" v-if="filter == 8">
+                                        <label for="payDate">Fecha de pago</label>
+                                        <div class="mt-2">
+                                            <input v-model="payDate" id="payDate" name="payDate" type="date"
+                                                autocomplete="payDate"
+                                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                        </div>
+                                    </div>
+
+                                    <div class="sm:col-span-3" v-if="filter == 9">
+                                        <label for="benefy">Beneficiario</label>
+                                        <div class="mt-2">
+                                            <input v-model="benefy" id="benefy" name="benefy" type="text"
+                                                autocomplete="benefy"
+                                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-end gap-6">
+                                    <div class="sm:col-span-1">
+                                        <button @click="getData" type="button"
+                                            :class="[okBtn ? 'bg-indigo-600 text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600' : 'bg-gray-300 text-black cursor-not-allowed']"
+                                            class="rounded-md  px-3 py-2 text-sm font-semibold  shadow-sm">Buscar</button>
+                                    </div>
+                                    <div class="sm:col-span-1">
+                                        <button @click="exportToExcel" type="button"
+                                            :class="[data.length > 0 ? 'bg-lime-600 text-white hover:bg-lime-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime-600' : 'bg-gray-300 text-black cursor-not-allowed']"
+                                            class="rounded-md  px-3 py-2 text-sm font-semibold  shadow-sm">Descargar</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </aside>
+                        <div class="p-10">
+                            <h3 class="text-sm/4 font-semibold text-gray-400">Filtro</h3>
+                            <p class="mt-2 text-lg/7 font-medium tracking-tight text-white">Encuentra datos Facilmente
+                            </p>
+                            <p class="mt-2 max-w-lg text-sm/6 text-gray-400">filtra y genera una tabla con los datos de los egresos para despues exportar XLSX.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex p-px lg:col-span-2">
+                    <div class="overflow-hidden rounded-lg bg-gray-800 ring-1 ring-white/15 lg:rounded-bl-[2rem]">
+                        <PolarArea class="h-80 object-cover object-center" />
+                        <div class="p-10">
+                            <h3 class="text-sm/4 font-semibold text-gray-400">Gradica</h3>
+                            <p class="mt-2 text-lg/7 font-medium tracking-tight text-white">Area Polar</p>
+                            <p class="mt-2 max-w-lg text-sm/6 text-gray-400">Vestibulum ante ipsum primis in faucibus
+                                orci luctus et ultrices posuere cubilia.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex p-px lg:col-span-4">
+                    <div
+                        class="overflow-hidden rounded-lg bg-gray-800 ring-1 ring-white/15 max-lg:rounded-b-[2rem] lg:rounded-br-[2rem]">
+                        <Scatter class="max-h-80 object-cover object-left" />
+                        <div class="p-10">
+                            <h3 class="text-sm/4 font-semibold text-gray-400">Grafica</h3>
+                            <p class="mt-2 text-lg/7 font-medium tracking-tight text-white">Scatter</p>
+                            <p class="mt-2 max-w-lg text-sm/6 text-gray-400">Sed congue eros non finibus molestie.
+                                Vestibulum euismod augue vel commodo vulputate. Maecenas at augue sed elit dictum
+                                vulputate.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex p-px lg:col-span-6">
+                    <div
+                        class="overflow-hidden rounded-lg bg-gray-800 ring-1 ring-white/15 max-lg:rounded-b-[2rem] lg:rounded-br-[2rem]">
+                        <div class="border-b border-gray-900/10 pb-12 overflow-x-auto" v-if="data.length > 0">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th
+                                            class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Folio</th>
+                                        <th
+                                            class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Fecha</th>
+                                        <th
+                                            class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Departamento</th>
+                                        <th
+                                            class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Auxiliar</th>
+                                        <th
+                                            class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Subauxiliar</th>
+                                        <th
+                                            class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Concepto</th>
+                                        <th
+                                            class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Total</th>
+                                        <th
+                                            class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Beneficiario</th>
+                                        <th
+                                            class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Condiciones de pago</th>
+                                        <th
+                                            class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Forma de pago</th>
+                                        <th
+                                            class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Estatus</th>
+                                        <th
+                                            class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Solicitante</th>
+                                        <th
+                                            class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Fecha de pago</th>
+                                        <th
+                                            class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Factura</th>
+                                        <th
+                                            class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Tipo</th>
+                                        <th
+                                            class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Banco</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr v-for="row, index in data" :key="index">
+                                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
+                                            {{ row.id }}</td>
+                                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
+                                            {{
+                                                formateDate(row.date) }}</td>
+                                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
+                                            {{
+                                                row.department.name }}</td>
+
+                                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
+                                            {{ row.type == 1
+                                                ? 'Normal' : row.type == 2 ? 'Caja chica' : 'Caja chica Guadalajara' }}</td>
+                                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
+                                            {{ row.concept }}
+                                        </td>
+                                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">$
+                                            {{ row.docTotal
+                                            }}</td>
+                                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
+                                            {{
+                                                row.beneficiary.name }}</td>
+                                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
+                                            {{
+                                                row.payConditions == 1 ? 'Contado' : 'Crédito' }}</td>
+                                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
+                                            {{ row.payMethod
+                                                == 1 ? 'Efectivo' : row.payMethod == 2 ? 'Tarjeta de crédito' :
+                                            'Transferencia' }}</td>
+                                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
+                                            {{
+                                                estatusArray[row.docStatus - 1].nombre }}</td>
+                                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
+                                            {{ row.userRequest.name +
+                                                " " + row.userRequest.lastname }}</td>
+                                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider"
+                                            v-if="row.payDate != null">{{ formateDate(row.payDate) }}</td>
+                                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider"
+                                            v-if="row.payDate == null"></td>
+                                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
+                                            {{ row.invoice }}
+                                        </td>
+                                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
+                                            {{ row.typeFiscal
+                                            }}</td>
+                                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
+                                            {{ row.bank }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="p-10">
+                            <h3 class="text-sm/4 font-semibold text-gray-400">Tabla de Datos</h3>
+                            <p class="mt-2 text-lg/7 font-medium tracking-tight text-white">Datos</p>
+                            <p class="mt-2 max-w-lg text-sm/6 text-gray-400">Sed congue eros non finibus molestie.
+                                Vestibulum euismod augue vel commodo vulputate. Maecenas at augue sed elit dictum
+                                vulputate.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <hr class="bg-indigo-600" style="height:3px; margin: .7rem">
-
-        <div class=" grid sm:flex">
-
-            <main class="w-full sm:w-4/6">
-    
-                    <div class="px-4 py-10 sm:px-6 lg:px-8 lg:py-6">
-                        <h2 class="font-semibold text-center">Grafica</h2>
-                        <div class="w-full mx-auto" v-if="data.length > 0">
-                            <Bar :data="data2" :options="options" />
-                        </div>
-                </div>
-            </main>
-
-            <aside class="w-full sm:w-2/6  overflow-y-auto border-l border-gray-200 px-4 py-6 sm:px-6 lg:px-8 xl:block">
-
-                <div class="mt-10 grid gap-4 w-full ">
-                    <div>
-                        <div class="sm:col-span-3">
-                            <label for="region"
-                                class="block text-sm font-medium leading-6 text-gray-900">Documento</label>
-                            <div class="mt-2">
-                                <select v-model="type"
-                                    class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                                    <option value="" disabled selected>Seleccione un tipo de documento</option>
-                                    <option v-for="option in types" :key="option.value" :value="option.value">
-                                        {{ option.nombre }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="sm:col-span-3" v-if="type != ''">
-                            <label for="region" class="block text-sm font-medium leading-6 text-gray-900">Filtro</label>
-                            <div class="mt-2">
-                                <select v-model="filter"
-                                    class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                                    <option value="" disabled selected>Seleccione un filtro</option>
-                                    <option v-for="option in filters" :key="option.value" :value="option.value">
-                                        {{ option.nombre }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="sm:col-span-3" v-if="filter == 1">
-                            <label for="initDate">Fecha de inicio</label>
-                            <div class="mt-2">
-                                <input v-model="initDate" id="initDate" name="initDate" type="date"
-                                    autocomplete="initDate"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                            </div>
-                        </div>
-
-                        <div class="sm:col-span-3" v-if="filter == 1">
-                            <label for="closeDate">Fecha de cierre</label>
-                            <div class="mt-2">
-                                <input v-model="closeDate" id="closeDate" name="closeDate" type="date"
-                                    autocomplete="closeDate"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                            </div>
-                        </div>
-
-                        <div class="sm:col-span-3" v-if="filter == 2">
-                            <label for="department">Departamento</label>
-                            <div class="mt-2">
-                                <select v-model="department" @change="fetchSubdepartmentsAndUsers" id="department"
-                                    class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6 ring-gray-300">
-                                    <option v-for="dept in departments" :key="dept.id" :value="dept.id">{{ dept.name }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="sm:col-span-3" v-if="filter == 3">
-                            <label for="subdepartment">Subdepartamento</label>
-                            <div class="mt-2">
-                                <select v-model="subdepartment" id="subdepartment"
-                                    class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                                    <option v-for="subdept in subdepartments" :key="subdept.id" :value="subdept.id">{{
-                                        subdept.name }}</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="sm:col-span-3" v-if="filter == 4">
-                            <label for="conditionsPay">Condiciones de pago</label>
-                            <div class="mt-2">
-                                <select v-model="conditionsPay"
-                                    class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                                    <option value="" disabled selected>Seleccione un tipo de pago</option>
-                                    <option v-for="option in conditionsPays" :key="option.value" :value="option.value">
-                                        {{ option.nombre }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="sm:col-span-3" v-if="filter == 5">
-                            <label for="payMethod">Metodos de pago</label>
-                            <div class="mt-2">
-                                <select v-model="payMethod"
-                                    class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                                    <option value="" disabled selected>Seleccione un tipo de pago</option>
-                                    <option v-for="option in paymethods" :key="option.value" :value="option.value">
-                                        {{ option.nombre }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="sm:col-span-3" v-if="filter == 6">
-                            <label for="status">Estatus</label>
-                            <div class="mt-2">
-                                <select v-model="status"
-                                    class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                                    <option value="" disabled selected>Seleccione un estatus</option>
-                                    <option v-for="option in estatusArray" :key="option.value" :value="option.value">
-                                        {{ option.nombre }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="sm:col-span-3" v-if="filter == 7">
-                            <label for="request">Solicitante</label>
-                            <div class="mt-2">
-                                <select v-model="request" id="userRequest"
-                                    class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                                    <option v-for="user in users" :key="user.user_id" :value="user.user_id">{{
-                                        user.user_name }}
-                                        {{ user.user_lastname }}</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="sm:col-span-3" v-if="filter == 8">
-                            <label for="payDate">Fecha de pago</label>
-                            <div class="mt-2">
-                                <input v-model="payDate" id="payDate" name="payDate" type="date" autocomplete="payDate"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                            </div>
-                        </div>
-
-                        <div class="sm:col-span-3" v-if="filter == 9">
-                            <label for="benefy">Beneficiario</label>
-                            <div class="mt-2">
-                                <input v-model="benefy" id="benefy" name="benefy" type="text" autocomplete="benefy"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-end gap-6">
-                        <div class="sm:col-span-1">
-                            <button @click="getData" type="button"
-                                :class="[okBtn  ? 'bg-indigo-600 text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600': 'bg-gray-300 text-black cursor-not-allowed']"
-                                class="rounded-md  px-3 py-2 text-sm font-semibold  shadow-sm">Buscar</button>
-                        </div>
-                        <div class="sm:col-span-1">
-                            <button @click="exportToExcel" type="button"
-                                :class="[data.length>0 ? 'bg-lime-600 text-white hover:bg-lime-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime-600':'bg-gray-300 text-black cursor-not-allowed']"
-                                class="rounded-md  px-3 py-2 text-sm font-semibold  shadow-sm">Descargar</button>
-                        </div>
-                    </div>
-
-                </div>
-            </aside>
-        </div>
-
-        <div class="border-b border-gray-900/10 pb-12 overflow-x-auto" v-if="data.length > 0">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Folio</th>
-                        <th class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Fecha</th>
-                        <th class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Departamento</th>
-                        <th class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Auxiliar</th>
-                        <th class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Subauxiliar</th>
-                        <th class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Concepto</th>
-                        <th class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Total</th>
-                        <th class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Beneficiario</th>
-                        <th class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Condiciones de pago</th>
-                        <th class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Forma de pago</th>
-                        <th class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Estatus</th>
-                        <th class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Solicitante</th>
-                        <th class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Fecha de pago</th>
-                        <th class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Factura</th>
-                        <th class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Tipo</th>
-                        <th class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Banco</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    <tr v-for="row, index in data" :key="index">
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
-                            {{ row.id }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
-                            {{
-                                formateDate(row.date) }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
-                            {{
-                                row.department.name }}</td>
-                        <!-- <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
-                            {{
-                                row.subdepartment.name }}</td> -->
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
-                            {{ row.type == 1
-                                ? 'Normal' : row.type == 2 ? 'Caja chica' : 'Caja chica Guadalajara' }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
-                            {{ row.concept }}
-                        </td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">$
-                            {{ row.docTotal
-                            }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
-                            {{
-                                row.beneficiary.name }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
-                            {{
-                                row.payConditions == 1 ? 'Contado' : 'Crédito' }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
-                            {{ row.payMethod
-                                == 1 ? 'Efectivo' : row.payMethod == 2 ? 'Tarjeta de crédito' :
-                                'Transferencia' }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
-                            {{
-                                estatusArray[row.docStatus - 1].nombre }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
-                            {{ row.userRequest.name +
-                                " " + row.userRequest.lastname }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider"
-                            v-if="row.payDate != null">{{ formateDate(row.payDate) }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider"
-                            v-if="row.payDate == null"></td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
-                            {{ row.invoice }}
-                        </td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
-                            {{ row.typeFiscal
-                            }}</td>
-                        <td class="px-3 py-3 text-center text-xs font-medium uppercase tracking-wider">
-                            {{ row.bank }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
     </div>
 </template>
 
@@ -283,18 +350,11 @@ import useAuthStore from '../../store/auth.js';
 import axios from '../../utils/axios.js';
 import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
-import {
-    Chart as ChartJS,
-    Title,
-    Tooltip,
-    Legend,
-    BarElement,
-    CategoryScale,
-    LinearScale
-} from 'chart.js'
-import { Bar } from 'vue-chartjs'
+import Chart from '../../components/ChartJs/Chart.vue';
+import Pie from '../../components/ChartJs/Pie.vue';
+import PolarArea from '../../components/ChartJs/PolarArea.vue';
+import Scatter from '@/components/ChartJs/Scatter.vue';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 export default {
     data() {
@@ -380,7 +440,7 @@ export default {
         }
     },
     components: {
-        Bar
+        Chart, Pie, PolarArea, Scatter
     },
     created() {
         this.getDepartments();
@@ -521,7 +581,7 @@ export default {
             }
         },
         async getData() {
-            if(this.okBtn){
+            if (this.okBtn) {
                 let tmp;
                 if (this.type == 1) {
                     tmp = "requestPurchases";
@@ -591,7 +651,7 @@ export default {
                     }
                     if (response && response.status === 200) {
                         this.data = response.data;
-                        if(this.data.length == 0){
+                        if (this.data.length == 0) {
                             Swal.fire({
                                 title: 'Error',
                                 text: 'No se encontraron registros',
@@ -599,7 +659,7 @@ export default {
                             });
                             this.reset();
                         }
-                        else{
+                        else {
                             this.data2 = this.obtenerDatosGrafica(this.data)
                             this.reset();
                         }
@@ -617,7 +677,7 @@ export default {
                     });
                 }
             }
-            else{
+            else {
                 Swal.fire({
                     title: 'Error',
                     text: 'No se puede realizar la busqueda sin filtros',
@@ -635,54 +695,54 @@ export default {
             const formattedDate = `${day}/${month}/${year}`;
             return formattedDate
         },
- exportToExcel() {
-    if (this.data.length > 0) {
-        console.log(this.data);
-        const datosExcel = this.data.map(row => ({
-            Folio: row.id,
-            Fecha: this.formateDate(row.date),
-            Departamento: row.department.name,
-            //  'Sub-Departamento': row.department.subdepartment.id,
-            'Tipo de caja': row.type == 1 ? 'Normal' : row.type == 2 ? 'Caja chica' : 'Caja chica Guadalajara',
-            Concepto: row.concept,
-            Total: row.docTotal,
-            Proveedor: row.beneficiary.name,
-            'Condiciones de pago': row.payConditions == 1 ? 'Contado' : 'Crédito',
-            'Forma de pago': row.payMethod == 1 ? 'Efectivo' : row.payMethod == 2 ? 'Tarjeta de crédito' : 'Transferencia',
-            Estatus: this.estatusArray[row.docStatus - 1].nombre,
-            Solicitante: row.userRequest.name + " " + row.userRequest.lastname,
-            'Fecha de pago': row.payDate ? this.formateDate(row.payDate) : '',
-            Factura: row.invoice,
-            Tipo: row.typeFiscal,
-            Banco: row.bank
-        }));
+        exportToExcel() {
+            if (this.data.length > 0) {
+                console.log(this.data);
+                const datosExcel = this.data.map(row => ({
+                    Folio: row.id,
+                    Fecha: this.formateDate(row.date),
+                    Departamento: row.department.name,
+                    //  'Sub-Departamento': row.department.subdepartment.id,
+                    'Tipo de caja': row.type == 1 ? 'Normal' : row.type == 2 ? 'Caja chica' : 'Caja chica Guadalajara',
+                    Concepto: row.concept,
+                    Total: row.docTotal,
+                    Proveedor: row.beneficiary.name,
+                    'Condiciones de pago': row.payConditions == 1 ? 'Contado' : 'Crédito',
+                    'Forma de pago': row.payMethod == 1 ? 'Efectivo' : row.payMethod == 2 ? 'Tarjeta de crédito' : 'Transferencia',
+                    Estatus: this.estatusArray[row.docStatus - 1].nombre,
+                    Solicitante: row.userRequest.name + " " + row.userRequest.lastname,
+                    'Fecha de pago': row.payDate ? this.formateDate(row.payDate) : '',
+                    Factura: row.invoice,
+                    Tipo: row.typeFiscal,
+                    Banco: row.bank
+                }));
 
-        const worksheet = XLSX.utils.json_to_sheet(datosExcel);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-        XLSX.writeFile(workbook, 'Reporte de egresos.xlsx');
-    } else {
-        Swal.fire({
-            title: 'Error',
-            text: 'No se puede descargar el archivo de excel sin registros',
-            icon: 'error'
-        });
-    }
-},
+                const worksheet = XLSX.utils.json_to_sheet(datosExcel);
+                const workbook = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+                XLSX.writeFile(workbook, 'Reporte de egresos.xlsx');
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'No se puede descargar el archivo de excel sin registros',
+                    icon: 'error'
+                });
+            }
+        },
 
         reset() {
             this.type = '',
-            this.filter = '',
-            this.initDate = '',
-            this.closeDate = '',
-            this.department = '',
-            this.subdepartment = '',
-            this.conditionsPay = '',
-            this.payMethod = ''
+                this.filter = '',
+                this.initDate = '',
+                this.closeDate = '',
+                this.department = '',
+                this.subdepartment = '',
+                this.conditionsPay = '',
+                this.payMethod = ''
             this.status = '',
-            this.request = '',
-            this.payDate = '',
-            this.benefy = ''
+                this.request = '',
+                this.payDate = '',
+                this.benefy = ''
         },
         obtenerDatosGrafica(data) {
             let data2 = {

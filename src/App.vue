@@ -195,10 +195,12 @@
 
       </div>
 
-      <main class="py-10">
+      <main class="py-10 px-14">
         <div class="px-4 sm:px-6 lg:px-8">
           <RouterView />
         </div>
+      <ChatBot/>
+
       </main>
     </div>
 
@@ -242,7 +244,7 @@ import Profile from './components/ProfileModal.vue';
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue';
 import { ChevronRightIcon } from '@heroicons/vue/20/solid';
 import Swal from 'sweetalert2';
-
+import ChatBot from '@/components/ChatBot/ChatBot.vue'
 const router = useRouter();
 
 // const token = localStorage.getItem("token");

@@ -48,4 +48,9 @@
       </div>
     </div>
   </main>
+
 </template>
+<script setup>
+// import ChatBot from '@/components/ChatBot/ChatBot.vue'
+
+</script>
