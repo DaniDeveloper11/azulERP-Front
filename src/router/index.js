@@ -122,6 +122,18 @@ const router = createRouter({
       name: 'tutorialsView',
       component: () => import('../views/Tutorials/TutorialsView.vue'),
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/campoView',
+      name: 'campoView',
+      component: () => import('../views/Campo/CampoView.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path:'/savePointView',
+      name:'savePointView',
+      component:() => import ('../views/Campo/SavePointView.vue'),
+      meta:{requiresAuth:true}
     }
     
   ]
