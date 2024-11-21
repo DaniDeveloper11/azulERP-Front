@@ -195,10 +195,12 @@
 
       </div>
 
-      <main class="py-10">
+      <main class="py-10 px-14">
         <div class="px-4 sm:px-6 lg:px-8">
           <RouterView />
         </div>
+      <ChatBot/>
+
       </main>
     </div>
 
@@ -236,13 +238,15 @@ import {
   ChevronDownIcon,
   MagnifyingGlassIcon,
   UserGroupIcon,
-  CheckBadgeIcon
+  CheckBadgeIcon,
+  SunIcon
 } from '@heroicons/vue/24/outline';
 import Profile from './components/ProfileModal.vue';
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue';
 import { ChevronRightIcon } from '@heroicons/vue/20/solid';
 import Swal from 'sweetalert2';
-
+import ChatBot from '@/components/ChatBot/ChatBot.vue'
+// import { mdiSproutOutline } from '@mdi/js';
 const router = useRouter();
 
 // const token = localStorage.getItem("token");
@@ -309,6 +313,13 @@ const navigationProfiles = () => {
         { name: 'Reportes', to: '/reports', icon: ChartPieIcon, current: false }
       ];
       break;
+      case 4:
+        navigation.value = [
+        { name: 'Home', to: '/', icon: HomeIcon, current: true },
+        { name: 'Campo', to: '/campoView',
+         icon: SunIcon,
+          current: true },
+        ]
   }
 }
 
