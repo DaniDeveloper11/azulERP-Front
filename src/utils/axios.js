@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'https://accomplished-emotion-production.up.railway.app/',
+  baseURL: 'https://accomplished-emotion-production.up.railway.app/'||'http://localhost:3000',
   headers: {
     'Content-Type': 'application/json',
   },

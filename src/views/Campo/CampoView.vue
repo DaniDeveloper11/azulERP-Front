@@ -38,6 +38,7 @@ import { RouterLink, useRouter } from 'vue-router';
 
 
   import {
+    MapPinIcon,
     Bars4Icon,
     CalendarIcon,
     PhotoIcon,
@@ -50,12 +51,12 @@ import { RouterLink, useRouter } from 'vue-router';
       description: 'Another to-do system you’ll try but eventually give up on.',
       icon: Bars4Icon,
       background: 'bg-pink-500',
-      to:'/'
+      to:'/listParcelas'
     },
     {
       title: 'Guardar un punto',
-      description: 'Stay on top of your deadlines, or don’t — it’s up to you.',
-      icon: CalendarIcon,
+      description: 'Guarda la geolocalizacion de una parcela ',
+      icon: MapPinIcon,
       background: 'bg-yellow-500',
       to:'/savePointView'
     },

@@ -134,6 +134,12 @@ const router = createRouter({
       name:'savePointView',
       component:() => import ('../views/Campo/SavePointView.vue'),
       meta:{requiresAuth:true}
+    },
+    {
+      path:'/listParcelas',
+      name:'listParcelas',
+      component:() => import ('../views/Campo/ListParcelas.vue'),
+      meta:{requiresAuth:true}
     }
     
   ]
