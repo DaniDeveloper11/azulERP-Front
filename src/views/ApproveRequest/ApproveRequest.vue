@@ -83,7 +83,6 @@ import { EllipsisVerticalIcon } from '@heroicons/vue/20/solid'
 import tableRequests from '../../components/tableRequests.vue'
 import axios from '../../utils/axios';
 import { onMounted, ref, reactive, provide } from 'vue'
-import { request } from 'utilities';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import tableOrders from '@/components/tableOrders.vue'
 // import { onBeforeRouteUpdate } from 'vue-router';

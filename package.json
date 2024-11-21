@@ -28,7 +28,6 @@
     "store": "^2.0.12",
     "sweetalert2": "^11.11.1",
     "tw-elements": "^2.0.0",
-    "utilities": "^1.0.6",
     "vue": "^3.4.21",
     "vue-chartjs": "^5.3.1",
     "vue-google-maps-community-fork": "^0.3.1",
